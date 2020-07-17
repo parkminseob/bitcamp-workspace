@@ -18,7 +18,7 @@ class Exam0340 {
 
         //메모리 크기를 넘는 값은 반올림 처리되어 저장된다.  
         System.out.println(987654321.1234567f);
-        System.out.println(987654321123456.7f); 
+        System.out.println(987654321123456.7); 
         System.out.println(9.876543211234567f);
 
         //8바이트 메모리에 부동소수점 저장하기
