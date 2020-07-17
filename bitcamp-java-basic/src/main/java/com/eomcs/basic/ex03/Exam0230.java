@@ -18,8 +18,8 @@ class Exam0230 {
      System.out.println(2147483648L);   
      System.out.println(-2147483649l);
 
-     System.out.println(1); //4바이트 메모리를 사용하는 1  
-     System.out.println(1L); //8바이트 메모리를 사용하는 1
+     System.out.println(100); //4바이트 메모리를 사용하는 1  
+     System.out.println(100L); //8바이트 메모리를 사용하는 1
 
      System.out.println(Integer.MAX_VALUE); //4바이트 정수 최대값 
      System.out.println(Integer.MIN_VALUE); //4바이트 정수 최소값
