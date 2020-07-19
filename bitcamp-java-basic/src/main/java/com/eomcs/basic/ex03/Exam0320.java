@@ -9,7 +9,7 @@ class Exam0320 //클래스 선언(class declaration)
    { // 메소드 정의 (method definition)
         
         // 부동소수점 리터럴은 기본으로 8바이트 크기를 갖는다.
-        System.out.println(3.14);
+        System.out.println(314);
         System.out.println(3.14d); //d 또는 D를 붙여도 된다.
         System.out.println(3.14D);
 
