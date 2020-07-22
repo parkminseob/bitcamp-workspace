@@ -5,6 +5,8 @@ plugins {
 
  
     id 'application'
+
+    id 'eclipse'
 }
 
 repositories {
