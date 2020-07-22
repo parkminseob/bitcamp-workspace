@@ -12,5 +12,6 @@ public class Exam0330 {
     //## 8바이트 부동소수점의 최대값과 최소값
     System.out.println(Double.MAX_VALUE);
     System.out.println(Double.MIN_VALUE);
+    //수정
   }
 }
