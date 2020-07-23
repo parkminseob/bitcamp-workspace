@@ -11,7 +11,8 @@ package com.eomcs.basic.ex03;
 //  \' - Single Quote, 0x27
 //  \" - Double Quote, 0x22
 //  \\ - Backslash, 0x5c
-//
+// 
+
 public class Exam0700 {
   public static void main(String[] args) {
     System.out.println("Hello,world!"); 
@@ -27,8 +28,7 @@ public class Exam0700 {
     System.out.println('\''); // ' 문자를 출력시키는 문자
     System.out.println('"'); // '' 안에서 " 문자는 그냥 적는다.
     System.out.println("c:\\Users\\user\\git"); // \ 문자를 출력시키는 문자
-
-// git 확인용
+    
   }
 }
 

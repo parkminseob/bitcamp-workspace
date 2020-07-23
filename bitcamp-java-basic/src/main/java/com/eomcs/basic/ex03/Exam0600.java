@@ -16,7 +16,7 @@ package com.eomcs.basic.ex03;
 //
 public class Exam0600 {
   public static void main(String[] args) {
-    // 문자열 리터럴 기본 예
+    // 문자열 리터럴 기본 예;
     System.out.println("홍길동");
     
     // 두 문자열을 합쳐 새 문자열이 생성된다.
