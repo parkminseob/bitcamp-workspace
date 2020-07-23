@@ -16,6 +16,5 @@ public class Exam0430 {
       System.out.println((char)i);
 
     }
-    
-  }
-}
+   }
+} 
