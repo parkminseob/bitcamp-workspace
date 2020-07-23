@@ -16,7 +16,7 @@ class Exam0100 {
         System.out.println(0x4e);
         System.out.println(0b01001110);
 
-        // 부동소수점(실수)  =>둥둥 떠다니는 소수점5d
+        // 부동소수점(실수)  =>둥둥 떠다니는 소수점5d33
         System.out.println(3.14);        
         System.out.println(31.4e-1); //e-1은 10의 -1승을 의미함
         System.out.println(314e-2);
