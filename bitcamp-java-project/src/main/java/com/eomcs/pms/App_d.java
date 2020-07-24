@@ -12,7 +12,7 @@ import java.sql.Date;
 // 4) 반복문을 사용하여 여러 개의 값을 다루기
 // - 반복문을 사용하면 같은 코드를 중복해서 작성할 필요가 없다.
 
-public class App {
+public class App_d {
   public static void main(String[] args) {
    
     java.util.Scanner keyInput = new java.util.Scanner(System.in);
