@@ -1,7 +1,7 @@
 package com.eomcs.pms;
 //4번 반복문 사용
 import java.util.Scanner;
-public class App2 {
+public class App2_d {
 
   public static void main(String[] args) {
     java.util.Scanner keyInput = new java.util.Scanner(System.in);
