@@ -47,18 +47,6 @@ public class App3_d {
      
      state[i] = keyInput.nextLine();
      
-     switch (state[i]) {
-       case "0":
-         System.out.printf("신규");
-         break;
-       case "1":
-         System.out.printf("진행중");
-         break;
-       default :
-         System.out.printf("완료");
-     }
-
-     
      
      System.out.print("담당자? ");
      worker[i] = keyInput.nextLine();
@@ -78,6 +66,18 @@ public class App3_d {
     System.out.println("---------------------");
     
     for (int i = 0; i < count; i++) {
+
+      switch (state[i]) {
+        case "0":
+          System.out.printf("신규");
+          break;
+        case "1":
+          System.out.printf("진행중");
+          break;
+        default :
+          System.out.printf("완료");
+      }
+
       
       System.out.printf("%d, %s, %s, %s, %s\n", no[i], context[i], edDate[i], state[i], worker[i]);
         
