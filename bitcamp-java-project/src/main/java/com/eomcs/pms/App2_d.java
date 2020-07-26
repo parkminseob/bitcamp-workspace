@@ -16,7 +16,7 @@ public class App2_d {
     String[] context = new String[5];
     String[] owner = new String[5];
     String[] members = new String[5];
-    int count = 1;
+    int count = 0;
 
     
     for(int i = 0; i < 5; i++) {
