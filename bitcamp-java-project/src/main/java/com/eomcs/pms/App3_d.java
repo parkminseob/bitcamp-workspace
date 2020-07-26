@@ -3,7 +3,7 @@ package com.eomcs.pms;
 import java.util.Scanner;
 import java.sql.Date;
 
-public class App3 {
+public class App3_d {
 
   public static void main(String[] args) {
     java.util.Scanner keyInput = new java.util.Scanner(System.in);
@@ -11,8 +11,8 @@ public class App3 {
     
     
     System.out.println("[작업]");
-        System.out.println("프로젝트? ");
-        String project = keyInput.nextLine();
+    System.out.println("프로젝트? ");
+    String project = keyInput.nextLine();
 
     //5명의 작업 정보 입력받기
     
@@ -47,6 +47,18 @@ public class App3 {
      
      state[i] = keyInput.nextLine();
      
+     switch (state[i]) {
+       case "0":
+         System.out.printf("신규");
+         break;
+       case "1":
+         System.out.printf("진행중");
+         break;
+       default :
+         System.out.printf("완료");
+     }
+
+     
      
      System.out.print("담당자? ");
      worker[i] = keyInput.nextLine();
@@ -63,31 +75,14 @@ public class App3 {
         
         keyInput.close();
     
-    
     System.out.println("---------------------");
     
     for (int i = 0; i < count; i++) {
       
-
-      switch (state[i]) {
-         case "0":
-           System.out.printf("신규");
-           break;
-         case "1":
-           System.out.printf("진행중");
-           break;
-         default :
-           System.out.printf("완료");
-       }
-      
       System.out.printf("%d, %s, %s, %s, %s\n", no[i], context[i], edDate[i], state[i], worker[i]);
-    
-      }
+        
       
-   
-      
-      
-    
+      }    
     }
 //    if (state.equals("0")) {
 //      System.out.println("신규");

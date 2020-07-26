@@ -1,6 +1,8 @@
 package com.eomcs.pms;
 //4번 반복문 사용
 import java.util.Scanner;
+import java.sql.Date;
+
 public class App2_d {
 
   public static void main(String[] args) {
@@ -16,6 +18,8 @@ public class App2_d {
     String[] context = new String[5];
     String[] owner = new String[5];
     String[] members = new String[5];
+    Date[] stDate = new Date[5];
+    Date[] edDate = new Date[5];
     int count = 0;
 
     
@@ -34,11 +38,11 @@ public class App2_d {
       context[i] = keyInput.nextLine();
   
       System.out.print("시작일: ");
-      java.sql.Date stDate1 = java.sql.Date.valueOf(keyInput.nextLine());
+      stDate[i] = java.sql.Date.valueOf(keyInput.nextLine());
       
       
       System.out.print("종료일: ");
-      java.sql.Date edDate1 = java.sql.Date.valueOf(keyInput.nextLine());
+      edDate[i] = java.sql.Date.valueOf(keyInput.nextLine());
   
       
       System.out.print("만든이: " );
@@ -63,7 +67,8 @@ public class App2_d {
      
     System.out.println("-----------------------");
     for (int i = 0; i < count; i++) {
-      System.out.printf("%d, %s, %s, %s, %s\n", no[i], title[i], context[i], owner[i], members[i].toString());
+      System.out.printf("%d, %s, %s, %s, %s, %s, %s\n", 
+          no[i], title[i], context[i], stDate[i], edDate[i], owner[i], members[i].toString());
     }
 
   }

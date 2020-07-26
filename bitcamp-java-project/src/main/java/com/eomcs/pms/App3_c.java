@@ -202,63 +202,24 @@ public class App3_c {
       }
     }
     
-    System.out.print("상태 : ");
-    
-    switch (state[1]) {
-      case "0":
-        System.out.printf("신규");
-        break;
-      case "1":
-        System.out.printf("진행중");
-        break;
-      default :
-        System.out.printf("완료");
+    for (int i =0; i < count; i++) {
+      
+      System.out.print("상태 : \n");
+      
+      switch (state[i]) {
+        case "0":
+          System.out.printf("신규");
+          break;
+        case "1":
+          System.out.printf("진행중");
+          break;
+        default :
+          System.out.printf("완료");
+      }
+      
     }
     
     
-    switch (state[1]) {
-      case "0":
-        System.out.printf("신규");
-        break;
-      case "1":
-        System.out.printf("진행중");
-        break;
-      default :
-        System.out.printf("완료");
-    }
-    
-    switch (state[2]) {
-      case "0":
-        System.out.printf("신규");
-        break;
-      case "1":
-        System.out.printf("진행중");
-        break;
-      default :
-        System.out.printf("완료");
-    }
-    
-    switch (state[3]) {
-      case "0":
-        System.out.printf("신규");
-        break;
-      case "1":
-        System.out.printf("진행중");
-        break;
-      default :
-        System.out.printf("완료");
-    }
-    
-    switch (state[4]) {
-      case "0":
-        System.out.printf("신규");
-        break;
-      case "1":
-        System.out.printf("진행중");
-        break;
-      default :
-        System.out.printf("완료");
-    }
     
 
 //    if (state.equals("0")) {
