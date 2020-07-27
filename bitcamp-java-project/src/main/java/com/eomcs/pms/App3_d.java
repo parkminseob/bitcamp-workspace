@@ -67,19 +67,21 @@ public class App3_d {
     
     for (int i = 0; i < count; i++) {
 
+      String status = null;
       switch (state[i]) {
         case "0":
-          System.out.printf("신규");
+          status = "신규";
           break;
         case "1":
-          System.out.printf("진행중");
+          status = "진행중";
           break;
         default :
-          System.out.printf("완료");
+          status = "완료";
       }
 
       
-      System.out.printf("%d, %s, %s, %s, %s\n", no[i], context[i], edDate[i], state[i], worker[i]);
+      System.out.printf("%d, %s, %s, %s, %s\n", 
+          no[i], context[i], edDate[i], status, worker[i]);
         
       
       }    
