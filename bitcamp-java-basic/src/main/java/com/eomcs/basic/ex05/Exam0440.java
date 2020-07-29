@@ -9,6 +9,7 @@ public class Exam0440 {
     // a,b,c,d 변수에 넣은 다음 각 변수의 값을 16진수로 출력하라!
     int i = 0x27a130ff;
     int a, b, c, d;
+    System.out.println((i));
     System.out.println(Integer.toHexString(i));
 
 

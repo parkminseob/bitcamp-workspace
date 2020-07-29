@@ -1,4 +1,4 @@
-package com.eomcs.basic.ex05;
+package com.eomcs.basic.ex05.Test00;
 
 public class Test0120 {
   public static void main(String[] args) {
