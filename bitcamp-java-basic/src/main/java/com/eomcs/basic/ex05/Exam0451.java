@@ -43,6 +43,7 @@ public class Exam0451 {
     //lang2 |= 0x00; // css = false
 
     // 실무에서는 이렇게 비트를 이용하여 여러 개의 true/false 상태를 저장하기도 한다.
-
+    
+    System.out.println(Integer.toBinaryString(lang2));
   }
 }
