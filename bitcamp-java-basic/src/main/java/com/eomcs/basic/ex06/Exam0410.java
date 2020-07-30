@@ -8,7 +8,10 @@ public class Exam0410 {
     for (int i = 1; i <= 5; i++)
       System.out.println(i);
 
-    // 변수 초기화 =>  int i = 1
-
+    // 1)변수 초기화 =>  int i = 1
+    // 2)조건 => i <= 5
+    // 3)문장 => System.out.print(i + " ")
+    // 변수 증가문 => i++
+    // 조건이 참인 동안 2~4 반복.
   }
 }
