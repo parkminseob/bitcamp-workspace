@@ -4,27 +4,35 @@ import java.sql.Date;
 import java.util.Scanner;
 
 public class App3 {
+
   public static void main(String[] args) {
     class Task {
+
       int no;
       String context;
       Date enDate;
       String worker;
       String state;
-    }
 
-    final int LENGTH = 100;
-    Task[] task = new Task[LENGTH]; //레퍼런스
-    int count = 0;
+    }
+    String project;
     Scanner keyInput = new java.util.Scanner(System.in);
 
     System.out.println("[작업]");
+
+    final int LENGTH = 100;
+    Task task[] = new Task[LENGTH];
+
+    int count = 0;
+
     System.out.println("프로젝트1 ");
 
 
     for (int i = 0; i < LENGTH; i++) {
-      Task t = new Task(); //인스턴스
+
+      Task t = new Task();
       count++;
+
 
       System.out.print("번호? ");
       String str = keyInput.nextLine();
@@ -47,8 +55,7 @@ public class App3 {
       System.out.print("담당자? ");
       t.worker = keyInput.nextLine();
 
-
-      task[i] = t;
+      task[i] = t;  //내 코드와 다른 추가된 부분
 
       System.out.println();
 
@@ -67,6 +74,7 @@ public class App3 {
     System.out.println("---------------------");
 
     for (int i = 0; i < count; i++) {
+
       Task t = task[i];
 
       String stateTitle;
@@ -88,5 +96,7 @@ public class App3 {
           stateTitle,
           t.worker);
     }
+
+
   }
 }
