@@ -1,81 +1,86 @@
 package com.eomcs.pms;
 
-import java.sql.Date;
 import java.util.Scanner;
+
+// 1) 명령 프롬프트를 출력한다
+// 2) 명령어를 입력 받아 출력한다
 
 public class App {
   public static void main(String[] args) {
-    class Members {
-      int no;
-      String name;
-      String email;
-      String password;
-      String photo;
-      String tel;
-      Date currentTime;
+    Scanner keyInput = new Scanner(System.in);
+
+    while(true) {
+    System.out.print("명령> ");
+    String command = keyInput.nextLine();
+
+    if (command.equalsIgnoreCase("exit") || command.equalsIgnoreCase("quit")) {
+      break;
     }
 
-    final int LENGTH = 100;
-    Scanner keyInput = new java.util.Scanner(System.in);
+    System.out.println(command);
+
+    }
+
+    keyInput.close();
+    System.out.println("종료!");
+    /*
+
     System.out.println("[회원]");
+
+    // 최대 5명의 회원 정보를 입력 받는 변수를 선언
+
+    int[] no = new int[5];
+    String[] name = new String[5];
+    String[] email = new String[5];
+    String[] password = new String[5];
+    String[] photo = new String[5]; //배열임을 알 수 있가 String 뒤에 [] 을 붙인다.
+    String[] tel = new String[5];
+    Date[] now = new Date[5];
 
     long currentMillis = 0;
     int count = 0;
 
-    Members[] members = new Members[LENGTH]; //배선카 생성
 
     for (int i = 0; i < 5; i++) {
-      Members m = new Members(); //반찬들
-
       count++;
 
       System.out.print("번호? ");
-      m.no = keyInput.nextInt();
+      no[i] = keyInput.nextInt();
       keyInput.nextLine();
 
       System.out.print("이름? ");
-      m.name = keyInput.nextLine();
+      name[i] = keyInput.nextLine();
 
       System.out.print("이메일?");
-      m.email = keyInput.nextLine();
+      email[i] = keyInput.nextLine();
 
       System.out.print("암호?");
-      m.password = keyInput.nextLine();
+      password[i] = keyInput.nextLine();
 
       System.out.print("사진?");
-      m.photo = keyInput.nextLine();
+      photo[i] = keyInput.nextLine();
 
       System.out.print("전화?");
-      m.tel = keyInput.nextLine();
+      tel[i] = keyInput.nextLine();
 
       currentMillis = System.currentTimeMillis();
-      m.currentTime = new Date(currentMillis);
+      now[i] = new Date(currentMillis);
 
       System.out.println(); //빈줄 출력
 
-      //반찬 담기
-      members[i] = m;
-
       System.out.print("계속 입력하시겠습니까?(y/N)");
       String response = keyInput.nextLine();
-
 
       if (response.equalsIgnoreCase("y") == false) {
         break; //반복문을 멈춰라.
       }
     }
-    keyInput.close();
 
     System.out.println("-------------------------------");
 
     for (int i = 0; i < count; i++) {
-      Members m = members[i];
-      System.out.printf("%d, %s, %s, %s, %s\n",
-          m.no,
-          m.name,
-          m.email,
-          m.tel,
-          m.currentTime.toString());
+      System.out.printf("%d, %s, %s, %s, %s\n", no[i], name[i], email[i], tel[i], now[i].toString());
     }
+    */
   }
 }

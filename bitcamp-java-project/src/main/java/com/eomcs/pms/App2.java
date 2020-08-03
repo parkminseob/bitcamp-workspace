@@ -1,66 +1,58 @@
 package com.eomcs.pms;
 
-import java.sql.Date;
-import java.util.Scanner;
+import java.sql.Date; //Date는 java.sql에 속해있는 클래스라고 선언을 해준다
 
 public class App2 {
 
   public static void main(String[] args) {
-    class Project { //설계도
-      int no;
-      String title;
-      String content;
-      Date startDate;
-      Date endDate;
-      String owner;
-      String members;
-    }
+    java.util.Scanner keyInput = new java.util.Scanner(System.in);
 
-    Scanner keyInput = new java.util.Scanner(System.in);
+    // 여러 개의 프로젝트 정보를 입력받기 위해 변수 준비
     final int LENGTH = 100;
+    int[] no = new int[LENGTH];
+    String[] title = new String[LENGTH];
+    String[] content = new String[LENGTH];
+    Date[] startDate = new Date[LENGTH];
+    Date[] endDate = new Date[LENGTH];
+    //위에 선언을 안해주면 일일이 java.sql.Date라고 적어줘야함.
+    String[] owner = new String[LENGTH];
+    String[] members = new String[LENGTH];
+
     int count = 0;
-    Project[] project = new Project[LENGTH]; //레퍼런스 변수 생성 (배선카)
-    // project를 100개 생성할 수 있다는 뜻
 
     System.out.println("[프로젝트]");
 
-    for (int i = 0; i < LENGTH; i++) {
+    for ( int i = 0; i < LENGTH; i++) {
       count++;
-      Project p = new Project(); //인스턴스 필드 생성 (식판)
-      //여기에서의 변수 p는 클래스 값을 담을 수 있음.
-      //그러니까 변수 이름이 뭐든 상관이 없는거지.
 
       System.out.print("번호: ");
-      p.no = keyInput.nextInt();
+      no[i] = keyInput.nextInt();
       keyInput.nextLine();
 
       System.out.print("프로젝트명: ");
-      p.title = keyInput.nextLine();
+      title[i] = keyInput.nextLine();
 
       System.out.print("내용: ");
-      p.content = keyInput.nextLine();
+      content[i] = keyInput.nextLine();
 
       System.out.print("시작일: ");
-      p.startDate = java.sql.Date.valueOf(keyInput.nextLine());
+      startDate[i] = java.sql.Date.valueOf(keyInput.nextLine());
+      //valueof라는 날짜도구를 date라는 리모콘으로 조정하겠
 
       System.out.print("종료일: ");
-      p.endDate = java.sql.Date.valueOf(keyInput.nextLine());
+      endDate[i] = java.sql.Date.valueOf(keyInput.nextLine());
 
 
       System.out.print("만든이: " );
-      p.owner = keyInput.nextLine();
+      owner[i] = keyInput.nextLine();
 
       System.out.print("팀원: ");
-      p.members = keyInput.nextLine();
-
-
-      project[i] = p;
-
+      members[i] = keyInput.nextLine();
 
       System.out.println();
       System.out.print("계속 입력하시겠습니까?(y/N) ");
       String response = keyInput.nextLine();
-      if (!response.equalsIgnoreCase("y"))
+      if (!response.equalsIgnoreCase("y")) //응답이 y가 아니라면 break를 실행하라!
         break;
       System.out.println();
 
@@ -70,14 +62,8 @@ public class App2 {
     System.out.println("-----------------------");
 
     for (int i = 0; i < count; i++) {
-      Project p = project[i];
-
       System.out.printf("%d, %s, %s, %s, %s\n",
-          p.no,
-          p.title,
-          p.startDate,
-          p.endDate,
-          p.owner);
+          no[i], title[i], startDate[i], endDate[i], owner[i]);
     }
   }
 }
