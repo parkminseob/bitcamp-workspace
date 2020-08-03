@@ -7,8 +7,8 @@ public class Exam0451 {
     //이 방식으로 for 문을 사용한 경우
     //변수선언을 바깥에 둘 수 없음!
     String name;
-    for (name : names) //컴파일 오류
-      System.out.println(name);
+    //for (name : names) //컴파일 오류
+      //System.out.println(name);
 
   }
 }
