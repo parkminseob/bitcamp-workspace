@@ -42,6 +42,18 @@ public class Exam0210 {
     //int aver = m6("홍길동");
 
     m10(new int[] {100, 90, 80}, new String[] {"국어", "영어", "수학"}, "홍길동");
+
+    //2 + 3 + 4 + 7 = ?
+
+    //int sum = 0;
+    //sum = plus(2 , 3);
+    //sum = plus(sum , 7);
+    //sym = plus(sum , 4);
+    System.out.println(plus(plus(plus(2, 3), 7), 4));
+
+    //제일 안쪽에서부터 실행한다. 2 + 3
+    // 5 + 7
+    // 12 + 4
   }
 
   static void m1() { //어떠한 입력값도 없고 어떠한 리턴값도 없다.
@@ -118,4 +130,28 @@ public class Exam0210 {
       System.out.printf("%s = %d 점\n", titles[i], scores[i]);
     }
   }
+  static int plus(int a, int b) {
+    return a + b;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
