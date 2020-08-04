@@ -14,7 +14,7 @@ public class Exam0411 {
 
   static void m1(int a) {
     a += 100;
-    System.out.println("main() >> " + a);
+    System.out.println("m1() >> " + a);
     m2(a);
     System.out.println(a + " << m1()");
   }
