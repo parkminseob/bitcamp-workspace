@@ -35,7 +35,6 @@ public class Exam0210_a {
     //메서드 실행하기
     //메서드 호출
     hello();
-
     System.out.println("hello() 실행완료?");
     //hello 메서드는 파라미터 변수가 없기때문에 호출할 떄 값을 넣으면 안됌.
  }

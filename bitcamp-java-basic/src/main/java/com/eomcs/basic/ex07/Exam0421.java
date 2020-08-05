@@ -20,12 +20,12 @@ public class Exam0421 {
       float[] result;
       result = compute2(moneies, 0.0089f);
 
-      for (int i = 0; i < moneies.length; i++) {
-        System.out.printf("%d => %.1f\n", moneies[i], result[i]);
-      }
+//      for (int i = 0; i < moneies.length; i++) {
+//        System.out.printf("%d => %.1f\n", moneies[i], result[i]);
+//      }
 
       // System.out.println(result); 이렇게 하면 이상한게 뜨던데
-      //이게 주소값 아닌가?
+      //이게 주소값 아닌가? => String문법을 배우면 해결됨!
 
   }
   static void compute(int[] moneies, float[] total, float interest) {
