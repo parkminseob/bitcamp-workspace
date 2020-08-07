@@ -1,6 +1,6 @@
 package com.eomcs.oop.ex03;
 
-public class Exam0410 {
+public class Exam0410Constructor {
   static class SmartPhone{
 
     int volume;
