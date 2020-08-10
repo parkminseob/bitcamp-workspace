@@ -1,6 +1,7 @@
-package com.eomcs.pms;
+package com.eomcs.pms.handler;
 
 import java.sql.Date;
+import com.eomcs.util.Prompt;
 
 public class TaskHandler {
 
@@ -12,11 +13,11 @@ public class TaskHandler {
     int status;
   }
 
-  static final int TLENGTH = 100;
-  static Task[] list = new Task[TLENGTH];
-  static int tsize = 0;
+  static final int LENGTH = 100;
+  static Task[] list = new Task[LENGTH];
+  static int size = 0;
 
-  static void addTask() {
+  public static void add() {
     System.out.println("[작업 등록]");
 
     Task t = new Task();
@@ -26,13 +27,13 @@ public class TaskHandler {
     t.status = Prompt.inputInt("상태?\n0: 신규\n1: 진행중\n2: 완료\n> ");
     t.owner = Prompt.inputString("담당자? ");
 
-    list[tsize++] = t;
+    list[size++] = t;
   }
 
-  static void listTask() {
+  public static void list() {
     System.out.println("[작업 목록]");
 
-    for (int i = 0; i < tsize; i++) {
+    for (int i = 0; i < size; i++) {
       Task t = list[i];
       String stateLabel = null;
       switch (t.status) {

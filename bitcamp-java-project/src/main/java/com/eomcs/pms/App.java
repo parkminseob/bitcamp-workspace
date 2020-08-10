@@ -1,5 +1,10 @@
 package com.eomcs.pms;
 
+import com.eomcs.pms.handler.MemberHandler;
+import com.eomcs.pms.handler.ProjectHandler;
+import com.eomcs.pms.handler.TaskHandler;
+import com.eomcs.util.Prompt;
+
 public class App {
 
   public static void main(String[] args) {
@@ -10,22 +15,22 @@ public class App {
 
         switch (command) {
           case "/member/add":
-            MemberHandler.addMember();
+            MemberHandler.add();
             break;
           case "/member/list":
-            MemberHandler.listMember();
+            MemberHandler.list();
             break;
           case "/project/add":
-            ProjectHandler.addProject();
+            ProjectHandler.add();
             break;
           case "/project/list":
-            ProjectHandler.listProject();
+            ProjectHandler.list();
             break;
           case "/task/add":
-            TaskHandler.addTask();
+            TaskHandler.add();
             break;
           case "/task/list":
-            TaskHandler.listTask();
+            TaskHandler.list();
             break;
           case "quit":
           case "exit":

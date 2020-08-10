@@ -1,6 +1,7 @@
-package com.eomcs.pms;
+package com.eomcs.pms.handler;
 
 import java.sql.Date;
+import com.eomcs.util.Prompt;
 
 public class MemberHandler {
 
@@ -18,7 +19,7 @@ public class MemberHandler {
   static int size = 0;
 
 
-  static void addMember() {
+  public static void add() {
     System.out.println("[회원 등록]");
 
     Member m = new Member();
@@ -32,7 +33,7 @@ public class MemberHandler {
     list[size++] = m;
   }
 
-  static void listMember() {
+  public static void list() {
     System.out.println("[회원 목록]");
 
     for (int i = 0; i < size; i++) {
