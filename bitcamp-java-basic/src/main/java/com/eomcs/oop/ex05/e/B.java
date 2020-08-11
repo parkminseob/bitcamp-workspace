@@ -1,0 +1,11 @@
+package com.eomcs.oop.ex05.e;
+
+//상속
+// 재사용할 기존 클래스 지정하기
+public class B extends A {
+  int v2;
+
+  static {
+    System.out.println("B클래스의 static{} 실행!");
+  }
+}
