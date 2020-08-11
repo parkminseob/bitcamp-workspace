@@ -28,7 +28,7 @@ public class Exam0410Constructor {
     // 모든 클래스는 반드시 한 개 이상의 생성자를 가져야한다!
     // - 개발자가 생성자를 작성하지 않으면
     //   컴파일러가 기본 생성자를 자동으로 추가함
-    // - 기본생성자(defaul constructor)?
+    // - 기본생성자(default constructor)?
     //   파라미터가 없는 생성자
     //  - public으로 공개됨
     // 예 ) public 클래스명() {}

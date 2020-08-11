@@ -16,65 +16,64 @@ import java.sql.Date;
 
 public class App_e {
   public static void main(String[] args) {
-   
-    java.util.Scanner keyInput = new java.util.Scanner(System.in);
     
+    Scanner scanner = new Scanner(System.in);
+    
+    final int MAX_LENGTH = 4;
     System.out.println("[회원]");
     
-    // 최대 5명의 회원 정보를 입력 받는 변수를 선언
-    int maxLength = 5;
-    int[] no = new int[maxLength];
-    String[] name = new String[maxLength];
-    String[] email = new String[maxLength];
-    String[] password = new String[maxLength];
-    String[] photo = new String[maxLength]; //배열임을 알 수 있가 String 뒤에 [] 을 붙인다.
-    String[] tel = new String[maxLength];
-    Date[] now = new Date[maxLength];
+    int[] no = new int[MAX_LENGTH];
+    String[] name = new String[MAX_LENGTH];
+    String[] email = new String[MAX_LENGTH];
+    String[] password = new String[MAX_LENGTH];
+    String[] photo = new String[MAX_LENGTH];
+    String[] tel = new String[MAX_LENGTH];
+    Date[] now = new Date[MAX_LENGTH];
     
     long currentMillis = 0;
     int count = 0;
     
-    
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < MAX_LENGTH; i++) {
       count++;
       
       System.out.print("번호? ");
-      no[i] = keyInput.nextInt(); 
-      keyInput.nextLine();
+      no[i] = scanner.nextInt();
+      scanner.nextLine();
       
       System.out.print("이름? ");
-      name[i] = keyInput.nextLine();
+      name[i] = scanner.nextLine();
       
-      System.out.print("이메일?");
-      email[i] = keyInput.nextLine();
+      System.out.print("이메일? ");
+      email[i] = scanner.nextLine();
       
-      System.out.print("암호?");
-      password[i] = keyInput.nextLine();
+      System.out.print("암호? ");
+      password[i] = scanner.nextLine();
       
-      System.out.print("사진?");
-      photo[i] = keyInput.nextLine();
+      System.out.print("사진? ");
+      photo[i] = scanner.nextLine();
       
-      System.out.print("전화?");
-      tel[i] = keyInput.nextLine();
+      System.out.print("전화? ");
+      tel[i] = scanner.nextLine();
       
       currentMillis = System.currentTimeMillis();
       now[i] = new Date(currentMillis);
       
-      System.out.println(); //빈줄 출력 
+      System.out.println();
+      System.out.println("계속 입력하시겠습니까?(y/N)");
+      String response = scanner.nextLine();
       
-      System.out.print("계속 입력하시겠습니까?(y/N)");
-      String response = keyInput.nextLine();
-      
-      if (response.equalsIgnoreCase("y") == false) {
-        break; //반복문을 멈춰라.    
+      if (!response.equalsIgnoreCase("y")) {
+        break;
       }
-    }  
-    keyInput.close();
+    }
     
-    System.out.println("-------------------------------");
     
-    for (int i = 0; i < maxLength; i++) {
-      System.out.printf("%d, %s, %s, %s, %s\n", no[i], name[i], email[i], tel[i], now[i].toString()); 
+    scanner.close();
+    
+    System.out.println("-----------------------");
+    
+    for (int i = 0; i < count; i++) {
+      System.out.printf("%d, %s, %s, %s, %s\n", no[i], name[i], email[i], tel[i], now[i]);
     }
   }
 }

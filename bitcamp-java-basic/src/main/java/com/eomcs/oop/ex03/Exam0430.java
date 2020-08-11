@@ -46,5 +46,6 @@ public class Exam0430 {
 
    System.out.printf("%s, %d, %d, %d, %d, %.1f\n",
        s3.name, s3.kor, s3.eng, s3.math, s3.sum, s3.average);
+   
   }
 }

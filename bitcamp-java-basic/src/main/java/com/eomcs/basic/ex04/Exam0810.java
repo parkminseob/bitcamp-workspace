@@ -47,10 +47,11 @@ public class Exam0810 // 클래스 선언
     for(i = 0; i < 10; i++) {
       System.out.println(i);
     }
-    System.out.println(i);
+    System.out.println(i); 
+    // i값이 10이 된 상태에서 끝났는데 조건식에 맞지 않아서 출력이 안 됀 것일 뿐
+    // 여전히 i 값은 10인 상태이다. 그래서 괄호문 바깥에서 i를 호출하면 10이 나오는 것임.
     
-    
-    
+    System.out.println("-----------------");
     for(int k = 0; k < 10; k++) {
       System.out.println(k);
     }
