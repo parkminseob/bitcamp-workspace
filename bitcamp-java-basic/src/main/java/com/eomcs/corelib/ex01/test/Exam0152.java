@@ -48,9 +48,10 @@ public class Exam0152 {
     // HashCode()의 리턴 값이 서로 다르고, equals() 비교 결과도 false라면
     // HashMap 클래스에서는 서로 다른 key라고 간주한다.
 
-    System.out.println(k3 == k6);
-    System.out.printf("k3(%s), k6(%s)\n", k3, k6);
-    System.out.println(k3.hashCode());
-
+    System.out.println(k3 == k6); //f
+    System.out.printf("k3(%s), k6(%s)\n", k3, k6); //haha, haha
+    System.out.println(k3.hashCode()); // k3, k6의 해쉬가 다르다.
+    System.out.println(k6.hashCode());
+    System.out.println(k3.equals(k6)); // equals가 오버라이딩 되지 않았기 때문에 비교결과도 다를것이다.
   }
 }
