@@ -9,5 +9,7 @@ public class Exam0162 {
 
     Class<?> compTypeInfo = classInfo.getComponentType();
     System.out.println(compTypeInfo.getName());
+    
+    System.out.println(obj2.getClass().getComponentType().getName());
   }
 }
