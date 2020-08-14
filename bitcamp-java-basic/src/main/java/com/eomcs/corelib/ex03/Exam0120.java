@@ -5,7 +5,9 @@ import java.util.ArrayList;
 
 public class Exam0120 {
   public static void main(String[] args) {
+    // ArrayList는 인스턴스 주소를 관리하는거다. (인스턴스 전화번호관리)
     ArrayList list = new ArrayList();
+    // 아래 문자열 주석은 가정이다. 실제론 200번지 300번지 이런게 저장되는거 잊지말기!
     list.add("aaa"); // aaa,
     list.add("bbb"); // aaa, bbb,
     list.add("ccc"); // aaa, bbb, ccc,
@@ -15,14 +17,13 @@ public class Exam0120 {
 
     list.remove(2); // aaa, bbb, ddd,
     print(list);
-
+    // 이제 2번방은 가비지가 되었다.
     list.remove(0); // bbb, ddd,
     print(list);
 
     // 유효한 인덱스가 아니면 예외 발생시킨다!
-    // list.remove(4); // 실행 오류!
-    print(list);
-
+    //list.remove(4); // 실행 오류!
+    //print(list);
     list.add(1, "xxx"); // bbb, xxx, ddd,
     list.add(1, "yyy"); // bbb, yyy, xxx, ddd
     list.add(0, "zzz"); // zzz, bbb, yyy, xxx, ddd
@@ -32,7 +33,7 @@ public class Exam0120 {
     list.add(5, "ttt"); // zzz, bbb, yyy, xxx, ddd, ttt
     print(list);
 
-    list.set(1, "aaa"); // zzz, aaa, yyy, xxx, ddd
+    list.set(1, "aaa"); // zzz, aaa, yyy, xxx, ddd, ttt
     print(list);
 
     list.add("ccc"); // zzz, aaa, yyy, xxx, ddd, ttt, ccc

@@ -11,6 +11,8 @@ public class Exam0122 {
       this.name = name;
       this.age = age;
     }
+
+
   }
 
   public static void main(String[] args) {
