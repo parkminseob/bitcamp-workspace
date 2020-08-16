@@ -10,7 +10,13 @@ public class MyArrayListTest {
     MyArrayList.add(1, "xxx"); //aaa,xxx,bbb,ccc
     print();
     
+    Object old = MyArrayList.set(2, "yyy"); // aaa, xxx, yyy, ccc
+    print();
+    System.out.println(old); // bbb
     
+    old = MyArrayList.remove(1); // aaa, yyy, ccc
+    print();
+    System.out.println(old); // xxx
   }
   
   static void print() {
