@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry excluding="bitcamp-java-basic/src/main/java/|bitcamp-java-basic/src/main/java/com/eomcs/|bitcamp-java-project/src/test/java/|bitcamp-java-project/src/main/java/" kind="src" path=""/>
+	<classpathentry excluding="com/eomcs/" kind="src" path="bitcamp-java-basic/src/main/java"/>
+	<classpathentry kind="src" path="bitcamp-java-basic/src/main/java/com/eomcs"/>
+	<classpathentry kind="src" path="bitcamp-java-project/src/main/java"/>
+	<classpathentry kind="src" path="bitcamp-java-project/src/test/java"/>
+	<classpathentry kind="output" path="bitcamp-java-basic/bin/main"/>
+</classpath>
