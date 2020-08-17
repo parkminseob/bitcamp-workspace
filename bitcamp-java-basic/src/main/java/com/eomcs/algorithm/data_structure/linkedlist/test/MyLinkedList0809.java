@@ -10,7 +10,7 @@ package com.eomcs.algorithm.data_structure.linkedlist.test;
 // 7) 목록에서 특정 인덱스에 값을 제거하는 remove(int)메서드를 정의한다.
 // 8) 목록에서 특정 인덱스에 값을 바꾸는 set(int, Object) 메서드를 정의한다.
 // 9) 목록의 데이터를 새 배열에 담아 리턴하는 toArray()메서드를 정의한다. 
-public class MyLinkedList {
+public class MyLinkedList0809 {
 
   // 값을 찾을 때는 첫 번째 노드부터 따라간다.
   Node first;
