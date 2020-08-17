@@ -34,19 +34,18 @@ import java.util.Arrays;
 //18) 배열의 크기를 늘릴 때 자바에서 제공하는 Arrays를 사용하여 처리한다.
 //19) 배열의 특정 항목을 삭제할 때 배열 복사 기능을 이용하여 처리한다.
 //20) ArrayList에 보관되어 있는 인스턴스 목록을 배열로 리턴하는 toArray() 메서드를 추가한다.
-//21) toArray()에서 배열을 복사할 때 Arrays.copyOf()메서드를 활용해 보자.
-public class MyArrayList {
+public class MyArrayList20 {
 
   private static final int DEFAULT_CAPACITY = 5;
   private Object[] elementData;
   private int size;
 
-  public MyArrayList() {
+  public MyArrayList20() {
     elementData = new Object[DEFAULT_CAPACITY];
   }
 
 
-  public MyArrayList(int initialCapacity) {
+  public MyArrayList20(int initialCapacity) {
     if (initialCapacity < DEFAULT_CAPACITY) {
       elementData = new Object[DEFAULT_CAPACITY];
     } else {
@@ -64,7 +63,7 @@ public class MyArrayList {
   }
 
   private void grow() {
-    //System.out.println("오호라! 배열을 늘리자!...");
+    System.out.println("오호라! 배열을 늘리자!...");
     int newCapacity = elementData.length + (elementData.length >> 1);
     elementData = Arrays.copyOf(elementData, newCapacity);
     /*
@@ -131,15 +130,10 @@ public class MyArrayList {
   }
 
   public Object[] toArray() {
-    Object[] arr = Arrays.copyOf(elementData, this.size);
-    //System.out.println(elementData = arr);
-    return arr;
-    /*
     Object[] arr = new Object[this.size];
     for(int i = 0; i < arr.length; i++) {
       arr[i] = elementData[i];
     }
     return arr;
-    */
   }
 }
