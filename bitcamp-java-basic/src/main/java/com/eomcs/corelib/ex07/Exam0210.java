@@ -40,8 +40,6 @@ public class Exam0210 {
       System.out.print(컬렉션에서값을꺼내주는객체.next() + ", ");
     }
     System.out.println();
-
-
   }
 
 }

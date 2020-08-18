@@ -6,12 +6,11 @@ package com.eomcs.algorithm.data_structure.linkedlist.test2;
 // 5) get()메서드 정의
 // 6) 목록에서 특정 인덱스 위치에 값을 삽입하는 add(int, Object)메서드 정의
 // 7) 목록에서 특정 인덱스에 값을 제거하는 remove(int)메서드 정의
-// 8) 목록에서 특정 인덱스의 값을 바꾸는 set(int,Object)메서드를 정의한다.
-public class MyLinkedList {
+public class MyLinkedList07 {
 
-  private Node first;
-  private Node last;
-  private int size;
+  Node first;
+  Node last;
+  int size;
 
   static class Node {
     Object value;
@@ -99,24 +98,6 @@ public class MyLinkedList {
        last = cursor;
      }
      return old.value;
-   }
-
-
-   public Object set​(int index, Object element) {
-     if (index < 0 || index >= this.size ) {
-       throw new IndexOutOfBoundsException("유효하지 않은 인덱스!!");
-     }
-     Node cursor = this.first;
-     for(int i = 1; i <= index; i++) {
-       cursor = cursor.next;
-     }
-
-     Object old = cursor.value;
-     cursor.value = element;
-     return old;
-   }
-   public int size() {
-     return this.size();
    }
 }
 
