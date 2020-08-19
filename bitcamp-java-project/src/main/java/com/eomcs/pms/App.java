@@ -1,5 +1,6 @@
 package com.eomcs.pms;
 
+import com.eomcs.pms.handler.BoardHandler;
 import com.eomcs.pms.handler.MemberHandler;
 import com.eomcs.pms.handler.ProjectHandler;
 import com.eomcs.pms.handler.TaskHandler;
@@ -11,29 +12,25 @@ public class App {
 
   public static void main(String[] args) {
     
+    BoardHandler boardHandler = new BoardHandler();
+    
+    TaskHandler taskHandler = new TaskHandler();
+    MemberHandler memberHandler =  new MemberHandler();
+    ProjectHandler projectHandler = new ProjectHandler();
+    
     loop:
       while (true) {
         String command = Prompt.inputString("명령> ");
 
         switch (command) {
-          case "/member/add":
-            MemberHandler.add();
-            break;
-          case "/member/list":
-            MemberHandler.list();
-            break;
-          case "/project/add":
-            ProjectHandler.add();
-            break;
-          case "/project/list":
-            ProjectHandler.list();
-            break;
-          case "/task/add":
-            TaskHandler.add();
-            break;
-          case "/task/list":
-            TaskHandler.list();
-            break;
+          case "/member/add": memberHandler.add(); break;
+          case "/member/list": memberHandler.list(); break;
+          case "/project/add": projectHandler.add(); break;
+          case "/project/list": projectHandler.list(); break;
+          case "/task/add": taskHandler.add(); break;
+          case "/task/list": taskHandler.list(); break;
+          case "/board/add": boardHandler.add(); break;
+          case "/board/list": boardHandler.list(); break;
           case "quit":
           case "exit":
             System.out.println("안녕!");
