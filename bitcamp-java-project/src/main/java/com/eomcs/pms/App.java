@@ -13,6 +13,7 @@ public class App {
   public static void main(String[] args) {
     
     BoardHandler boardHandler = new BoardHandler();
+    BoardHandler boardHandler2 = new BoardHandler();
     
     TaskHandler taskHandler = new TaskHandler();
     MemberHandler memberHandler =  new MemberHandler();
@@ -31,6 +32,10 @@ public class App {
           case "/task/list": taskHandler.list(); break;
           case "/board/add": boardHandler.add(); break;
           case "/board/list": boardHandler.list(); break;
+          case "/board2/add": boardHandler2.add(); break;
+          case "/board2/list": boardHandler2.list(); break;
+          
+          
           case "quit":
           case "exit":
             System.out.println("안녕!");

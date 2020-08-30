@@ -5,6 +5,6 @@ public class B3 extends B {
   @Override
 
   void m(int x) {
-    System.out.println("B2의 m()");
+    System.out.println("B3의 m()");
   }
 }
