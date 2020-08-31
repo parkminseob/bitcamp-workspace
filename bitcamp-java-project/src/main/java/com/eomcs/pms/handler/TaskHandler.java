@@ -1,57 +1,50 @@
 package com.eomcs.pms.handler;
 
-import java.sql.Date;
+import com.eomcs.pms.domain.Task;
 import com.eomcs.util.Prompt;
 
 public class TaskHandler {
 
-  // 작업 데이터
-  static class Task {
-    int no;
-    String content;
-    Date deadline;
-    int status;
-    String owner;
-  }
-  static final int LENGTH = 100; // TLENGTH 를 LENGTH 로 변경한다.
-  Task[] list = new Task[LENGTH]; // tasks 를 list 로 변경한다.
-  int size = 0; // tsize 를 size 로 변경한다.
+  ArrayList<Task> taskList = new ArrayList();
+  MemberHandler memberHandler;
 
-  public MemberHandler memberHandler;
-  
-  
+  public TaskHandler(MemberHandler memberHandler) {
+    this.memberHandler = memberHandler;
+  }
+
   public void add() {
     System.out.println("[작업 등록]");
-    
+
     Task task = new Task();
-    task.no = Prompt.inputInt("번호? ");
-    task.content = Prompt.inputString("내용? ");
-    task.deadline = Prompt.inputDate("마감일? ");
-    task.status = Prompt.inputInt("상태?\n0: 신규\n1: 진행중\n2: 완료\n> ");
-    
-    while(true) {
-      String name = Prompt.inputString("담당자?(취소: 빈 문자열)");
-      if(name.length() == 0) {
+    task.setNo(Prompt.inputInt("번호? "));
+    task.setContent(Prompt.inputString("내용? "));
+    task.setDeadline(Prompt.inputDate("마감일? "));
+    task.setStatus(Prompt.inputInt("상태?\n0: 신규\n1: 진행중\n2: 완료\n> "));
+
+    while (true) {
+      String name = Prompt.inputString("담당자?(취소: 빈 문자열) ");
+
+      if (name.length() == 0) {
         System.out.println("작업 등록을 취소합니다.");
         return;
       } else if (memberHandler.findByName(name) != null) {
-        task.owner = name;
+        task.setOwner(name);
         break;
-      } else {
-      System.out.println("등록된 회원이 아닙니다.");
       }
+
+      System.out.println("등록된 회원이 아닙니다.");
     }
 
-    list[size++] = task;
+    taskList.add(task);
   }
-  
+
   public void list() {
     System.out.println("[작업 목록]");
-    
-    for (int i = 0; i < size; i++) {
-      Task task = list[i];
+    Object[] tasks = taskList.toArray(Task[].class);
+    for (Object obj : tasks) {
+      Task task = (Task)obj;
       String stateLabel = null;
-      switch (task.status) {
+      switch (task.getStatus()) {
         case 1:
           stateLabel = "진행중";
           break;
@@ -62,11 +55,11 @@ public class TaskHandler {
           stateLabel = "신규";
       }
       System.out.printf("%d, %s, %s, %s, %s\n",
-          task.no, 
-          task.content, 
-          task.deadline, 
-          stateLabel, 
-          task.owner);
+          task.getNo(),
+          task.getContent(),
+          task.getDeadline(),
+          stateLabel,
+          task.getOwner());
     }
   }
 }

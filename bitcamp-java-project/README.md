@@ -1,59 +1,56 @@
-# 13 - 생성자가 필요한 이유
+# 17 - 제네릭이 필요한 이유와 사용법
 
-**생성자(constructor)** 는 인스턴스를 사용하는데 문제가 없도록 
-인스턴스 필드를 유효한 값으로 초기화시키는 일을 한다.
+**제네릭(generic)** 문법을 이용하면,
 
-이번 훈련에서는 *생성자* 를 사용하지 않는 경우의 문제점을 확인하고,
-*생성자* 를 적용해야 하는 상황을 경험해보자. 
+- 같은 일을 하는 클래스 정의할 때 타입 별로 중복해서 정의할 필요가 없기 때문에 코드의 재사용성을 높인다. 
+- 지정된 타입의 객체만 다루도록 제한할 수 있어 코드의 안정성을 높인다.
+- 사용할 객체의 타입을 지정한 후 잘못된 타입의 객체를 사용할 때 컴파일 오류가 발생한다.
+- 컴파일 할 때 타입 검사를 진행하기 때문에 빠른 시점에 타입 안정성을 어긴 오류를 찾아 낼 수 있다.
+  - 가능한 실행할 때 발생된 오류 보다는 컴파일 할 때 발생된 오류를 잡는 것이 더 낫다.
+
 
 ## 훈련 목표
 
-- 인스턴스의 필드를 유효한 값으로 초기화시키지 않을 때 문제점을 확인한다.
-- 생성자의 용도를 이해한다.
-- 생성자를 이용하여 인스턴스를 사용하기 전에 필요한 값들을 준비한다.
+- 제네릭 문법을 이용하여 타입 정보를 파라미터로 주고 받는 방법을 배운다.
+- 제네릭 문법으로 특정 타입의 값만 다루도록 제한하는 것을 연습한다.
 
 ## 훈련 내용
 
-- 생성자를 통해 의존 객체를 강제로 주입하게 만든다.
-- `ProjectHandler` 와 `TaskHandler` 에서 사용할 `MemberHandler` 를 강제로 주입하게 한다.
+- ArrayList 클래스에 특정 타입의 객체를 다룰 수 있도록 제네릭을 적용한다.
+- 기존의 XxxHandler 에 제네릭이 적용된 ArrayList을 사용하도록 코드를 변경한다.
 
 
 ## 실습
 
-### 1단계 - 의존 객체를 제대로 주입하지 않았을 때 발생되는 문제를 확인한다.
-  
-- `App` 클래스에서 `ProjectHandler` 객체를 생성할 때, 
-  의존 객체인 `MemberHandler` 를 설정하는 코드를 주석으로 처리한다.
-- `App` 클래스에서 `TaskHandler` 객체를 생성할 때, 
-  의존 객체인 `MemberHandler` 를 설정하는 코드를 주석으로 처리한다.
-- *프로젝트 등록* 과 *작업 등록* 을 테스트하여 문제점을 확인한다.   
+### 1단계 - `ArrayList` 에 제네릭(generic) 문법을 적용한다.
+
+- `ArrayList` 클래스 선언부에 타입 파라미터를 선언한다.
+- add(), toArray() 메서드는 타입 파라미터를 사용하여 인스턴스를 다루도록 변경한다.
 
 #### 작업 파일
 
-- com.eomcs.pms.App 클래스 변경
-  - 백업: App_a.java
+- com.eomcs.util.ArrayList 클래스 변경
 
+### 2단계 - 제네릭을 적용한 `ArrayList` 의 사용법에 따라 XxxHandler 코드를 변경한다.
 
-### 2단계 - 생성자를 이용하여 의존 객체를 강제로 주입하게 한다.
-  
-- `ProjectHandler` 의 인스턴스를 생성할 때 의존 객체를 반드시 주입하도록 
-   기본 생성자 대신에 의존 객체를 파라미터로 받는 생성자를 추가한다.
-- `TaskHandler` 의 인스턴스를 생성할 때 의존 객체를 반드시 주입하도록 
-   기본 생성자 대신에 의존 객체를 파라미터로 받는 생성자를 추가한다.   
-- `App` 클래스에서 `ProjectHandler` 객체를 생성할 때, 
-  생성자 파라미터에 의존 객체를 넘겨준다.
-- `App` 클래스에서 `TaskHandler` 객체를 생성할 때, 
-  생성자 파라미터에 의존 객체를 넘겨준다.
+- `BoardHandler` 에서 `ArrayList` 를 생성할 때 목록에서 다룰 항목의 타입을 `Board` 로 한정한다.  
+- `MemberHandler` 에서 `ArrayList` 를 생성할 때 목록에서 다룰 항목의 타입을 `Member` 로 한정한다.  
+- `ProjectHandler` 에서 `ArrayList` 를 생성할 때 목록에서 다룰 항목의 타입을 `Project` 로 한정한다.  
+- `TaskHandler` 에서 `ArrayList` 를 생성할 때 목록에서 다룰 항목의 타입을 `Task` 로 한정한다.  
+
 
 #### 작업 파일
 
+- com.eomcs.pms.handler.BoardHandler 클래스 변경
+- com.eomcs.pms.handler.MemberHandler 클래스 변경
 - com.eomcs.pms.handler.ProjectHandler 클래스 변경
 - com.eomcs.pms.handler.TaskHandler 클래스 변경
-- com.eomcs.pms.App 클래스 변경
 
 
 ## 실습 결과
 
+- src/main/java/com/eomcs/util/ArrayList.java 변경
+- src/main/java/com/eomcs/pms/handler/BoardHandler.java 변경
+- src/main/java/com/eomcs/pms/handler/MemberHandler.java 변경
 - src/main/java/com/eomcs/pms/handler/ProjectHandler.java 변경
 - src/main/java/com/eomcs/pms/handler/TaskHandler.java 변경
-- src/main/java/com/eomcs/pms/App.java 변경
