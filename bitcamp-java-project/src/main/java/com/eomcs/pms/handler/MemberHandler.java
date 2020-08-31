@@ -28,10 +28,8 @@ public class MemberHandler {
   public void list() {
     System.out.println("[회원 목록]");
 
-    Member[] members = memberList.toArray(new Member[] {});
-
-    for (Object obj : members) {
-      Member member = (Member)obj;
+    for (int i = 0; i < memberList.size(); i++) {
+      Member member = memberList.get(i);
       System.out.printf("%d, %s, %s, %s, %s\n",
           member.getNo(),
           member.getName(),
@@ -40,32 +38,31 @@ public class MemberHandler {
           member.getRegisteredDate());
     }
   }
-  
-  public void detail() {
-    System.out.println("[회원 상세조회]");
-    int no = Prompt.inputInt("번호? ");
-    Member member = findByNo(no);
-    if(member == null) {
-      System.out.println("해당 회원이 없습니다.");
-    } else {
-      System.out.printf("이름: %s\n", member.getName());
-      System.out.printf("이메일: %s\n", member.getEmail());
-      System.out.printf("암호: %s\n", member.getPassword());
-      System.out.printf("사진: %s\n", member.getPhoto());
-      System.out.printf("전화: %s\n", member.getTel());
-      
-    }
-  }
 
   public Member findByName(String name) {
-    Member[] members = memberList.toArray(new Member[] {});
-    for (Object obj : members) {
-      Member member = (Member)obj;
+
+    for (int i = 0; i < memberList.size(); i++) {
+      Member member = memberList.get(i);
       if (member.getName().equals(name)) {
         return member;
       }
     }
     return null;
+  }
+  
+  public void detail() {
+    System.out.println("[회원 목록 조회]");
+    int no = Prompt.inputInt("번호? ");
+    Member member = findByNo(no);
+    if(member == null) {
+      System.out.println("등록되지 않은 회원입니다.");
+      return;
+    }
+    System.out.printf("이름: %s\n", member.getName());
+    System.out.printf("이메일: %s\n", member.getEmail());
+    System.out.printf("사진: %s\n", member.getPhoto());
+    System.out.printf("전화: %s\n", member.getTel());
+    System.out.printf("등록일: %s\n", member.getRegisteredDate());
   }
   
   private Member findByNo(int no) {

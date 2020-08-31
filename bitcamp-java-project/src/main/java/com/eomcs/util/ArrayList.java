@@ -1,6 +1,5 @@
 package com.eomcs.util;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 public class ArrayList<E> {
 
@@ -118,15 +117,9 @@ public class ArrayList<E> {
   
   @SuppressWarnings("unchecked")
   public E[] toArray(E[] arr) {
-    if (arr.length < size) {
-      arr = (E[]) Array.newInstance(arr.getClass().getComponentType(), this.size);
+    for (int i = 0; i < this.size; i++) {
+      arr[i] = (E) this.elementData[i];
     }
-    System.arraycopy(
-        this.elementData, 
-        0, 
-        arr, 
-        0,
-        this.size);
     return arr;
   }
 }
