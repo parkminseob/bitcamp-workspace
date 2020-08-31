@@ -1,6 +1,5 @@
 package com.eomcs.algorithm.data_structure.array;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 //테스트1 - MyArrayListTest
@@ -19,6 +18,7 @@ import java.util.Arrays;
 //9) get(int)으로 유효하지 않은 인덱스의 값을 꺼낼 때 예외를 발생시킨다.
 //10) remove()를 수행한 다음에 맨 끝에 남아 있는 주소를 null로 설정하여
 //   인스턴스의 레퍼런스 카운트를 한 개 줄인다.
+//   - 인덱스가 유효하지 않으면 예외를 발생시킨다.
 //11) set()을 호출할 때 인덱스가 유효하지 않으면 예외를 발생시킨다.
 //
 //테스트3 - MyArrayListTest3
@@ -35,19 +35,17 @@ import java.util.Arrays;
 //20) ArrayList에 보관되어 있는 인스턴스 목록을 배열로 리턴하는 toArray() 메서드를 추가한다.
 //21) toArray()에서 배열을 복사할 때 Arrays.copyOf() 메서드를 활용해보자.
 //22) 제네릭 적용
-//23) 파라미터로 받은 배열에 값을 채워주는 toArray(E[]) 메서드를 추가한다.
-//24) 항목의 개수보다 작은 크기의 배열을 전달할 때, 자동으로 새 배열을 만들도록 toArray(E[])를 변경한다.
-public class MyArrayList<E> {
+public class MyArrayList22_a<E> {
 
   private static final int DEFAULT_CAPACITY = 5;
   private Object[] elementData;
   private int size;
 
-  public MyArrayList() {
+  public MyArrayList22_a() {
     elementData = new Object[DEFAULT_CAPACITY];
   }
 
-  public MyArrayList(int initialCapacity) {
+  public MyArrayList22_a(int initialCapacity) {
     if (initialCapacity < DEFAULT_CAPACITY) {
       elementData = new Object[DEFAULT_CAPACITY];
     } else {
@@ -109,8 +107,11 @@ public class MyArrayList<E> {
     return (E) old;
   }
 
-  @SuppressWarnings("unchecked")
   public E remove(int index) {
+    if (index < 0 || index >= size) {
+      throw new ArrayIndexOutOfBoundsException("인덱스가 유효하지 않습니다.");
+    }
+
     Object old = elementData[index];
 
     System.arraycopy(
@@ -131,7 +132,7 @@ public class MyArrayList<E> {
     // 쓰지 않는 인스턴스의 주소를 제거하여
     // 가비지 될 수 있게 한다.
 
-    return (E) old;
+    return (E)old;
   }
 
   public int size() {
@@ -149,20 +150,6 @@ public class MyArrayList<E> {
     }
     return arr;
      */
-  }
-  
-  @SuppressWarnings("unchecked")
-  public E[] toArray(E[] arr) {
-    if (arr.length < size) {
-      arr = (E[]) Array.newInstance(arr.getClass().getComponentType(), this.size);
-    }
-    System.arraycopy(
-        this.elementData, 
-        0, 
-        arr, 
-        0,
-        this.size);
-    return arr;
   }
 }
 

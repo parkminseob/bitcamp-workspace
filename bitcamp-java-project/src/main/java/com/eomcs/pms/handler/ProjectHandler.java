@@ -1,6 +1,7 @@
 package com.eomcs.pms.handler;
 
 import com.eomcs.pms.domain.Project;
+import com.eomcs.util.ArrayList;
 import com.eomcs.util.Prompt;
 
 public class ProjectHandler {
@@ -58,9 +59,9 @@ public class ProjectHandler {
 
   public void list() {
     System.out.println("[프로젝트 목록]");
-    Object[] projects = projectList.toArray(Project[].class);
-    for (Object obj : projects) {
-      Project project = (Project)obj;
+    Project[] projects = new Project[projectList.size()];
+    projectList.toArray(projects);
+    for (Project project : projects) {
       System.out.printf("%d, %s, %s, %s, %s, [%s]\n",
           project.getNo(),
           project.getTitle(),
@@ -69,5 +70,30 @@ public class ProjectHandler {
           project.getOwner(),
           project.getMembers());
     }
+  }
+  
+  public void detail() {
+    System.out.println("[프로젝트 조회]");
+    int no = Prompt.inputInt("번호? ");
+    Project project = findByNo(no);
+    if(project == null) {
+      System.out.println("해당 번호의 프로젝트가 없습니다.");
+    } else {
+      System.out.printf("프로젝트명: %s\n", project.getTitle());
+      System.out.printf("내용: %s\n", project.getContent());
+      System.out.printf("시작일: %s\n", project.getStartDate());
+      System.out.printf("종료일: %s\n", project.getEndDate());
+      
+    }
+  }
+  
+  private Project findByNo(int no) {
+    for(int i = 0; i < projectList.size(); i++) {
+      Project project = projectList.get(i);
+      if(project.getNo() == no) {
+        return project;
+      }
+    }
+    return null;
   }
 }

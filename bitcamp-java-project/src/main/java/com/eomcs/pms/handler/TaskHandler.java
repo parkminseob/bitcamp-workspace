@@ -1,6 +1,7 @@
 package com.eomcs.pms.handler;
 
 import com.eomcs.pms.domain.Task;
+import com.eomcs.util.ArrayList;
 import com.eomcs.util.Prompt;
 
 public class TaskHandler {
@@ -40,9 +41,9 @@ public class TaskHandler {
 
   public void list() {
     System.out.println("[작업 목록]");
-    Object[] tasks = taskList.toArray(Task[].class);
-    for (Object obj : tasks) {
-      Task task = (Task)obj;
+    Task[] tasks = new Task[taskList.size()];
+    taskList.toArray(tasks);
+    for (Task task : tasks) {
       String stateLabel = null;
       switch (task.getStatus()) {
         case 1:
@@ -61,5 +62,41 @@ public class TaskHandler {
           stateLabel,
           task.getOwner());
     }
+  }
+  
+  public void detail() {
+    System.out.println("[작업 목록 상세 조회]");
+    int no = Prompt.inputInt("번호? ");
+    Task task = findByNo(no);
+    if(task == null) {
+      System.out.println("해당 번호의 작업이 없습니다.");
+    } else {
+      System.out.printf("내용: %s\n", task.getContent());
+      System.out.printf("마감일: %s\n", task.getDeadline());
+      
+      String stateLabel = null;
+      switch (task.getStatus()) {
+        case 1:
+          stateLabel = "진행중";
+          break;
+        case 2:
+          stateLabel = "완료";
+          break;
+        default:
+          stateLabel = "신규";
+      }
+      System.out.printf("상태: %s\n", stateLabel);
+      System.out.printf("담당자: %s\n", task.getOwner());
+    }
+  }
+  
+  private Task findByNo(int no) {
+    for(int i = 0; i < taskList.size(); i++) {
+      Task task = taskList.get(i);
+      if(task.getNo() == no) {
+        return task;
+      }
+    }
+    return null;
   }
 }

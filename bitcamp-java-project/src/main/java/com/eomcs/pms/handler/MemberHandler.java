@@ -1,6 +1,7 @@
 package com.eomcs.pms.handler;
 
 import com.eomcs.pms.domain.Member;
+import com.eomcs.util.ArrayList;
 import com.eomcs.util.Prompt;
 
 public class MemberHandler {
@@ -27,7 +28,7 @@ public class MemberHandler {
   public void list() {
     System.out.println("[회원 목록]");
 
-    Object[] members = memberList.toArray(Member[].class);
+    Member[] members = memberList.toArray(new Member[] {});
 
     for (Object obj : members) {
       Member member = (Member)obj;
@@ -39,13 +40,38 @@ public class MemberHandler {
           member.getRegisteredDate());
     }
   }
+  
+  public void detail() {
+    System.out.println("[회원 상세조회]");
+    int no = Prompt.inputInt("번호? ");
+    Member member = findByNo(no);
+    if(member == null) {
+      System.out.println("해당 회원이 없습니다.");
+    } else {
+      System.out.printf("이름: %s\n", member.getName());
+      System.out.printf("이메일: %s\n", member.getEmail());
+      System.out.printf("암호: %s\n", member.getPassword());
+      System.out.printf("사진: %s\n", member.getPhoto());
+      System.out.printf("전화: %s\n", member.getTel());
+      
+    }
+  }
 
   public Member findByName(String name) {
-    Object[] members = memberList.toArray(Member[].class);
-
+    Member[] members = memberList.toArray(new Member[] {});
     for (Object obj : members) {
       Member member = (Member)obj;
       if (member.getName().equals(name)) {
+        return member;
+      }
+    }
+    return null;
+  }
+  
+  private Member findByNo(int no) {
+    for(int i = 0; i < memberList.size(); i++) {
+      Member member = memberList.get(i);
+      if(member.getNo() == no) {
         return member;
       }
     }
