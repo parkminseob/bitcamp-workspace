@@ -122,6 +122,14 @@ public class ArrayList<E> {
     }
     return arr;
   }
+  
+  public E[] toArray(Class<E[]> arrayType) {
+    // Object[] 배열이 아닌 임의 타입 배열을 만들어 복사하려면 
+    // Arrays.copyOf() 를 호출할 때 반드시 배열의 타입 정보를 넘겨야 한다.
+    // 이를 위해 toArray() 메서드에서 배열의 타입 정보를 받을 수 있도록 파라미터를 선언한다.
+    return Arrays.copyOf(elementData, size, arrayType);
+  }
+  
 }
 
 
