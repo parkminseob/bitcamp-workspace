@@ -4,33 +4,28 @@ import com.eomcs.pms.handler.BoardHandler;
 import com.eomcs.pms.handler.MemberHandler;
 import com.eomcs.pms.handler.ProjectHandler;
 import com.eomcs.pms.handler.TaskHandler;
-import com.eomcs.util.ArrayList;
 import com.eomcs.util.Prompt;
+import com.eomcs.util.Queue;
+import com.eomcs.util.Stack;
 
 public class App {
 
   public static void main(String[] args) {
 
     BoardHandler boardHandler = new BoardHandler();
-    BoardHandler boardHandler2 = new BoardHandler();
-    BoardHandler boardHandler3 = new BoardHandler();
-    BoardHandler boardHandler4 = new BoardHandler();
-    BoardHandler boardHandler5 = new BoardHandler();
-    BoardHandler boardHandler6 = new BoardHandler();
-
     MemberHandler memberHandler = new MemberHandler();
     ProjectHandler projectHandler = new ProjectHandler(memberHandler);
     TaskHandler taskHandler = new TaskHandler(memberHandler);
 
-    ArrayList<String> commandList = new ArrayList();
-
+    Stack<String> commandList = new Stack<>();
+    Queue<String> commandList2 = new Queue<>();
 
     loop:
       while (true) {
         String command = Prompt.inputString("명령> ");
 
-        //명령어 보관하기
-        commandList.add(command);
+        commandList.push(command);
+        commandList2.offer(command);
 
         switch (command) {
           case "/member/add": memberHandler.add(); break;
@@ -38,37 +33,25 @@ public class App {
           case "/member/detail": memberHandler.detail(); break;
           case "/member/update": memberHandler.update(); break;
           case "/member/delete": memberHandler.delete(); break;
-
           case "/project/add": projectHandler.add(); break;
           case "/project/list": projectHandler.list(); break;
           case "/project/detail": projectHandler.detail(); break;
           case "/project/update": projectHandler.update(); break;
           case "/project/delete": projectHandler.delete(); break;
-
           case "/task/add": taskHandler.add(); break;
           case "/task/list": taskHandler.list(); break;
           case "/task/detail": taskHandler.detail(); break;
           case "/task/update": taskHandler.update(); break;
           case "/task/delete": taskHandler.delete(); break;
-
           case "/board/add": boardHandler.add(); break;
           case "/board/list": boardHandler.list(); break;
           case "/board/detail": boardHandler.detail(); break;
           case "/board/update": boardHandler.update(); break;
           case "/board/delete": boardHandler.delete(); break;
 
-          case "/board2/add": boardHandler2.add(); break;
-          case "/board2/list": boardHandler2.list(); break;
-          case "/board3/add": boardHandler3.add(); break;
-          case "/board3/list": boardHandler3.list(); break;
-          case "/board4/add": boardHandler4.add(); break;
-          case "/board4/list": boardHandler4.list(); break;
-          case "/board5/add": boardHandler5.add(); break;
-          case "/board5/list": boardHandler5.list(); break;
-          case "/board6/add": boardHandler6.add(); break;
-          case "/board6/list": boardHandler6.list(); break;
+          case "history": printCommandList(commandList); break;
+          case "history2": printCommandList2(commandList2); break;
 
-          case "history": printCommandHistory(commandList); break;
           case "quit":
           case "exit":
             System.out.println("안녕!");
@@ -82,9 +65,40 @@ public class App {
     Prompt.close();
   }
 
-  private static void printCommandHistory(ArrayList<String> commandList) {
-    for(int i = commandList.size()-1; i >= 0; i--) {
-      System.out.println(commandList.get(i));
+  private static void printCommandList2(Queue<String> commandList2) {
+    try {
+      Queue<String> myQueue = commandList2.clone();
+      for(int count = 1; myQueue.size() > 0; count++) {
+        System.out.println(myQueue.poll());
+
+        if(count % 5 == 0) {
+          String response = Prompt.inputString(":");
+          if(response.equalsIgnoreCase("q")) {
+            break;
+          }
+        }
+      }
+    } catch (Exception e) {
+      System.out.println("history2명령 실행 중 오류 발생!");
+    }
+
+  }
+
+  private static void printCommandList(Stack<String> commandList) {
+    try {
+      Stack<String> myStack = commandList.clone();
+      for(int count = 1; !myStack.empty(); count++) {
+        System.out.println(myStack.pop());
+
+        if(count % 5 == 0) {
+          String response = Prompt.inputString(":");
+          if(response.equalsIgnoreCase("q")) {
+            break;
+          }
+        }
+      }
+    } catch (Exception e) {
+      System.out.println("history명령 실행 중 오류 발생!");
     }
   }
 }

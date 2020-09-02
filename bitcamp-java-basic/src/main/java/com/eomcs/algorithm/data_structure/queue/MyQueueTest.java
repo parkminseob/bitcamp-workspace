@@ -1,6 +1,6 @@
 package com.eomcs.algorithm.data_structure.queue;
 
-public class MuQueueTest {
+public class MyQueueTest {
   public static void main(String[] args) {
     MyQueue queue = new MyQueue();
     queue.offer("aaa");

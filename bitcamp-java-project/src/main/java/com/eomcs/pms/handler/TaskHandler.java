@@ -7,7 +7,7 @@ import com.eomcs.util.Prompt;
 
 public class TaskHandler {
 
-  LinkedList<Task> taskList = new LinkedList();
+  LinkedList<Task> taskList = new LinkedList<>();
   MemberHandler memberHandler;
 
   public TaskHandler(MemberHandler memberHandler) {
@@ -46,7 +46,6 @@ public class TaskHandler {
     for (int i = 0; i < taskList.size(); i++) {
       Task task = taskList.get(i);
       String stateLabel = null;
-
       switch (task.getStatus()) {
         case 1:
           stateLabel = "진행중";
@@ -57,7 +56,6 @@ public class TaskHandler {
         default:
           stateLabel = "신규";
       }
-
       System.out.printf("%d, %s, %s, %s, %s\n",
           task.getNo(),
           task.getContent(),
@@ -68,17 +66,17 @@ public class TaskHandler {
   }
 
   public void detail() {
-    System.out.println("[작업 목록 상세 조회]");
+    System.out.println("[작업 상세보기]");
     int no = Prompt.inputInt("번호? ");
     Task task = findByNo(no);
 
-    if(task == null) {
-      System.out.println("해당하는 작업이 없습니다.");
+    if (task == null) {
+      System.out.println("해당 번호의 작업이 없습니다.");
       return;
     }
+
     System.out.printf("내용: %s\n", task.getContent());
     System.out.printf("마감일: %s\n", task.getDeadline());
-
     String stateLabel = null;
     switch (task.getStatus()) {
       case 1:
@@ -152,40 +150,42 @@ public class TaskHandler {
   }
 
   public void delete() {
-    System.out.println("[작업 목록 상세 조회]");
+    System.out.println("[작업 삭제]");
     int no = Prompt.inputInt("번호? ");
     int index = indexOf(no);
-    if(index == -1) {
-      System.out.println("해당하는 작업이 없습니다.");
-      return;
-    } else {
-      String response = Prompt.inputString("정말 삭제하시겠습니까?(y/N) ");
-      if(response.equalsIgnoreCase("y")) {
-        taskList.remove(index);
-        System.out.println("작업 삭제 완료");
-      } else {
-        System.out.println("작업 삭제를 취소했습니다.");
-      }
-    }
-  }
 
-  private int indexOf(int no) {
-    for(int i = 0; i < taskList.size(); i++) {
-      Task task = taskList.get(i);
-      if(task.getNo() == no) {
-        return i;
-      }
+    if (index == -1) {
+      System.out.println("해당 번호의 작업이 없습니다.");
+      return;
     }
-    return -1;
+
+    String response = Prompt.inputString("정말 삭제하시겠습니까?(y/N) ");
+    if (!response.equalsIgnoreCase("y")) {
+      System.out.println("작업 삭제를 취소하였습니다.");
+      return;
+    }
+
+    taskList.remove(index);
+    System.out.println("작업을 삭제하였습니다.");
   }
 
   private Task findByNo(int no) {
-    for(int i = 0; i < taskList.size(); i++) {
+    for (int i = 0; i < taskList.size(); i++) {
       Task task = taskList.get(i);
-      if(task.getNo() == no) {
+      if (task.getNo() == no) {
         return task;
       }
     }
     return null;
+  }
+
+  private int indexOf(int no) {
+    for (int i = 0; i < taskList.size(); i++) {
+      Task task = taskList.get(i);
+      if (task.getNo() == no) {
+        return i;
+      }
+    }
+    return -1;
   }
 }

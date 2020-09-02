@@ -9,27 +9,25 @@ import com.eomcs.algorithm.data_structure.linkedlist.MyLinkedList;
 //4) Stack에서 제일 마지막에 입력한 값을 조회하는 peek()을 정의한다.
 //5) Stack이 비어있는지 알려주는 empty()를 정의한다.
 
-// 테스트2 : MyStackTest2
-//6) Object.clone() 메서드를 오버라이딩 한다 :deep copy
+//테스트2: MyStackTest2
+//6) Object.clone()을 오버라이딩 : deep copy
+//
 
-// 테스트3 : MyStackTest3
-//7) 제네릭 적용 
+public class MyStack06_a extends MyLinkedList implements Cloneable{
 
-public class MyStack<E> extends MyLinkedList<E> implements Cloneable {
-
-  public E push(E item) {
+  public Object push(Object item) {
     add(item);
     return item;
   }
 
-  public E pop() {
+  public Object pop() {
     if(size()==0) {
       throw new EmptyStackException();
     }
     return remove(size() - 1);
   }
 
-  public E peek() {
+  public Object peek() {
     if(size()==0) {
       throw new EmptyStackException();
     }
@@ -40,18 +38,13 @@ public class MyStack<E> extends MyLinkedList<E> implements Cloneable {
     return this.size() == 0;
   }
 
-  @SuppressWarnings("unchecked")
   @Override
-  public MyStack<E> clone() throws CloneNotSupportedException {
-    // 새 스텍을 만든다 
-    MyStack<E> newStack = new MyStack<E>();
+  public MyStack06_a clone() throws CloneNotSupportedException{
+    MyStack06_a newStack = new MyStack06_a();
 
-    // 기존 스택 값을 가져온다.
-    Object[] values = this.toArray();
-
-    // 기존 스택 값을 새 스택에 넣는다.
-    for(Object value : values) {
-      newStack.push((E)value);
+    Object[] value = this.toArray();
+    for(Object values : value) {
+      newStack.push(values);
     }
     return newStack;
   }
