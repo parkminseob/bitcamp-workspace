@@ -1,13 +1,13 @@
 package com.eomcs.pms.handler;
 
 import com.eomcs.pms.domain.Member;
-import com.eomcs.util.ArrayList;
+import com.eomcs.util.LinkedList;
 import com.eomcs.util.Prompt;
 
 public class MemberHandler {
 
   // MemberHandler가 데이터를 다루기 위해 의존하는 객체를 준비한다.
-  ArrayList<Member> memberList = new ArrayList();
+  LinkedList<Member> memberList = new LinkedList();
 
   // 다른 패키지에서 이 메서드를 사용할 수 있도록 public 으로 사용 범위를 공개한다.
   public void add() {

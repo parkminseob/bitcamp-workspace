@@ -2,13 +2,13 @@ package com.eomcs.pms.handler;
 
 import java.sql.Date;
 import com.eomcs.pms.domain.Board;
-import com.eomcs.util.ArrayList;
+import com.eomcs.util.LinkedList;
 import com.eomcs.util.Prompt;
 
 public class BoardHandler {
 
   // BoardHandler가 사용할 BoardList 객체를 준비한다.
-  ArrayList<Board> boardList = new ArrayList();
+  LinkedList<Board> boardList = new LinkedList();
 
   public void add() {
     System.out.println("[게시물 등록]");
