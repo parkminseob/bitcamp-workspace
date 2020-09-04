@@ -1,28 +1,30 @@
 package com.eomcs.algorithm.data_structure.stack.test01;
 
 public class MyStackTest {
-  public static void main(String[] args) {
+  public static void main(String[] args) throws Exception {
 
-    MyStack stack = new MyStack();
+    MyStack<String> stack = new MyStack<>();
     stack.push("aaa");
     stack.push("bbb");
-    System.out.println("==>" + stack.peek());
     stack.push("ccc");
     stack.push("ddd");
-
+    stack.push("eee");
     print(stack);
 
-    System.out.println(stack.pop());
-    System.out.println(stack.pop());
-    System.out.println("==>" + stack.peek());
-    System.out.println(stack.pop());
-    System.out.println(stack.pop());
-    System.out.println(stack.pop());
+    MyStack<String> stack2 = stack.clone();
+    print(stack2);
 
+    System.out.println(stack2.pop());
+    System.out.println(stack2.pop());
+    System.out.println(stack2.pop());
+    print(stack2);
+
+    System.out.println("--------------");
+
+    print(stack);
   }
 
-
-  static void print(MyStack stack) {
+  static void print(MyStack<?> stack) {
     for (int i = 0; i < stack.size(); i++) {
       System.out.print(stack.get(i) + ",");
     }

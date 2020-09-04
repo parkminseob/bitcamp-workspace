@@ -1,47 +1,80 @@
-# 19 - 배열 대신 연결 리스트 자료구조 사용하기
+# 22 - 상속 : 일반화(generalization)를 이용한 공통점 분리
 
-이번 훈련에서는 **연결 리스트(linked list)** 방식으로 데이터를 저장하는 자료 구조를 만들어보자.
+**상속(inheritance)** 을 구현하는 방법에는 두 가지가 있다. 
 
-**연결 리스트** 는 
-- *노드(node)* 를 이용해 데이터와 데이터를 연결하는 방식으로 데이터 목록을 관리한다.
-- 각각의 노드는 데이터와 다음 노드의 주소를 갖고 있다.
-- 배열과 달리 데이터를 추가할 때 마다 노드를 늘리는 방식이기 때문에 메모리를 효율적으로 사용한다.
-- 노드와 노드를 연결하는 방식이기 때문에 데이터의 삽입, 삭제가 빠르다.
-- 배열의 비해 데이터 조회 속도는 느리다. 
-  배열의 경우 인덱스를 통해 바로 데이터를 찾을 수 있지만, 
-  연결 리스트에서는 노드의 연결 고리를 따라가야 하기 때문에 조회 속도가 느리다.
-- 데이터의 삽입, 삭제가 잦고 데이터가 지속적으로 추가되는 경우 
-  배열 방식 보다는 연결 리스트 방식이 낫다.
-  
+- **전문화(specialization)** 와 **일반화(generalization)** 이다.
+
+**전문화** 는
+
+- 기존 클래스의 기능을 그대로 활용할 수 있도록 연결하고
+- 여기에 새 기능을 추가하거나 기존 기능을 변경하여 좀 더 특수 목적의 서브 클래스를 만드는 기법이다.
+- 마치 부모로부터 무언가를 물려 받는 것과 같아서 **상속** 이라는 문법의 대표적인 기법으로 알려져 있다.
+- 그래서 객체지향 프로그래밍의 상속을 얘기할 때는 대부분 **전문화** 를 가르키는 말이다.
+
+**일반화** 는
+
+- 클래스들의 공통 분모를 추출하여 수퍼 클래스를 정의하는 기법이다.
+- 그리고 새로 정의한 수퍼 클래스와 부모/자식 관계를 맺는다.
+- 프로그래밍 처음부터 상속을 고려하여 수퍼 클래스를 정의하는 것이 아니라 
+  코드를 리팩토링하는 과정에서 수퍼 클래스를 정의하는 것이기 때문에 초보 개발자에게 적합하다.
+- 보통 일반화를 통해 추출된 수퍼 클래스는 서브 클래스에게 공통 분모를 상속해주는 것이 목적이다.
+- 직접 인스턴스를 생성하고 사용하기 위해 만든 클래스가 아니다.
+- 그래서 일반화를 통해 도출한 수퍼 클래스는 보통 추상 클래스로 정의한다.
+
+이번 훈련에서는 이런 **상속(inheritance)** 의 기법 중에서 **일반화(generalization)** 기법을 연습할 것이다. 
+
+
 ## 훈련 목표
 
-- 연결 리스트 구현을 통해 연결 리스트 자료 구조의 구동 원리를 이해한다.
-- 배열 방식과 연결 리스트 방식의 장단점을 이해한다.
-- 또한 레퍼런스를 이용하여 객체를 다루는 것을 연습한다.
-- 중첩 클래스의 활용법을 연습한다.
-- 자바에서 제공하는 `java.util.LinkedList` 클래스의 이해도를 높인다.
+- 상속의 기법에서 **전문화** 와 **일반화** 기법을 이해하고 구현하는 방법을 배운다.
+- **추상 클래스** 의 용도를 이해하고 활용법을 연습한다.
+- **다형적 변수(polymorphic variables)** 를 이용하여 서브 클래스의 인스턴스를 다루는 것을 연습한다.
+- **의존성 주입(dependency injection; DI)** 의 의미를 이해한다.
 
 ## 훈련 내용
 
-- `java.util.LinkedList` 를 모방하여 `LinkedList` 를 구현한다. 
-- 기존의 XxxHandler 클래스에서 사용하는 `ArrayList` 를 `LinkeList` 로 교체한다.
-  
+- `ArrayList`, `LinkedList` 의 공통 분모를 추출하여 수퍼 클래스를 정의한다.
+- XxxHandler 에서 사용할 List 객체를 외부에서 주입 받는 방식으로 변경한다.  
+
+### 주요 개념
+
+- 일반화(Generalization)
+  - 서브 클래스의 공통 분모를 추출하여 수퍼 클래스로 정의하고 상속 관계를 맺는 것.
+- 다형적 변수(Polymorphic Variables)
+  - Handler에서 사용할 목록 관리 객체를 수퍼 클래스의 레퍼런스로 선언하는 것.
+  - 이를 통해 List의 서브 객체로 교체하기 쉽도록 만드는 것.
+- 의존성 주입(DI; Dependency Injection)
+  - Handler가 의존하는 객체를 내부에서 생성하지 않고 생성자를 통해 외부에서 주입 받는 것.
+  - 이를 통해 의존 객체 교체가 쉽도록 만드는 것.
+
 ## 실습
 
-### 1단계 - `java.util.LinkedList` 를 모방하여 `LinkedList` 클래스를 구현한다. 
+### 1단계 - `ArrayList` 와 `LinkedList` 에 대해 *일반화* 를 수행한다. 
 
-**연결 리스트(linked list)** 자료 구조를 직접 구현해본다.
-
-- `LinkedList` 클래스를 작성한다.
+- `List` 클래스
+    - `ArrayList` 와 `LinkedList` 의 공통 멤버를(필드와 메서드)를 선언한다.
+    - 서브 클래스에서 재정의 해야 하는 메서드는 몸체가 빈 상태로 정의한다. 
+- `ArrayList` 클래스
+    - `List` 를 상속 받는다.
+    - 상속 받은 메서드를 오버라이딩 한다.
+- `LinkedList` 클래스
+    - `List` 를 상속 받는다.
+    - 상속 받은 메서드를 오버라이딩 한다.
 
 #### 작업 파일
 
-- com.eomcs.util.LinkedList 클래스 생성
+- com.eomcs.util.List 추상 클래스 정의
+- com.eomcs.util.ArrayList 클래스 변경
+- com.eomcs.util.LinkedList 클래스 변경
 
+### 2단계 - XxxHandler 의 의존 객체를 외부에서 주입 받는다.
 
-### 2단계 - `ArrayList` 를 사용하는 부분을 `LinkedList` 를 사용하도록 변경한다.
+- `BoardHandler`, `MemberHandler`, `ProjectHandler`, `TaskHandler` 클래스
+  - 다형적 변수의 특징을 이용하여 `ArrayList` 또는 `LinkedList` 객체를 모두 담을 수 있도록 
+    `List` 타입의 필드로 선언한다.
+  - 생성자의 파라미터를 통해 `List` 클래스의 서브 클래스를 공급받도록 변경한다.
+  - 이를 통해 특정 클래스 `ArrayList` 나 `LinkedList` 에 대한 의존성이 제거된다.
 
-- XxxHandler 에서 `ArrayList` 대신 `LinkedList` 를 사용하여 데이터를 관리한다.  
 
 #### 작업 파일
 
@@ -51,10 +84,24 @@
 - com.eomcs.pms.handler.TaskHandler 클래스 변경
 
 
+### 3단계 - `App` 에서 XxxHandler의 의존 객체를 주입한다.
+
+- `App` 클래스
+    - XxxHandler가 사용할 의존 객체(`List` 의 서브 클래스)를 준비한다.
+    - XxxHandler를 생성할 때 해당 의존 객체를 넘겨준다.
+
+#### 작업 파일
+
+- com.eomcs.pms.App 클래스 변경
+
+
 ## 실습 결과
 
-- src/main/java/com/eomcs/util/LinkedList.java 추가
+- src/main/java/com/eomcs/util/List.java 추가
+- src/main/java/com/eomcs/util/ArraytList.java 변경
+- src/main/java/com/eomcs/util/LinkedList.java 변경
 - src/main/java/com/eomcs/pms/handler/BoardHandler.java 변경
 - src/main/java/com/eomcs/pms/handler/MemberHandler.java 변경
 - src/main/java/com/eomcs/pms/handler/ProjectHandler.java 변경
 - src/main/java/com/eomcs/pms/handler/TaskHandler.java 변경
+- src/main/java/com/eomcs/pms/App.java 변경

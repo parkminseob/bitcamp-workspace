@@ -30,8 +30,8 @@ public class Exam0223 {
     // => 그러면 실행 중에 get()을 호출할 때 형변환 문제가 발생할 것이다.
     //
     //m1(new ArrayList<Object>()); // 컴파일 오류!
-    //m1(new ArrayList<A>());
-    m1(new ArrayList<B1>()); // 컴파일 오류!
+    //m1(new ArrayList<A>()); // 컴파일 오류!
+    m1(new ArrayList<B1>());
     //m1(new ArrayList<B2>()); // 컴파일 오류!
     //m1(new ArrayList<C>()); // 컴파일 오류!
   }
@@ -40,11 +40,19 @@ public class Exam0223 {
     // 컴파일러는 파라미터로 넘어온 ArrayList가 어떤 타입이든 간에
     // 문법적으로 A타입의 값만 다룬다.
 
-    //  list.add(new Object()); //컴파일 오류!
+    //list.add(new Object()); //컴파일 오류!
     //list.add(new A()); // 컴파일 오류!
     list.add(new B1());
     //list.add(new B2()); // 컴파일 오류!
     list.add(new C());
+    
+    // list에 B1타입이 아닌 다른 타입을 저장할 때는 아무런 문제가 발생하지 않지만
+    // ArrayList에서 값을 꺼낼 때 메서드에서 지정한 <B1>타입이 아니면 ClassCastException 발생!
+    
+    for(int i = 0; i < list.size(); i++) {
+      B1 temp = list.get(i);
+      System.out.println(temp);
+    }
   }
 }
 
