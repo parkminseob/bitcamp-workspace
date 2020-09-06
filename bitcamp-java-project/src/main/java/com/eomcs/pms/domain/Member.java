@@ -10,7 +10,6 @@ public class Member {
   private String photo;
   private String tel;
   private Date registeredDate;
-
   public int getNo() {
     return no;
   }

@@ -2,7 +2,7 @@ package com.eomcs.util;
 
 import java.util.EmptyStackException;
 
-public class Stack<E> extends LinkedList<E> {
+public class Stack<E> extends LinkedList<E> implements Cloneable {
 
   public E push(E item) {
     add(item);
@@ -10,30 +10,35 @@ public class Stack<E> extends LinkedList<E> {
   }
 
   public E pop() {
-    if (size() == 0) {
+    if(size()==0) {
       throw new EmptyStackException();
     }
     return remove(size() - 1);
   }
 
   public E peek() {
-    if (size() == 0) {
+    if(size()==0) {
       throw new EmptyStackException();
     }
     return get(size() - 1);
   }
 
   public boolean empty() {
-    return size() == 0;
+    return this.size() == 0;
   }
 
   @SuppressWarnings("unchecked")
   @Override
   public Stack<E> clone() throws CloneNotSupportedException {
-    Stack<E> newStack = new Stack<>();
+    // 새 스텍을 만든다 
+    Stack<E> newStack = new Stack<E>();
+
+    // 기존 스택 값을 가져온다.
     Object[] values = this.toArray();
-    for (Object value : values) {
-      newStack.push((E) value);
+
+    // 기존 스택 값을 새 스택에 넣는다.
+    for(Object value : values) {
+      newStack.push((E)value);
     }
     return newStack;
   }

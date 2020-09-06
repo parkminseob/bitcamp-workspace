@@ -10,7 +10,6 @@ public class Project {
   private Date endDate;
   private String owner;
   private String members;
-
   public int getNo() {
     return no;
   }

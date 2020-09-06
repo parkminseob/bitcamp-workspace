@@ -2,8 +2,6 @@ package com.eomcs.util;
 
 public interface List<E> {
 
-  int size();
-
   public abstract boolean add(E e);
 
   public abstract void add(int index, E value);
@@ -17,4 +15,6 @@ public interface List<E> {
   public abstract Object[] toArray();
 
   public abstract E[] toArray(E[] arr);
+
+  int size();
 }
