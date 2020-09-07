@@ -1,9 +1,17 @@
 package com.eomcs.pms;
 
+import com.eomcs.pms.domain.Board;
+import com.eomcs.pms.domain.Member;
+import com.eomcs.pms.domain.Project;
+import com.eomcs.pms.domain.Task;
 import com.eomcs.pms.handler.BoardHandler;
 import com.eomcs.pms.handler.MemberHandler;
 import com.eomcs.pms.handler.ProjectHandler;
 import com.eomcs.pms.handler.TaskHandler;
+import com.eomcs.util.ArrayList;
+import com.eomcs.util.Iterator;
+import com.eomcs.util.LinkedList;
+import com.eomcs.util.List;
 import com.eomcs.util.Prompt;
 import com.eomcs.util.Queue;
 import com.eomcs.util.Stack;
@@ -12,10 +20,17 @@ public class App {
 
   public static void main(String[] args) {
 
-    BoardHandler boardHandler = new BoardHandler();
-    MemberHandler memberHandler = new MemberHandler();
-    ProjectHandler projectHandler = new ProjectHandler(memberHandler);
-    TaskHandler taskHandler = new TaskHandler(memberHandler);
+    List<Board> boardList = new ArrayList<>();
+    BoardHandler boardHandler = new BoardHandler(boardList);
+
+    List<Member> memberList = new LinkedList<>();
+    MemberHandler memberHandler = new MemberHandler(memberList);
+
+    List<Project> projectList = new ArrayList<>();
+    ProjectHandler projectHandler = new ProjectHandler(projectList, memberHandler);
+
+    List<Task> taskList = new LinkedList<>();
+    TaskHandler taskHandler = new TaskHandler(taskList, memberHandler);
 
     Stack<String> stack = new Stack<>();
     Queue<String> queue = new Queue<>();
@@ -52,8 +67,8 @@ public class App {
           case "/board/delete": boardHandler.delete(); break;
           case "/board/update": boardHandler.update(); break;
 
-          case "history": printCommandHistory(stack); break;
-          case "history2": printCommandHistory2(queue); break;
+          case "history": printCommandHistory(stack.iterator()); break;
+          case "history2": printCommandHistory(queue.iterator()); break;
 
           case "quit":
           case "exit":
@@ -68,37 +83,18 @@ public class App {
     Prompt.close();
   }
 
-  private static void printCommandHistory2(Queue<?> queue) {
+  private static void printCommandHistory(Iterator<?> iterator) {
     try {
-      Queue<?> history2 = queue.clone();
+      int count = 1;
+      while(iterator.hasNext()) {
+        System.out.println(iterator.next());
 
-      int count = 0;
-      while(history2.size() > 0) {
-        System.out.println(history2.poll());
-        count++;
-
-        if((count%5) == 0 && Prompt.inputString(":").equalsIgnoreCase("q"))
-          break;
-      }
-    } catch (Exception e) {
-      System.out.println("history2명령 처리 중 오류 발생");
-    }
-  }
-
-  private static void printCommandHistory(Stack<?> stack) {
-    try {
-      Stack<?> history = stack.clone();
-
-      int count = 0;
-      while(!history.empty()) {
-        System.out.println(history.pop());
-        count++;
-
-        if((count%5) == 0 && Prompt.inputString(":").equalsIgnoreCase("q"))
+        if((count++ % 5) == 0 && Prompt.inputString(":").equalsIgnoreCase("q"))
           break;
       }
     } catch (Exception e) {
       System.out.println("history명령 처리 중 오류 발생.");
     }
   }
+
 }

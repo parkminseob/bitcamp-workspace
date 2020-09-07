@@ -17,4 +17,7 @@ public interface List<E> {
   public abstract E[] toArray(E[] arr);
 
   int size();
+
+  // Iterator 구현체를 리턴해주는 메서드
+  Iterator<E> iterator();
 }

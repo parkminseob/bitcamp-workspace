@@ -1,13 +1,18 @@
 package com.eomcs.pms.handler;
 
 import com.eomcs.pms.domain.Member;
-import com.eomcs.util.ArrayList;
+import com.eomcs.util.Iterator;
+import com.eomcs.util.List;
 import com.eomcs.util.Prompt;
 
 public class MemberHandler {
 
   // MemberHandler가 데이터를 다루기 위해 의존하는 객체를 준비한다.
-  ArrayList<Member> memberList = new ArrayList<>();
+  List<Member> memberList;
+
+  public MemberHandler(List<Member> list) {
+    this.memberList = list;
+  }
 
   // 다른 패키지에서 이 메서드를 사용할 수 있도록 public 으로 사용 범위를 공개한다.
   public void add() {
@@ -28,9 +33,10 @@ public class MemberHandler {
   public void list() {
     System.out.println("[회원 목록]");
 
+    Iterator<Member> iterator = memberList.iterator();
 
-    for (int i = 0; i < memberList.size(); i++) {
-      Member member = memberList.get(i);
+    while(iterator.hasNext()) {
+      Member member = iterator.next();
       System.out.printf("%d, %s, %s, %s, %s\n",
           member.getNo(),
           member.getName(),
