@@ -1,10 +1,12 @@
 package com.eomcs.oop.ex11.c.test;
+//inner class : import 사용
 
-import com.eomcs.oop.ex11.c.test.D.X;
-import com.eomcs.oop.ex11.c.test.M.M;
+import com.eomcs.oop.ex11.c.sub.M;
+import com.eomcs.oop.ex11.c.sub.M.Y;
+import com.eomcs.oop.ex11.c.test.D.X;;
 
 class D{
-  class X {
+  class X{
     void test() {
       System.out.println("test()");
     }
@@ -17,7 +19,7 @@ public class Exam0410 {
     obj.test();
 
     M outer2 = new M();
-    com.eomcs.oop.ex11.c.test.M.M.Y obj2 = outer2.new Y();
+    Y obj2 = outer2.new Y();
     obj2.test();
   }
 }

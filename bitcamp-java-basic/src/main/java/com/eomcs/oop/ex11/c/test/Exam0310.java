@@ -1,13 +1,12 @@
 package com.eomcs.oop.ex11.c.test;
 //inner class : 다른 멤버가 중첩 클래스 사용하기
 
-
 class C {
   static void m1() {
-
     // 스태틱 멤버는 인스턴스 멤버를 사용할 수 없다.
-    // X obj = new X(); // 컴파일 오류!
-    // obj.test();
+    //    X obj = new X();
+    //    obj.test()
+
 
     // 이유? 
     // - 인스턴스 멤버를 사용하려면 인스턴스 주소가 있어야 한다.
@@ -21,7 +20,7 @@ class C {
     obj.test();
   }
 
-  class X {
+  class X{
     void test() {
       System.out.println("X.test()");
     }

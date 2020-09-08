@@ -16,7 +16,7 @@ class E{
     //   다음과 같이 코드를 작성해야 한다.
     //   [문법] 바깥클래스명.this
     //   예) E.this 
-
+    // 
     // 인스턴스 메서드에 있는 this 변수는 인스턴스 메서드를 호출할 때 객체 주소를 저장한다.
     // 그렇다면 inner class에서 바깥 클래스의 인스턴스 주소는 언제 저장할까?
     // - 바깥 클래스의 인스턴스를 가지고 inner class의 인스턴스를 생성할 때 저장한다.
@@ -29,28 +29,9 @@ class E{
     // - 컴파일러는 다음과 같이 바꾼다.
     //    public X(E outer) {}
     //
-    // - 컴파일한 .class 파일을 보면 생성자가 다음과 같이 되어 있다.
-    //    E$X(com.eomcs.oop.ex11.c.E arg0);  <== 바깥 클래스의 인스턴스 주소를 받는 파라미터가 있다.
-    //    0  aload_0 [this]
-    //    1  aload_1 [arg0]
-    //    => 다음 줄 코드를 보면 컴파일러가 바깥 클래스의 인스턴스 주소를 저장하기 위해 추가한 this$0 라는 변수를 볼 수 있다.
-    //       이 this$0 변수에 바깥 클래스의 인스턴스 주소가 들어 있는 arg0 값을 저장하고 있다.
-    //    2  putfield com.eomcs.oop.ex11.c.E$X.this$0 : com.eomcs.oop.ex11.c.E [10]
-    //    5  aload_0 [this]
-    //    6  invokespecial java.lang.Object() [12]
-    //    9  return
-    //     Line numbers:
-    //       [pc: 0, line: 5]
-    //     Local variable table:
-    //       [pc: 0, pc: 10] local: this index: 0 type: com.eomcs.oop.ex11.c.E.X
-    //    ...
-    // - 생성자의 파라미터로 받은 바깥 클래스의 객체 주소는 
-    //   컴파일 할 때 자동으로 추가된 인스턴스 필드에 보관된다.
-
 
   }
 }
-
 public class Exam0510 {
   public static void main(String[] args) {
     E outer = new E();
