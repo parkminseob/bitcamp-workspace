@@ -12,30 +12,24 @@ public abstract class AbstractList<E> implements List<E>{
 
   @Override
   public Iterator<E> iterator(){
-    return new ListIterator<E>(this);
-  }
+    class ListIterator<T> implements Iterator<T>{
 
-  // static nested class
-  private static class ListIterator<E> implements Iterator<E>{
+      int cursor;
 
-    List<E> list;
-    int cursor;
-
-    public ListIterator(List<E> list) {
-      this.list = list;
-    }
-
-    @Override
-    public boolean hasNext() {
-      return cursor < list.size();
-    }
-
-    @Override
-    public E next() {
-      if(cursor == list.size()) {
-        throw new NoSuchElementException();
+      @Override
+      public boolean hasNext() {
+        return cursor < AbstractList.this.size();
       }
-      return list.get(cursor++);
+
+      @SuppressWarnings("unchecked")
+      @Override
+      public T next() {
+        if(cursor == size()) {
+          throw new NoSuchElementException();
+        }
+        return (T)get(cursor++);
+      }
     }
+    return new ListIterator<E>();
   }
 }

@@ -41,32 +41,36 @@ public class Queue<E> extends LinkedList<E> implements Cloneable{
   // 따라서 Queue 방식에 맞게 동작하는 Iterator를 리턴하도록 하라.
   @Override
   public Iterator<E> iterator() {
-    try {
-      return new QueueIterator<E>(this.clone());
-    } catch (Exception e) {
-      throw new RuntimeException("Queue복제하는 중에 오류 발생!");
-    }
-  }
+    class QueueIterator<T> implements Iterator<T>{
 
-  private static class QueueIterator<E> implements Iterator<E>{
+      Queue<T> queue;
 
-    Queue<E> queue;
-
-    public QueueIterator(Queue<E> queue) {
-      this.queue = queue;
-    }
-
-    @Override
-    public boolean hasNext() {
-      return queue.size() > 0;
-    }
-
-    @Override
-    public E next() {
-      if(queue.size() == 0) {
-        throw new NoSuchElementException();
+      @SuppressWarnings("unchecked")
+      public QueueIterator() {
+        try {
+          // 큐는 한 번 poll() 하면 데이터가 제거된다.
+          // 따라서 복제본을 만들어 사용한다.
+          queue = (Queue<T>) Queue.this.clone();
+        } catch (Exception e) {
+          // 큐를 복제할 때 오류가 발생한다면,
+          // 이 메서드를 호출한 쪽에 실행 오류를 던진다.
+          throw new RuntimeException("Queue복제하는 중에 오류 발생!");
+        }
       }
-      return queue.poll();
+
+      @Override
+      public boolean hasNext() {
+        return queue.size() > 0;
+      }
+
+      @Override
+      public T next() {
+        if(queue.size() == 0) {
+          throw new NoSuchElementException();
+        }
+        return queue.poll();
+      }
     }
+    return new QueueIterator<E>();
   }
 }

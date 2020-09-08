@@ -44,42 +44,37 @@ public class Stack<E> extends LinkedList<E> implements Cloneable {
     return newStack;
   }
 
-  // 수퍼클래스의 iterator()는 ListIterator를 리턴한다.
-  // ListIteraotr는 Stack으로 목록을 관리하는 방식과 다르게 데이터를 조회한다.
-  // 따라서 Stack에 맞는 Iterator를 리턴할 필요가 있다.
-  // => 오버라이딩을 해서 상속받은 메서드를 서브 클래스에 맞게 재정의.
-
   @Override
   public Iterator<E> iterator(){
-    try {
-      return new StackIterator<E>(this.clone());
-    } catch (Exception e) {
-      // 스택을 복제하다가 오류가 발생하면
-      // 이 메서드를 호출한 쪽에 오류 내용을 전달한다.
-      throw new RuntimeException("스택 복제 중에 오류 발생");
-    }
-  }
 
-  private static class StackIterator<E> implements Iterator<E>{
+    class StackIterator<T> implements Iterator<T>{
 
-    Stack<E> stack;
+      Stack<T> stack;
 
-    public StackIterator(Stack<E> stack) {
-      this.stack = stack;
-    }
+      @SuppressWarnings("unchecked")
+      public StackIterator() {
+        try {
+          stack = (Stack<T>) Stack.this.clone();
 
-    @Override
-    public boolean hasNext() {
-      return !stack.empty();
-    }
-
-    @Override
-    public E next() {
-      if(stack.empty()) {
-        throw new NoSuchElementException();
+        } catch (Exception e) {
+          System.out.println("스택 복제중 오류 발생");
+        }
       }
-      return stack.pop();
+
+      @Override
+      public boolean hasNext() {
+        return !stack.empty();
+      }
+
+      @Override
+      public T next() {
+        if(stack.empty()) {
+          throw new NoSuchElementException();
+        }
+        return stack.pop();
+      }
     }
+    return new StackIterator<E>();
   }
 
 }
