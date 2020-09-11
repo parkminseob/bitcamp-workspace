@@ -12,7 +12,7 @@ public abstract class AbstractList<E> implements List<E>{
 
   @Override
   public Iterator<E> iterator(){
-    class ListIterator<T> implements Iterator<T>{
+    Iterator<E> iterator = new Iterator<E>() {
 
       int cursor;
 
@@ -21,15 +21,15 @@ public abstract class AbstractList<E> implements List<E>{
         return cursor < AbstractList.this.size();
       }
 
-      @SuppressWarnings("unchecked")
       @Override
-      public T next() {
+      public E next() {
         if(cursor == size()) {
           throw new NoSuchElementException();
         }
-        return (T)get(cursor++);
+        return get(cursor++);
       }
-    }
-    return new ListIterator<E>();
+    };
+    return iterator;
+    //리턴하는거는 인스턴스 주소거나 리터럴뿐이다. 클래스가 아니다!
   }
 }
