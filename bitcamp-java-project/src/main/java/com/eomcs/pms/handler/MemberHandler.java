@@ -1,20 +1,24 @@
 package com.eomcs.pms.handler;
 
+import java.util.Iterator;
+import java.util.List;
 import com.eomcs.pms.domain.Member;
-import com.eomcs.util.Iterator;
-import com.eomcs.util.List;
 import com.eomcs.util.Prompt;
 
 public class MemberHandler {
 
-  // MemberHandler가 데이터를 다루기 위해 의존하는 객체를 준비한다.
+  // 목록을 다루는 객체를 지정할 때,
+  // => 특정 클래스(예: AbstractList, LinkedList, ArrayList)를 지정하는 대신에,
+  // => 사용 규칙(예: List)을 지정함으로써
+  //    더 다양한 타입의 객체로 교체할 수 있게 만든다.
+  // => `List` 규칙을 따르는 객체라면 어떤 클래스의 객체든지 사용할 수 있다.
+  //    결국 유지보수를 더 유연하게 하기 위함이다.
   List<Member> memberList;
 
   public MemberHandler(List<Member> list) {
     this.memberList = list;
   }
 
-  // 다른 패키지에서 이 메서드를 사용할 수 있도록 public 으로 사용 범위를 공개한다.
   public void add() {
     System.out.println("[회원 등록]");
 
@@ -33,9 +37,11 @@ public class MemberHandler {
   public void list() {
     System.out.println("[회원 목록]");
 
+    // 전체 목록을 조회할 때 `Iterator` 객체를 사용한다.
+    // 만약 목록의 일부만 조회하면다면 인덱스를 직접 다루는 이전 방식을 사용해야 한다.
     Iterator<Member> iterator = memberList.iterator();
 
-    while(iterator.hasNext()) {
+    while (iterator.hasNext()) {
       Member member = iterator.next();
       System.out.printf("%d, %s, %s, %s, %s\n",
           member.getNo(),
@@ -44,97 +50,6 @@ public class MemberHandler {
           member.getTel(),
           member.getRegisteredDate());
     }
-  }
-
-  public void detail() {
-    System.out.println("[회원목록 상세 조회]");
-    int no = Prompt.inputInt("번호? ");
-    Member member = findByNo(no);
-
-    if(member == null) {
-      System.out.println("등록된 회원이 없습니다.");
-      return;
-    }
-    System.out.printf("이름 : %s\n", member.getName());
-    System.out.printf("이메일 : %s\n", member.getEmail());
-    System.out.printf("암호 : %s\n", member.getPassword());
-    System.out.printf("사진 : %s\n", member.getPhoto());
-    System.out.printf("전화 : %s\n", member.getTel());
-  }
-
-  public void delete() {
-    System.out.println("[게시글 삭제]");
-    int no = Prompt.inputInt("번호? ");
-    int index = indexOf(no);
-
-    if(index == -1) {
-      System.out.println("해당 번호의 회원이 없습니다.");
-      return;
-    }
-
-    String reponse = Prompt.inputString("정말 삭제하시겠습니까?(y/N) ");
-    if(reponse.equalsIgnoreCase("y")) {
-      memberList.remove(index);
-      System.out.println("회원정보를 삭제했습니다.");
-    } else {
-      System.out.println("회원정보 삭제를 취소하였습니다.");
-      return;
-    }
-  }
-
-  public void update() {
-    System.out.println("[회원 업데이트]");
-    int no = Prompt.inputInt("번호? ");
-    Member member = findByNo(no);
-
-    if(member == null) {
-      System.out.println("등록된 회원이 없습니다.");
-      return;
-    }
-
-    String name = Prompt.inputString(
-        String.format("이름(%s)? ", member.getName()));
-    String email = Prompt.inputString(
-        String.format("이메일(%s)? ", member.getEmail()));
-    String password = Prompt.inputString(
-        String.format("암호(%s)? ", member.getPassword()));
-    String photo = Prompt.inputString(
-        String.format("사진(%s)? ", member.getPhoto()));
-    String tel = Prompt.inputString(
-        String.format("전화(%s)? ", member.getTel()));
-
-    String reponse = Prompt.inputString("정말 변경하시겠습니까?(y/N) ");
-    if(!reponse.equalsIgnoreCase("y")) {
-      System.out.println("변경을 취소했습니다.");
-      return;
-    }
-
-    member.setName(name);
-    member.setEmail(email);
-    member.setPassword(password);
-    member.setPhoto(photo);
-    member.setTel(tel);
-    System.out.println("회원정보 변경 완료.");
-  }
-
-  private int indexOf(int no) {
-    for(int i = 0; i < memberList.size(); i++) {
-      Member member = memberList.get(i);
-      if(member.getNo() == no) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
-  private Member findByNo(int no) {
-    for(int i = 0; i < memberList.size(); i++) {
-      Member member = memberList.get(i);
-      if(member.getNo() == no) {
-        return member;
-      }
-    }
-    return null;
   }
 
   public Member findByName(String name) {
@@ -147,4 +62,95 @@ public class MemberHandler {
     return null;
   }
 
+  public void detail() {
+    System.out.println("[회원 상세보기]");
+    int no = Prompt.inputInt("번호? ");
+    Member member = findByNo(no);
+
+    if (member == null) {
+      System.out.println("해당 번호의 회원이 없습니다.");
+      return;
+    }
+
+    System.out.printf("이름: %s\n", member.getName());
+    System.out.printf("이메일: %s\n", member.getEmail());
+    System.out.printf("사진: %s\n", member.getPhoto());
+    System.out.printf("전화: %s\n", member.getTel());
+    System.out.printf("등록일: %s\n", member.getRegisteredDate());
+  }
+
+  public void update() {
+    System.out.println("[회원 변경]");
+    int no = Prompt.inputInt("번호? ");
+    Member member = findByNo(no);
+
+    if (member == null) {
+      System.out.println("해당 번호의 회원이 없습니다.");
+      return;
+    }
+
+    String name = Prompt.inputString(
+        String.format("이름(%s)? ", member.getName()));
+    String email = Prompt.inputString(
+        String.format("이메일(%s)? ", member.getEmail()));
+    String password = Prompt.inputString("암호? ");
+    String photo = Prompt.inputString(
+        String.format("사진(%s)? ", member.getPhoto()));
+    String tel = Prompt.inputString(
+        String.format("전화(%s)? ", member.getTel()));
+
+    String response = Prompt.inputString("정말 변경하시겠습니까?(y/N) ");
+    if (!response.equalsIgnoreCase("y")) {
+      System.out.println("회원 변경을 취소하였습니다.");
+      return;
+    }
+
+    member.setName(name);
+    member.setEmail(email);
+    member.setPassword(password);
+    member.setPhoto(photo);
+    member.setTel(tel);
+
+    System.out.println("회원을 변경하였습니다.");
+  }
+
+  public void delete() {
+    System.out.println("[회원 삭제]");
+    int no = Prompt.inputInt("번호? ");
+    int index = indexOf(no);
+
+    if (index == -1) {
+      System.out.println("해당 번호의 회원이 없습니다.");
+      return;
+    }
+
+    String response = Prompt.inputString("정말 삭제하시겠습니까?(y/N) ");
+    if (!response.equalsIgnoreCase("y")) {
+      System.out.println("회원 삭제를 취소하였습니다.");
+      return;
+    }
+
+    memberList.remove(index);
+    System.out.println("회원을 삭제하였습니다.");
+  }
+
+  private Member findByNo(int no) {
+    for (int i = 0; i < memberList.size(); i++) {
+      Member member = memberList.get(i);
+      if (member.getNo() == no) {
+        return member;
+      }
+    }
+    return null;
+  }
+
+  private int indexOf(int no) {
+    for (int i = 0; i < memberList.size(); i++) {
+      Member member = memberList.get(i);
+      if (member.getNo() == no) {
+        return i;
+      }
+    }
+    return -1;
+  }
 }
