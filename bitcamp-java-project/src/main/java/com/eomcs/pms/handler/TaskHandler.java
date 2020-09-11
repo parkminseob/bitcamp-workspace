@@ -15,11 +15,11 @@ public class TaskHandler {
   // => `List` 규칙을 따르는 객체라면 어떤 클래스의 객체든지 사용할 수 있다.
   //    결국 유지보수를 더 유연하게 하기 위함이다.
   List<Task> taskList;
-  MemberHandler memberHandler;
+  MemberListCommand memberListCommand;
 
-  public TaskHandler(List<Task> list, MemberHandler memberHandler) {
+  public TaskHandler(List<Task> list,   MemberListCommand memberListCommand) {
     this.taskList = list;
-    this.memberHandler = memberHandler;
+    this.memberListCommand = memberListCommand;
   }
 
   public void add() {
@@ -37,7 +37,7 @@ public class TaskHandler {
       if (name.length() == 0) {
         System.out.println("작업 등록을 취소합니다.");
         return;
-      } else if (memberHandler.findByName(name) != null) {
+      } else if (memberListCommand.findByName(name) != null) {
         task.setOwner(name);
         break;
       }
@@ -140,7 +140,7 @@ public class TaskHandler {
       if (name.length() == 0) {
         System.out.println("작업 등록을 취소합니다.");
         return;
-      } else if (memberHandler.findByName(name) != null) {
+      } else if (memberListCommand.findByName(name) != null) {
         owner = name;
         break;
       }
