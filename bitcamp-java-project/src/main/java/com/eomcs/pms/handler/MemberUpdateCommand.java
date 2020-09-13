@@ -4,13 +4,14 @@ import java.util.List;
 import com.eomcs.pms.domain.Member;
 import com.eomcs.util.Prompt;
 
-public class MemberUpdateCommand {
+public class MemberUpdateCommand implements Command {
   private List<Member> memberList;
 
   public MemberUpdateCommand(List<Member> list) {
     this.memberList = list;
   }
 
+  @Override
   public void execute() {
     System.out.println("[회원 변경]");
     int no = Prompt.inputInt("번호? ");

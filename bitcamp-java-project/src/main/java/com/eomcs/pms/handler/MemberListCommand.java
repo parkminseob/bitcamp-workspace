@@ -4,13 +4,14 @@ import java.util.Iterator;
 import java.util.List;
 import com.eomcs.pms.domain.Member;
 
-public class MemberListCommand {
+public class MemberListCommand implements Command {
   private List<Member> memberList;
 
   public MemberListCommand(List<Member> list) {
     this.memberList = list;
   }
 
+  @Override
   public void execute() {
     System.out.println("[회원 목록]");
 

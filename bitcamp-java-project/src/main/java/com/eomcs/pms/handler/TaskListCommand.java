@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import com.eomcs.pms.domain.Task;
 
-public class TaskListCommand {
+public class TaskListCommand implements Command {
   private List<Task> taskList;
   MemberListCommand memberListCommand;
 
@@ -13,6 +13,7 @@ public class TaskListCommand {
     this.memberListCommand = memberListCommand;
   }
 
+  @Override
   public void execute() {
     System.out.println("[작업 목록]");
 

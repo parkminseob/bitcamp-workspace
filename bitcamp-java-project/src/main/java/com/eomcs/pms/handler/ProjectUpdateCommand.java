@@ -5,7 +5,7 @@ import java.util.List;
 import com.eomcs.pms.domain.Project;
 import com.eomcs.util.Prompt;
 
-public class ProjectUpdateCommand {
+public class ProjectUpdateCommand implements Command {
 
   private List<Project> projectList;
   MemberListCommand memberListCommand;
@@ -15,6 +15,7 @@ public class ProjectUpdateCommand {
     this.memberListCommand = memberListCommand;
   }
 
+  @Override
   public void execute() {
     System.out.println("[프로젝트 변경]");
     int no = Prompt.inputInt("번호? ");

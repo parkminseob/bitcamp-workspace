@@ -4,13 +4,14 @@ import java.util.List;
 import com.eomcs.pms.domain.Member;
 import com.eomcs.util.Prompt;
 
-public class MemberDeleteCommand {
+public class MemberDeleteCommand implements Command {
   private List<Member> memberList;
 
   public MemberDeleteCommand(List<Member> list) {
     this.memberList = list;
   }
 
+  @Override
   public void execute() {
     System.out.println("[회원 삭제]");
     int no = Prompt.inputInt("번호? ");

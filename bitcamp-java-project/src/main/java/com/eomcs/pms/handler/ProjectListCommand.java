@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import com.eomcs.pms.domain.Project;
 
-public class ProjectListCommand {
+public class ProjectListCommand implements Command {
 
   private List<Project> projectList;
   MemberListCommand memberListCommand;
@@ -14,6 +14,7 @@ public class ProjectListCommand {
     this.memberListCommand = memberListCommand;
   }
 
+  @Override
   public void execute() {
     System.out.println("[프로젝트 목록]");
 

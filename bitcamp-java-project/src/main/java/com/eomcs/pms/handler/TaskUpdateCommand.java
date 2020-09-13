@@ -5,7 +5,7 @@ import java.util.List;
 import com.eomcs.pms.domain.Task;
 import com.eomcs.util.Prompt;
 
-public class TaskUpdateCommand {
+public class TaskUpdateCommand implements Command {
   private List<Task> taskList;
   MemberListCommand memberListCommand;
 
@@ -14,6 +14,7 @@ public class TaskUpdateCommand {
     this.memberListCommand = memberListCommand;
   }
 
+  @Override
   public void execute() {
     System.out.println("[작업 변경]");
     int no = Prompt.inputInt("번호? ");

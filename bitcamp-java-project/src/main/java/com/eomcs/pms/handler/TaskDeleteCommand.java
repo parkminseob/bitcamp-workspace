@@ -4,7 +4,7 @@ import java.util.List;
 import com.eomcs.pms.domain.Task;
 import com.eomcs.util.Prompt;
 
-public class TaskDeleteCommand {
+public class TaskDeleteCommand implements Command {
   private List<Task> taskList;
   MemberListCommand memberListCommand;
 
@@ -13,6 +13,7 @@ public class TaskDeleteCommand {
     this.memberListCommand = memberListCommand;
   }
 
+  @Override
   public void execute() {
     System.out.println("[작업 삭제]");
     int no = Prompt.inputInt("번호? ");
