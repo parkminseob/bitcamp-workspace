@@ -1,5 +1,8 @@
 package com.eomcs.pms;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -39,13 +42,13 @@ import com.eomcs.util.Prompt;
 
 public class App {
 
+  // Map객체에 커맨드 객체를 보관한다.
+  static List<Board> boardList = new ArrayList<>();
   public static void main(String[] args) {
 
     // 커맨드 객체를 저장할 맵 객체를 준비한다.
     Map<String, Command> commandMap = new HashMap<>();
 
-    // Map객체에 커맨드 객체를 보관한다.
-    List<Board> boardList = new ArrayList<>();
     commandMap.put("/board/add", new BoardAddCommand(boardList));
     commandMap.put("/board/list", new BoardListCommand(boardList));
     commandMap.put("/board/detail", new BoardDetailCommand(boardList));
@@ -70,11 +73,11 @@ public class App {
 
 
     List<Task> taskList = new ArrayList<>();
-    commandMap.put("task/add", new TaskAddCommand(taskList, memberListCommand));
-    commandMap.put("task/list",new TaskListCommand(taskList, memberListCommand));
-    commandMap.put("task/detail", new TaskDetailCommand(taskList, memberListCommand));
-    commandMap.put("task/update", new TaskUpdateCommand(taskList, memberListCommand));
-    commandMap.put("task/delete", new TaskDeleteCommand(taskList, memberListCommand));
+    commandMap.put("/task/add", new TaskAddCommand(taskList, memberListCommand));
+    commandMap.put("/task/list",new TaskListCommand(taskList, memberListCommand));
+    commandMap.put("/task/detail", new TaskDetailCommand(taskList, memberListCommand));
+    commandMap.put("/task/update", new TaskUpdateCommand(taskList, memberListCommand));
+    commandMap.put("/task/delete", new TaskDeleteCommand(taskList, memberListCommand));
 
     commandMap.put("/hello", new HelloCommand());
 
@@ -104,7 +107,13 @@ public class App {
           default:
             Command command = commandMap.get(inputStr);
             if(command != null) {
-              command.execute();
+              try {
+                command.execute();
+              } catch(Exception e) {
+                System.out.printf("명령 처리 중 오류 발생 : %s\n%s\n",
+                    e.getClass().getName(),
+                    e.getMessage());
+              }
             } else {
               System.out.println("실행할 수 없는 명령입니다.");
             }
@@ -114,6 +123,9 @@ public class App {
       }
 
     Prompt.close();
+
+    //프로그램을 종료하기 전에 List에 보관된 객체를 파일에 저장한다.
+    saveBoards();
   }
 
   static void printCommandHistory(Iterator<String> iterator) {
@@ -130,6 +142,42 @@ public class App {
       }
     } catch (Exception e) {
       System.out.println("history 명령 처리 중 오류 발생!");
+    }
+  }
+
+  public static void saveBoards() {
+    System.out.println("[게시글 저장]");
+
+    // 데이터를 저장할 파일의 정보
+    File file = new File("./board.csv"); // 현재폴더(.)는 프로젝트 폴더를 가리킨다.
+
+    FileWriter out = null;
+    // 데이터를 파일에 출력할 때 사용할 도구 
+    try {
+      out = new FileWriter(file);
+
+      // 각각의 게시글을 파일로 출력한다.
+      for(Board board : boardList) {
+        String record = String.format("%d ,%s ,%s ,%s ,%s ,%d\n",
+            board.getNo(),
+            board.getTitle(),
+            board.getContent(),
+            board.getWriter(),
+            board.getRegisteredDate().toString(),
+            board.getViewCount());
+        out.write(record);
+      }
+
+    } catch (IOException e) {
+      System.out.println("파일 출력 작업 중에 오류 발생!");
+    } finally {
+
+      try {
+        out.close();
+      } catch (Exception e) {
+        // close()에서 오류가 발생할 때 마땅히 할 것이 없다.
+        // 그래서 그냥 무시한다.
+      }
     }
   }
 }
