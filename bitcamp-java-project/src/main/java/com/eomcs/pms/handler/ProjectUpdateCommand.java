@@ -6,8 +6,7 @@ import com.eomcs.pms.domain.Project;
 import com.eomcs.util.Prompt;
 
 public class ProjectUpdateCommand implements Command {
-
-  private List<Project> projectList;
+  List<Project> projectList;
   MemberListCommand memberListCommand;
 
   public ProjectUpdateCommand(List<Project> list, MemberListCommand memberListCommand) {
@@ -80,7 +79,6 @@ public class ProjectUpdateCommand implements Command {
 
     System.out.println("프로젝트를 변경하였습니다.");
   }
-
   private Project findByNo(int no) {
     for (int i = 0; i < projectList.size(); i++) {
       Project project = projectList.get(i);

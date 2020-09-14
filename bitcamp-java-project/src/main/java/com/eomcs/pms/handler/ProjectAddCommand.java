@@ -5,8 +5,7 @@ import com.eomcs.pms.domain.Project;
 import com.eomcs.util.Prompt;
 
 public class ProjectAddCommand implements Command {
-
-  private List<Project> projectList;
+  List<Project> projectList;
   MemberListCommand memberListCommand;
 
   public ProjectAddCommand(List<Project> list, MemberListCommand memberListCommand) {

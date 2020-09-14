@@ -5,8 +5,7 @@ import java.util.List;
 import com.eomcs.pms.domain.Project;
 
 public class ProjectListCommand implements Command {
-
-  private List<Project> projectList;
+  List<Project> projectList;
   MemberListCommand memberListCommand;
 
   public ProjectListCommand(List<Project> list, MemberListCommand memberListCommand) {

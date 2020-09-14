@@ -5,14 +5,13 @@ import java.util.List;
 import com.eomcs.pms.domain.Task;
 
 public class TaskListCommand implements Command {
-  private List<Task> taskList;
+  List<Task> taskList;
   MemberListCommand memberListCommand;
 
-  public TaskListCommand(List<Task> list,   MemberListCommand memberListCommand) {
+  public TaskListCommand(List<Task> list, MemberListCommand memberListCommand) {
     this.taskList = list;
     this.memberListCommand = memberListCommand;
   }
-
   @Override
   public void execute() {
     System.out.println("[작업 목록]");
@@ -41,6 +40,5 @@ public class TaskListCommand implements Command {
           stateLabel,
           task.getOwner());
     }
-
   }
 }

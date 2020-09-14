@@ -5,14 +5,13 @@ import com.eomcs.pms.domain.Task;
 import com.eomcs.util.Prompt;
 
 public class TaskDetailCommand implements Command {
-  private List<Task> taskList;
+  List<Task> taskList;
   MemberListCommand memberListCommand;
 
-  public TaskDetailCommand(List<Task> list,   MemberListCommand memberListCommand) {
+  public TaskDetailCommand(List<Task> list, MemberListCommand memberListCommand) {
     this.taskList = list;
     this.memberListCommand = memberListCommand;
   }
-
   @Override
   public void execute() {
     System.out.println("[작업 상세보기]");
@@ -39,9 +38,7 @@ public class TaskDetailCommand implements Command {
     }
     System.out.printf("상태: %s\n", stateLabel);
     System.out.printf("담당자: %s\n", task.getOwner());
-
   }
-
   private Task findByNo(int no) {
     for (int i = 0; i < taskList.size(); i++) {
       Task task = taskList.get(i);
@@ -52,3 +49,4 @@ public class TaskDetailCommand implements Command {
     return null;
   }
 }
+

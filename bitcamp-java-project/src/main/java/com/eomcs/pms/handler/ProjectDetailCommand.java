@@ -5,8 +5,7 @@ import com.eomcs.pms.domain.Project;
 import com.eomcs.util.Prompt;
 
 public class ProjectDetailCommand implements Command {
-
-  private List<Project> projectList;
+  List<Project> projectList;
   MemberListCommand memberListCommand;
 
   public ProjectDetailCommand(List<Project> list, MemberListCommand memberListCommand) {
@@ -31,7 +30,6 @@ public class ProjectDetailCommand implements Command {
     System.out.printf("만든이: %s\n", project.getOwner());
     System.out.printf("팀원: %s\n", project.getMembers());
   }
-
   private Project findByNo(int no) {
     for (int i = 0; i < projectList.size(); i++) {
       Project project = projectList.get(i);
@@ -41,4 +39,6 @@ public class ProjectDetailCommand implements Command {
     }
     return null;
   }
+
 }
+

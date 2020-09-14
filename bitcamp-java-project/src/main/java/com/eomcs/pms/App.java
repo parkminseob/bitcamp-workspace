@@ -42,42 +42,40 @@ import com.eomcs.util.Prompt;
 
 public class App {
 
-  // Map객체에 커맨드 객체를 보관한다.
   static List<Board> boardList = new ArrayList<>();
+
   public static void main(String[] args) {
 
-    // 커맨드 객체를 저장할 맵 객체를 준비한다.
     Map<String, Command> commandMap = new HashMap<>();
 
     commandMap.put("/board/add", new BoardAddCommand(boardList));
-    commandMap.put("/board/list", new BoardListCommand(boardList));
-    commandMap.put("/board/detail", new BoardDetailCommand(boardList));
-    commandMap.put("/board/update",new BoardUpdateCommand(boardList));
-    commandMap.put("/board/delete", new BoardDeleteCommand(boardList));
-
+    commandMap.put("/board/list",  new BoardListCommand(boardList));
+    commandMap.put("/board/detail",  new BoardDetailCommand(boardList));
+    commandMap.put("/board/update",  new BoardUpdateCommand(boardList));
+    commandMap.put("/board/delete",  new BoardDeleteCommand(boardList));
 
     List<Member> memberList = new LinkedList<>();
     MemberListCommand memberListCommand = new MemberListCommand(memberList);
-    commandMap.put("/member/add", new MemberAddCommand(memberList));
-    commandMap.put("/member/list", memberListCommand);
+    commandMap.put("/member/add",  new MemberAddCommand(memberList));
+    commandMap.put("/member/list",  new MemberListCommand(memberList));
     commandMap.put("/member/detail", new MemberDetailCommand(memberList));
-    commandMap.put("/member/update", new MemberUpdateCommand(memberList));
-    commandMap.put("/member/delete", new MemberDeleteCommand(memberList));
+    commandMap.put("/member/update",  new MemberUpdateCommand(memberList));
+    commandMap.put("/member/delete",  new MemberDeleteCommand(memberList));
 
     List<Project> projectList = new LinkedList<>();
     commandMap.put("/project/add", new ProjectAddCommand(projectList, memberListCommand));
     commandMap.put("/project/list", new ProjectListCommand(projectList, memberListCommand));
     commandMap.put("/project/detail", new ProjectDetailCommand(projectList, memberListCommand));
-    commandMap.put("/project/update", new ProjectUpdateCommand(projectList, memberListCommand));
+    commandMap.put("/project/update",new ProjectUpdateCommand(projectList, memberListCommand));
     commandMap.put("/project/delete", new ProjectDeleteCommand(projectList, memberListCommand));
-
 
     List<Task> taskList = new ArrayList<>();
     commandMap.put("/task/add", new TaskAddCommand(taskList, memberListCommand));
-    commandMap.put("/task/list",new TaskListCommand(taskList, memberListCommand));
+    commandMap.put("/task/list", new TaskListCommand(taskList, memberListCommand));
     commandMap.put("/task/detail", new TaskDetailCommand(taskList, memberListCommand));
     commandMap.put("/task/update", new TaskUpdateCommand(taskList, memberListCommand));
     commandMap.put("/task/delete", new TaskDeleteCommand(taskList, memberListCommand));
+
 
     commandMap.put("/hello", new HelloCommand());
 
@@ -88,16 +86,14 @@ public class App {
       while (true) {
         String inputStr = Prompt.inputString("명령> ");
 
-        if(inputStr.length() == 0) {
-          continue;
-        }
-
         // 사용자가 입력한 명령을 보관한다.
         commandStack.push(inputStr);
         commandQueue.offer(inputStr);
 
         switch (inputStr) {
 
+          // Iterator 패턴을 이용하면,
+          // 자료 구조와 상관없이 일관된 방법으로 목록의 값을 조회할 수 있다.
           case "history": printCommandHistory(commandStack.iterator()); break;
           case "history2": printCommandHistory(commandQueue.iterator()); break;
           case "quit":
@@ -109,23 +105,51 @@ public class App {
             if(command != null) {
               try {
                 command.execute();
-              } catch(Exception e) {
-                System.out.printf("명령 처리 중 오류 발생 : %s\n%s\n",
+              } catch (Exception e) {
+                System.out.printf("명령 처리 중 오류 발생: %s\n %s\n",
                     e.getClass().getName(),
                     e.getMessage());
               }
             } else {
               System.out.println("실행할 수 없는 명령입니다.");
             }
-
         }
         System.out.println(); // 이전 명령의 실행을 구분하기 위해 빈 줄 출력
       }
 
     Prompt.close();
 
-    //프로그램을 종료하기 전에 List에 보관된 객체를 파일에 저장한다.
     saveBoards();
+  }
+
+  private static void saveBoards() {
+    System.out.println("[게시글 저장]");
+
+    File file = new File("./board.csv");
+
+    FileWriter out = null;
+    try {
+      out = new FileWriter(file);
+
+      for(Board board : boardList) {
+        String record = String.format("%d, %s, %s, %s, %s, %d\n",
+            board.getNo(),
+            board.getTitle(),
+            board.getContent(),
+            board.getWriter(),
+            board.getRegisteredDate().toString(),
+            board.getViewCount());
+        out.write(record);
+      }
+    } catch(IOException e) {
+      System.out.println("파일 출력 작업 중 오류 발생.");
+    } finally {
+
+      try {
+        out.close();
+      } catch (Exception e) {
+      }
+    }
   }
 
   static void printCommandHistory(Iterator<String> iterator) {
@@ -142,42 +166,6 @@ public class App {
       }
     } catch (Exception e) {
       System.out.println("history 명령 처리 중 오류 발생!");
-    }
-  }
-
-  public static void saveBoards() {
-    System.out.println("[게시글 저장]");
-
-    // 데이터를 저장할 파일의 정보
-    File file = new File("./board.csv"); // 현재폴더(.)는 프로젝트 폴더를 가리킨다.
-
-    FileWriter out = null;
-    // 데이터를 파일에 출력할 때 사용할 도구 
-    try {
-      out = new FileWriter(file);
-
-      // 각각의 게시글을 파일로 출력한다.
-      for(Board board : boardList) {
-        String record = String.format("%d ,%s ,%s ,%s ,%s ,%d\n",
-            board.getNo(),
-            board.getTitle(),
-            board.getContent(),
-            board.getWriter(),
-            board.getRegisteredDate().toString(),
-            board.getViewCount());
-        out.write(record);
-      }
-
-    } catch (IOException e) {
-      System.out.println("파일 출력 작업 중에 오류 발생!");
-    } finally {
-
-      try {
-        out.close();
-      } catch (Exception e) {
-        // close()에서 오류가 발생할 때 마땅히 할 것이 없다.
-        // 그래서 그냥 무시한다.
-      }
     }
   }
 }

@@ -4,10 +4,10 @@ import java.util.Iterator;
 import java.util.List;
 import com.eomcs.pms.domain.Board;
 
-// '/board/add'명령을 처리할 커맨드 객체
-public class BoardListCommand implements Command{
 
-  private List<Board> boardList;
+
+public class BoardListCommand implements Command {
+  List<Board> boardList;
 
   public BoardListCommand(List<Board> list) {
     this.boardList = list;
@@ -15,7 +15,6 @@ public class BoardListCommand implements Command{
 
   @Override
   public void execute() {
-
     System.out.println("[게시물 목록]");
 
     // 전체 목록을 조회할 때 `Iterator` 객체를 사용한다.

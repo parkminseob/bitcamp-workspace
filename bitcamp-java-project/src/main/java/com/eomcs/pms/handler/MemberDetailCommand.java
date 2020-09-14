@@ -5,7 +5,7 @@ import com.eomcs.pms.domain.Member;
 import com.eomcs.util.Prompt;
 
 public class MemberDetailCommand implements Command {
-  private List<Member> memberList;
+  List<Member> memberList;
 
   public MemberDetailCommand(List<Member> list) {
     this.memberList = list;
@@ -28,7 +28,6 @@ public class MemberDetailCommand implements Command {
     System.out.printf("전화: %s\n", member.getTel());
     System.out.printf("등록일: %s\n", member.getRegisteredDate());
   }
-
   private Member findByNo(int no) {
     for (int i = 0; i < memberList.size(); i++) {
       Member member = memberList.get(i);

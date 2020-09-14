@@ -5,7 +5,7 @@ import java.util.List;
 import com.eomcs.pms.domain.Member;
 
 public class MemberListCommand implements Command {
-  private List<Member> memberList;
+  List<Member> memberList;
 
   public MemberListCommand(List<Member> list) {
     this.memberList = list;

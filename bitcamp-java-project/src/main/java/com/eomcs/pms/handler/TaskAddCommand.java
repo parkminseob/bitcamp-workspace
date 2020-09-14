@@ -5,14 +5,13 @@ import com.eomcs.pms.domain.Task;
 import com.eomcs.util.Prompt;
 
 public class TaskAddCommand implements Command {
-  private List<Task> taskList;
+  List<Task> taskList;
   MemberListCommand memberListCommand;
 
-  public TaskAddCommand(List<Task> list,   MemberListCommand memberListCommand) {
+  public TaskAddCommand(List<Task> list, MemberListCommand memberListCommand) {
     this.taskList = list;
     this.memberListCommand = memberListCommand;
   }
-
   @Override
   public void execute() {
     System.out.println("[작업 등록]");
@@ -39,5 +38,4 @@ public class TaskAddCommand implements Command {
 
     taskList.add(task);
   }
-
 }
