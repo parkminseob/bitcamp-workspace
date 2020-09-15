@@ -4,9 +4,8 @@ import java.util.List;
 import com.eomcs.pms.domain.Board;
 import com.eomcs.util.Prompt;
 
-
-
 public class BoardUpdateCommand implements Command {
+
   List<Board> boardList;
 
   public BoardUpdateCommand(List<Board> list) {

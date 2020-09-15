@@ -5,13 +5,13 @@ import com.eomcs.pms.domain.Task;
 import com.eomcs.util.Prompt;
 
 public class TaskDeleteCommand implements Command {
-  List<Task> taskList;
-  MemberListCommand memberListCommand;
 
-  public TaskDeleteCommand(List<Task> list, MemberListCommand memberListCommand) {
+  List<Task> taskList;
+
+  public TaskDeleteCommand(List<Task> list) {
     this.taskList = list;
-    this.memberListCommand = memberListCommand;
   }
+
   @Override
   public void execute() {
     System.out.println("[작업 삭제]");
@@ -32,6 +32,7 @@ public class TaskDeleteCommand implements Command {
     taskList.remove(index);
     System.out.println("작업을 삭제하였습니다.");
   }
+
   private int indexOf(int no) {
     for (int i = 0; i < taskList.size(); i++) {
       Task task = taskList.get(i);

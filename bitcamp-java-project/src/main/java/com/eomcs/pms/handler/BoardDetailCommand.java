@@ -5,6 +5,7 @@ import com.eomcs.pms.domain.Board;
 import com.eomcs.util.Prompt;
 
 public class BoardDetailCommand implements Command {
+
   List<Board> boardList;
 
   public BoardDetailCommand(List<Board> list) {
@@ -30,6 +31,7 @@ public class BoardDetailCommand implements Command {
     System.out.printf("등록일: %s\n", board.getRegisteredDate());
     System.out.printf("조회수: %d\n", board.getViewCount());
   }
+
   private Board findByNo(int no) {
     for (int i = 0; i < boardList.size(); i++) {
       Board board = boardList.get(i);

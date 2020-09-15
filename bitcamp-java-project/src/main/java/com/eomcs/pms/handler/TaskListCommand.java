@@ -5,13 +5,13 @@ import java.util.List;
 import com.eomcs.pms.domain.Task;
 
 public class TaskListCommand implements Command {
-  List<Task> taskList;
-  MemberListCommand memberListCommand;
 
-  public TaskListCommand(List<Task> list, MemberListCommand memberListCommand) {
+  List<Task> taskList;
+
+  public TaskListCommand(List<Task> list) {
     this.taskList = list;
-    this.memberListCommand = memberListCommand;
   }
+
   @Override
   public void execute() {
     System.out.println("[작업 목록]");

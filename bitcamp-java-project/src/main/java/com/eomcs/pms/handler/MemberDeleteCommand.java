@@ -5,6 +5,7 @@ import com.eomcs.pms.domain.Member;
 import com.eomcs.util.Prompt;
 
 public class MemberDeleteCommand implements Command {
+
   List<Member> memberList;
 
   public MemberDeleteCommand(List<Member> list) {

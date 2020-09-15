@@ -4,9 +4,8 @@ import java.util.List;
 import com.eomcs.pms.domain.Board;
 import com.eomcs.util.Prompt;
 
-
-
 public class BoardDeleteCommand implements Command {
+
   List<Board> boardList;
 
   public BoardDeleteCommand(List<Board> list) {
@@ -33,6 +32,7 @@ public class BoardDeleteCommand implements Command {
     boardList.remove(index);
     System.out.println("게시글을 삭제하였습니다.");
   }
+
   private int indexOf(int no) {
     for (int i = 0; i < boardList.size(); i++) {
       Board board = boardList.get(i);

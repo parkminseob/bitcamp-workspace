@@ -5,6 +5,7 @@ import java.util.List;
 import com.eomcs.pms.domain.Member;
 
 public class MemberListCommand implements Command {
+
   List<Member> memberList;
 
   public MemberListCommand(List<Member> list) {
@@ -39,4 +40,5 @@ public class MemberListCommand implements Command {
     }
     return null;
   }
+
 }

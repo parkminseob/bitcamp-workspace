@@ -4,14 +4,14 @@ import java.util.Iterator;
 import java.util.List;
 import com.eomcs.pms.domain.Board;
 
-
-
 public class BoardListCommand implements Command {
+
   List<Board> boardList;
 
   public BoardListCommand(List<Board> list) {
     this.boardList = list;
   }
+
 
   @Override
   public void execute() {
@@ -31,4 +31,5 @@ public class BoardListCommand implements Command {
           board.getViewCount());
     }
   }
+
 }

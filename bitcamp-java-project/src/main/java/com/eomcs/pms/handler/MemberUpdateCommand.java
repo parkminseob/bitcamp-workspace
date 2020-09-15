@@ -5,6 +5,7 @@ import com.eomcs.pms.domain.Member;
 import com.eomcs.util.Prompt;
 
 public class MemberUpdateCommand implements Command {
+
   List<Member> memberList;
 
   public MemberUpdateCommand(List<Member> list) {
