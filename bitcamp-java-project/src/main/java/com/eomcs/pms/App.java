@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Date;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -167,7 +166,6 @@ public class App {
   private static void saveBoards() {
     System.out.println("[게시글 저장]");
 
-
     FileWriter out = null;
     try {
       // 데이터를 파일에 출력할 때 사용할 도구
@@ -175,7 +173,7 @@ public class App {
 
       // 각각의 게시글 파일로 출력한다.
       for (Board board : boardList) {
-        out.write(toCsvString(board)); // 번호,제목,내용,작성자,작성일,조회수 CRLF
+        out.write(board.toCsvString()); // 번호,제목,내용,작성자,작성일,조회수 CRLF
       }
 
     } catch (IOException e) {
@@ -209,7 +207,7 @@ public class App {
         try {
           // 파일에서 한 줄 읽는다.
           // 객체를 List 목록에 추가한다.
-          boardList.add(valueOfCsv(scanner.nextLine()));
+          boardList.add(Board.valueOfCsv(scanner.nextLine()));
 
         } catch (NoSuchElementException e) {
           break;
@@ -224,38 +222,6 @@ public class App {
     }
   }
 
-  // Board객체를 생성하는 팩토리 메서드의 역할을 한다
-  // => 기존 코드를 별도의 메서드로 추출한다.(리팩토링: extract method)
-  static Board valueOfCsv(String csv) {
-    // CSV 문자열을 콤마(,)로 나눈다.
-    String[] values = csv.split(",");
-
-    // 레코드 데이터를 저장할 객체를 준비
-    Board board = new Board();
-
-    // 레코드의 각 필드 값을 객체의 필드에 저장한다.
-    board.setNo(Integer.parseInt(values[0]));
-    board.setTitle(values[1]); // "20" ==> int
-    board.setContent(values[2]);
-    board.setWriter(values[3]);
-    board.setRegisteredDate(Date.valueOf(values[4])); // "yyyy-MM-dd" ==> java.sql.Date
-    board.setViewCount(Integer.parseInt(values[5]));
-
-    return board;
-  }
-
-  // Board 객체의 데이터를 Csv 문자열로 바꾸는 일을 한다.
-  // => 기존 코드를 가져와서 메서드로 정의한다.
-  static String toCsvString(Board board) {
-    return String.format("%d,%s,%s,%s,%s,%d\n", 
-        board.getNo(),
-        board.getTitle(),
-        board.getContent(),
-        board.getWriter(),
-        board.getRegisteredDate().toString(),
-        board.getViewCount());
-  }
-
   private static void saveMembers() {
     System.out.println("[멤버 저장]");
 
@@ -265,16 +231,7 @@ public class App {
 
       // 각각의 게시글 파일로 출력한다.
       for (Member member : memberList) {
-        String record = String.format("%d,%s,%s,%s,%s,%s,%s\n",
-            member.getNo(),
-            member.getName(),
-            member.getEmail(),
-            member.getPassword(),
-            member.getPhoto(),
-            member.getTel(),
-            member.getRegisteredDate().toString());
-
-        out.write(record); // 번호,제목,내용,작성자,작성일,조회수 CRLF
+        out.write(member.toCsvString()); // 번호,제목,내용,작성자,작성일,조회수 CRLF
       }
 
     } catch (IOException e) {
@@ -284,7 +241,6 @@ public class App {
       try {out.close();} catch (Exception e) {}
     }
   }
-
 
   static void loadMembers() {
 
@@ -297,59 +253,7 @@ public class App {
 
       while (true) {
         try {
-          String record = scanner.nextLine(); // "번호,제목,내용,작성자,등록일,조회수"
-          String[] values = record.split(",");
-
-          Member member = new Member();
-
-          member.setNo(Integer.parseInt(values[0]));
-          member.setName(values[1]);
-          member.setEmail(values[2]);
-          member.setPassword(values[3]);
-          member.setPhoto(values[4]);
-          member.setTel(values[5]);
-          member.setRegisteredDate(Date.valueOf(values[6]));
-
-          memberList.add(member);
-
-        } catch (NoSuchElementException e) {
-          break;
-        }
-      }
-    } catch (IOException e) {
-      System.out.println("파일 읽기 작업 중에 오류 발생!");
-
-    } finally {
-      try {scanner.close();} catch (Exception e) {}
-      try {out.close();} catch (Exception e) {}
-    }
-  }
-
-  static void loadProjects() {
-
-    FileReader out = null;
-    Scanner scanner = null;
-    try {
-      // 파일에서 데이터를 읽을 때 사용할 도구
-      out = new FileReader(projectFile);
-      scanner = new Scanner(out); // FileReader 객체에 플러그인을 꼽는다.
-
-      while (true) {
-        try {
-          String record = scanner.nextLine(); // "번호,제목,내용,작성자,등록일,조회수"
-          String[] values = record.split(",");
-
-          Project project = new Project();
-
-          project.setNo(Integer.parseInt(values[0]));
-          project.setTitle(values[1]);
-          project.setContent(values[2]);
-          project.setStartDate(Date.valueOf(values[3]));
-          project.setEndDate(Date.valueOf(values[4]));
-          project.setOwner(values[5]);
-          project.setMembers(values[6]);
-
-          projectList.add(project);
+          memberList.add(Member.valueOfCsv(scanner.nextLine()));
 
         } catch (NoSuchElementException e) {
           break;
@@ -372,16 +276,8 @@ public class App {
       out = new FileWriter(projectFile);
 
       for (Project project : projectList) {
-        String record = String.format("%d,%s,%s,%s,%s,%s,%s\n",
-            project.getNo(),
-            project.getTitle(),
-            project.getContent(),
-            project.getStartDate(),
-            project.getEndDate(),
-            project.getOwner(),
-            project.getMembers());
 
-        out.write(record); // 번호,제목,내용,작성자,작성일,조회수 CRLF
+        out.write(project.toCsvString()); // 번호,제목,내용,작성자,작성일,조회수 CRLF
       }
 
     } catch (IOException e) {
@@ -399,30 +295,18 @@ public class App {
     }
   }
 
-  static void loadTasks() {
-
-    // 데이터를 읽어 올 파일의 정보
+  static void loadProjects() {
 
     FileReader out = null;
     Scanner scanner = null;
     try {
       // 파일에서 데이터를 읽을 때 사용할 도구
-      out = new FileReader(taskFile);
+      out = new FileReader(projectFile);
       scanner = new Scanner(out); // FileReader 객체에 플러그인을 꼽는다.
 
       while (true) {
         try {
-          String record = scanner.nextLine();
-          String[] values = record.split(",");
-
-          Task task = new Task();
-          task.setNo(Integer.parseInt(values[0]));
-          task.setContent(values[1]);
-          task.setDeadline(Date.valueOf(values[2]));
-          task.setStatus(Integer.parseInt(values[3]));
-          task.setOwner(values[4]);
-
-          taskList.add(task);
+          projectList.add(Project.valueOfCsv(scanner.nextLine()));
 
         } catch (NoSuchElementException e) {
           break;
@@ -430,6 +314,7 @@ public class App {
       }
     } catch (IOException e) {
       System.out.println("파일 읽기 작업 중에 오류 발생!");
+
     } finally {
       try {scanner.close();} catch (Exception e) {}
       try {out.close();} catch (Exception e) {}
@@ -445,13 +330,7 @@ public class App {
 
       // 각각의 게시글 파일로 출력한다.
       for (Task task : taskList) {
-        String record = String.format("%d,%s,%s,%d,%s\n",
-            task.getNo(),
-            task.getContent(),
-            task.getDeadline().toString(),
-            task.getStatus(),
-            task.getOwner());
-        out.write(record); 
+        out.write(task.toCsvString()); 
       }
 
     } catch (IOException e) {
@@ -464,14 +343,28 @@ public class App {
       }
     }
   }
+
+  static void loadTasks() {
+    FileReader out = null;
+    Scanner scanner = null;
+    try {
+      // 파일에서 데이터를 읽을 때 사용할 도구
+      out = new FileReader(taskFile);
+      scanner = new Scanner(out); // FileReader 객체에 플러그인을 꼽는다.
+
+      while (true) {
+        try {
+          taskList.add(Task.valueOfCsv(scanner.nextLine()));
+
+        } catch (NoSuchElementException e) {
+          break;
+        }
+      }
+    } catch (IOException e) {
+      System.out.println("파일 읽기 작업 중에 오류 발생!");
+    } finally {
+      try {scanner.close();} catch (Exception e) {}
+      try {out.close();} catch (Exception e) {}
+    }
+  }
 }
-
-
-
-
-
-
-
-
-
-
