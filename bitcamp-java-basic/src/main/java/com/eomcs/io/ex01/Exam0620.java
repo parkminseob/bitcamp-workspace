@@ -31,7 +31,7 @@ public class Exam0620 {
     File[] files = dir.listFiles(javaFilter);
 
     for(File file : files) {
-      System.out.printf("%s %12d %s\n", file.isDirectory() ? "d" : "-",
+      System.out.printf("%s %10d %s\n", file.isDirectory() ? "d" : "-",
           file.length(),
           file.getName());
     }

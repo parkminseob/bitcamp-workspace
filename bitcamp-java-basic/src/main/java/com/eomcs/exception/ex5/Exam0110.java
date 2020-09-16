@@ -4,6 +4,7 @@ package com.eomcs.exception.ex5;
 import java.sql.Date;
 import java.util.Scanner;
 
+
 public class Exam0110 {
 
   static Board read() {

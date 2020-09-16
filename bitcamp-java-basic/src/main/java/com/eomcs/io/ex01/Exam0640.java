@@ -9,7 +9,6 @@ public class Exam0640 {
     // 필터 객체를 한 개만 만들 것이라면
     // 익명 클래스로 정의하는 것이 낫다.
     //
-
     File dir = new File(".");
 
     File[] files = dir.listFiles(new FileFilter() {

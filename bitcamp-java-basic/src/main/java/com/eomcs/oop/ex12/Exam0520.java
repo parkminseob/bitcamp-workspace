@@ -1,35 +1,21 @@
-// 메서드 레퍼런스 - 스태틱 메서드 레퍼런스 구현 원리
 package com.eomcs.oop.ex12;
-
+//메서드 레퍼런스 - 스태틱 메서드 레퍼런스 구현 원리
 
 public class Exam0520 {
 
-  static class MyCalculator {
-    public static int plus(int a, int b) {
-      return a + b;
-    }
-
-    public static int minus(int a, int b) {
-      return a - b;
-    }
-
-    public static int multiple(int a, int b) {
-      return a * b;
-    }
-
-    public static int divide(int a, int b) {
-      return a / b;
-    }
+  static class MyCalculator{
+    public static int plus(int a, int b) {return a+b;}
+    public static int minus(int a, int b) {return a-b;}
+    public static int multiple(int a, int b) {return a*b;}
+    public static int divide(int a, int b) {return a/b;}
   }
-
-  static interface Calculator {
+  static interface Calculator{
     int compute(int a, int b);
   }
-
   public static void main(String[] args) {
     // 스태틱 메서드 레퍼런스로 Calculator 구현체를 만드는 방법
     //
-    // Calculator c1 = MyCalculator::plus;
+    //    Calculator c1 = MyCalculator::plus;
 
     // 위의 코드는 내부적으로 다음과 같다.
     //
@@ -54,9 +40,6 @@ public class Exam0520 {
         return MyCalculator.plus(a, b);
       }
     };
-
     System.out.println(c1.compute(200, 17));
   }
 }
-
-

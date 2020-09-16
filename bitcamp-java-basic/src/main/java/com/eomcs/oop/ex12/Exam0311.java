@@ -1,8 +1,7 @@
-// 아규먼트에 람다(lambda) 활용
 package com.eomcs.oop.ex12;
+//아규먼트에 람다(lambda) 활용
 
 public class Exam0311 {
-
   static interface Player {
     void play();
   }
@@ -17,13 +16,9 @@ public class Exam0311 {
     Player player = new Player() {
       @Override
       public void play() {
-        System.out.println("실행~~~~");
+        System.out.println("실행!!");
       }
     };
-
     testPlayer(player);
   }
-
 }
-
-
