@@ -1,10 +1,10 @@
+// Byte Stream - 바이트 단위로 읽기
 package com.eomcs.io.ex02;
 
 import java.io.FileInputStream;
 
-//Byte Stream - 바이트 단위로 읽기
-
 public class Exam0120 {
+
   public static void main(String[] args) throws Exception {
     // 1) 파일의 데이터를 읽을 객체를 준비한다.
     // - new FileInputStream(파일경로)
@@ -20,5 +20,7 @@ public class Exam0120 {
     in.close();
 
     System.out.printf("%x\n", b);
+
   }
+
 }

@@ -17,6 +17,7 @@ public class Exam0110 {
     //   - 윈도우: c:\, d:\ 등으로 시작하지 않으면,
     //   현재 디렉토리가 기준이 된다.
     FileOutputStream out = new FileOutputStream("temp/test1.data");
+
     // 2) 1바이트를 출력한다.
     // - int 값을 아규먼트로 넘기더라도 맨 마지막 1바이트만 출력한다.
     out.write(0x7a6b5c4d); // 출력하는 값은 0x4d 이다.
@@ -27,6 +28,7 @@ public class Exam0110 {
     // - 그래야 다른 프로그램이 해당 자원을 사용할 수 있다.
     // - 예) 파일, 메모리, 네트워크 연결 등
     // - 이런 자원을 사용하는 클래스는 자원을 해제시키는 close()라는 메서드가 있다.
+    // - 보통 java.lang.AutoCloseable 인터페이스를 구현하고 있다.
     // - 이번 예제에서 다루는 FileOutputStream 클래스에도 close()가 있다.
     // - 따라서 FileOutputStream 객체를 사용한 후에는 close()를 호출하여
     // 사용한 자원을 해제시켜야 한다.
