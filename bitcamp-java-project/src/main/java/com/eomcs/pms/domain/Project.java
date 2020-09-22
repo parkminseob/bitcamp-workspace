@@ -55,7 +55,6 @@ public class Project {
   }
 
   public static Project valueOfCsv(String csv) {
-
     String[] data = csv.split(",");
 
     Project project = new Project();

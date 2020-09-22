@@ -55,7 +55,6 @@ public class Member {
   }
 
   public static Member valueOfCsv(String csv) {
-
     String[] data = csv.split(",");
 
     Member member = new Member();
@@ -81,3 +80,4 @@ public class Member {
         this.getRegisteredDate());
   }
 }
+

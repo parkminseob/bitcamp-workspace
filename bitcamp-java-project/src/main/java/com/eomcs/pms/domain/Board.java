@@ -47,20 +47,18 @@ public class Board {
     this.viewCount = viewCount;
   }
 
-
   public static Board valueOfCsv(String csv) {
-
     String[] data = csv.split(",");
 
-    Board board = new Board();
-    board.setNo(Integer.parseInt(data[0]));
-    board.setTitle(data[1]);
-    board.setContent(data[2]);
-    board.setWriter(data[3]);
-    board.setRegisteredDate(Date.valueOf(data[4]));
-    board.setViewCount(Integer.parseInt(data[5]));
+  Board board = new Board();
+  board.setNo(Integer.parseInt(data[0]));
+  board.setTitle(data[1]);
+  board.setContent(data[2]);
+  board.setWriter(data[3]);
+  board.setRegisteredDate(Date.valueOf(data[4]));
+  board.setViewCount(Integer.parseInt(data[5]));
 
-    return board;
+  return board;
   }
 
   public String toCsvString() {
@@ -71,5 +69,6 @@ public class Board {
         this.getWriter(),
         this.getRegisteredDate(),
         this.getViewCount());
+
   }
 }

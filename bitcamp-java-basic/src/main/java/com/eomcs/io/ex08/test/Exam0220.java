@@ -1,0 +1,32 @@
+package com.eomcs.io.ex08.test;
+//포함 관계로 기능 확장하기 - FileInputStream + BufferedInputStream
+
+import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import com.eomcs.io.ex08.BufferedInputStream;
+
+public class Exam0220 {
+  public static void main(String[] args) throws Exception {
+    FileInputStream in = new FileInputStream("temp/jls11.pdf");
+    BufferedInputStream in2 = new BufferedInputStream(in);
+
+    FileOutputStream out = new FileOutputStream("temp/jls11.pdf");
+    BufferedOutputStream out2 = new BufferedOutputStream(out);
+    int b;
+
+    long startTime = System.currentTimeMillis();
+
+
+    while((b=in2.read()) != -1) {
+      out2.write(b);
+    }
+
+    out2.flush();
+    long endTime = System.currentTimeMillis();
+
+    System.out.println(endTime - startTime);
+    in.close();
+    out.close();
+  }
+}

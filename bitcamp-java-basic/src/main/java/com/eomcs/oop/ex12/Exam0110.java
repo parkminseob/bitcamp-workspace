@@ -19,23 +19,22 @@ public class Exam0110 {
     };
     p1.play();
 
-    Player p2 = () -> {
-      System.out.println("람다");
-    };
+    Player p2 = () -> System.out.println("익명 클래스");
     p2.play();
-  }
+
 }
-//익명 클래스와 .class 파일 
+}
+//익명 클래스와 .class 파일
 //=> 자바의 nested class 는 모두 별도의 .class 파일을 갖는다.
 //=> 위의 main()에 정의된 로컬 익명 클래스는 다음과 같은 이름의 .class 파일로 컴파일 된다.
 //   Exam0110$1.class
 //
-//람다와 .class 파일 
-//=> 람다는 해당 클래스의 멤버 메서드로 정의된다. 
+//람다와 .class 파일
+//=> 람다는 해당 클래스의 멤버 메서드로 정의된다.
 //=> 즉 별도의  .class 파일을 생성하지 않는다.
 //=> 람다 문법이 초기에 등장했을 때는 익명 클래스로 변환되었다.
 //=> 그러나 최근에는 그냥 멤버 메서드로 변환된다.
-//=> 예) 
+//=> 예)
 //private static synthetic void lambda$0();
 //0  getstatic java.lang.System.out : java.io.PrintStream [33]
 //3  ldc <String "람다"> [39]

@@ -41,7 +41,6 @@ public class Task {
   }
 
   public static Task valueOfCsv(String csv) {
-
     String[] data = csv.split(",");
 
     Task task = new Task();
@@ -61,5 +60,6 @@ public class Task {
         this.getDeadline(),
         this.getStatus(),
         this.getOwner());
+
   }
 }

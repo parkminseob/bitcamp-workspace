@@ -35,14 +35,14 @@ public class Exam0740 {
     //=> 즉 컴파일러는 Message 의 기본 생성자를 호출하는 Factory 구현체를 만들어 리턴한다.
 
     Factory2 f2 = Message::new;
-    //=> 즉 컴파일러는 Message 의 생성자 중에서 
+    //=> 즉 컴파일러는 Message 의 생성자 중에서
     //   String을 파라미터 받는 생성자를 호출하는 Factory 구현체를 만들어 리턴한다.
 
     // Factory(String,int) 생성자가 없기 때문에 컴파일 오류!
     //    Factory3 f3 = Message::new;
 
     //   String과 int를 파라미터 받는 생성자를 호출하는 Factory 구현체를 만들어야 하는데,
-    //   Message 클래스에는 String과 int를 파라미터로 받는 생성자가 없기 때문에 
+    //   Message 클래스에는 String과 int를 파라미터로 받는 생성자가 없기 때문에
     //   Factory 구현체를 만들 수 없다.
     //   그래서 컴파일 오류가 발생한다!
   }
