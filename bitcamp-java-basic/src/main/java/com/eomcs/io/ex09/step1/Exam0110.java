@@ -6,10 +6,10 @@ import java.io.FileInputStream;
 
 public class Exam0110 {
   public static void main(String[] args) throws Exception {
-
     // FileInputStream
     // - 파일 저장소에서 데이터를 읽는 일을 한다.
     FileInputStream in = new FileInputStream("temp/test4.data");
+
 
     // FileInputStream + BufferedInputStream
     // - 버퍼를 이용하여 일정량의 데이터를 왕창 읽어온 다음에 바이트를 꺼낸다.
@@ -34,6 +34,5 @@ public class Exam0110 {
     in.close();
 
     System.out.println(member);
-
   }
 }

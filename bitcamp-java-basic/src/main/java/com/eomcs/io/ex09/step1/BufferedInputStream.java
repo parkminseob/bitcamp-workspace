@@ -1,9 +1,8 @@
 package com.eomcs.io.ex09.step1;
+//버퍼 기능을 입출력 플러그인/장신구(decorator)로 전환한다.
 
 import java.io.IOException;
 import java.io.InputStream;
-
-//버퍼 기능을 입출력 플러그인/장신구(decorator)로 전환한다.
 
 public class BufferedInputStream extends InputStream {
 
@@ -14,17 +13,17 @@ public class BufferedInputStream extends InputStream {
   int cursor;
 
   public BufferedInputStream(InputStream in) {
-    연결부품 = in;
+    연결부품 = in; // 이 객체와 연결될 부품을 파라미터로 받는다.
   }
 
   @Override
   public int read() throws IOException {
-    if(cursor == size) {
-      if((size = 연결부품.read(buf))== -1) {
+    if(cursor == size) { //버퍼에 담긴 데이터를 모두 읽었다는 뜻
+      if((size = 연결부품.read(buf)) != -1) { //파일에서 데이터를 읽으려는데 데이터가 없다면?
         return -1;
       }
       cursor = 0;
     }
-    return buf[cursor++] & 0x000000ff;
+  return buf[cursor++] & 0x000000ff;
   }
 }

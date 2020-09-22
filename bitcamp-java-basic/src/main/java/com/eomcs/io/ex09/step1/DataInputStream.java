@@ -1,10 +1,10 @@
+// DataInputStream을 FileInputStream이나 ByteArrayInputStream에 붙일 수 있도록
+// 기능을 변경한다. 즉 DataInputStream을 장신구(decorator)로 만든다.
 package com.eomcs.io.ex09.step1;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-//DataInputStream을 FileInputStream이나 ByteArrayInputStream에 붙일 수 있도록
-//기능을 변경한다. 즉 DataInputStream을 장신구(decorator)로 만든다.
 public class DataInputStream extends InputStream {
 
   InputStream 연결부품;
@@ -19,6 +19,7 @@ public class DataInputStream extends InputStream {
     // 따라서 서브 클래스에서 반드시 구현해야 한다.
     // 물론 이 클래스는 저장소에서 데이터를 읽는 일을 하지 않기 때문에
     // 그 일은 다음과 같이 연결부품에게 위임한다.
+    //
     return 연결부품.read();
   }
 
@@ -35,7 +36,6 @@ public class DataInputStream extends InputStream {
     연결부품.read(bytes);
     return new String(bytes, "UTF-8");
   }
-
 
   public int readInt() throws Exception {
     // 연결된 부품을 통해 읽은 데이터를
@@ -76,3 +76,5 @@ public class DataInputStream extends InputStream {
       return false;
   }
 }
+
+

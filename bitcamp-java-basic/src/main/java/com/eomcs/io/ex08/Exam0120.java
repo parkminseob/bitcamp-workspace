@@ -1,10 +1,9 @@
-// 포함 관계로 기능 확장하기 - FileInputStream + DataInputStream
 package com.eomcs.io.ex08;
+//포함 관계로 기능 확장하기 - FileInputStream + DataInputStream
 
 import java.io.FileInputStream;
 
 public class Exam0120 {
-
   public static void main(String[] args) throws Exception {
 
     // 바이트 배열 입력 스트림 대신 파일 입력 스트림으로 교체하기
@@ -24,8 +23,8 @@ public class Exam0120 {
 
     System.out.println(member);
 
-    // DataInputStream 의 생성자에 ByteArrayInputStream 대신 
+    // DataInputStream 의 생성자에 ByteArrayInputStream 대신
     // 위 예제와 같이 FileInputStream 클래스처럼 다른 클래스로 쉽게 교체할 수 있다.
-  }
 
+  }
 }

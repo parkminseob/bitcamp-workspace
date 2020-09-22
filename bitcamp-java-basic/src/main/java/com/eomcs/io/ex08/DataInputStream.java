@@ -14,10 +14,9 @@ public class DataInputStream {
     // 생성자에서 받은 InputStream 객체의 read() 메서드를 사용하여 문자열  값을 읽어서 리턴한다.
     int size = in.read();
     byte[] bytes = new byte[size];
-    in.read(bytes); // 배열 개수 만큼 바이트를 읽어 배열에 저장한다.
+    in.read(bytes);
     return new String(bytes, "UTF-8");
   }
-
   public int readInt() throws Exception {
     // 생성자에서 받은 InputStream 객체의 read() 메서드를 사용하여 int 값을 읽어서 리턴한다.
     int value = 0;
