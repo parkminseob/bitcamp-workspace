@@ -1,10 +1,12 @@
 package com.eomcs.pms;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -14,7 +16,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Scanner;
 import com.eomcs.pms.domain.Board;
 import com.eomcs.pms.domain.Member;
 import com.eomcs.pms.domain.Project;
@@ -45,29 +46,32 @@ import com.eomcs.util.Prompt;
 
 public class App {
 
+  // main(), saveBoards(), loadBoards() 가 공유하는 필드
   static List<Board> boardList = new ArrayList<>();
-  static File boardFile = new File("./board/csv");
+  static File boardFile = new File("./board.csv"); // 게시글을 저장할 파일 정보
 
+  // main(), saveMembers(), loadMembers() 가 공유하는 필드
   static List<Member> memberList = new LinkedList<>();
-  static File memberFile = new File("./member/csv");
+  static File memberFile = new File("./member.csv"); // 회원을 저장할 파일 정보
 
+  // main(), saveProjects(), loadProjects() 가 공유하는 필드
   static List<Project> projectList = new LinkedList<>();
-  static File projectFile = new File("./project/csv");
+  static File projectFile = new File("./project.csv"); // 프로젝트를 저장할 파일 정보
 
+  // main(), saveTasks(), loadTasks() 가 공유하는 필드
   static List<Task> taskList = new ArrayList<>();
-  static File taskFile = new File("./task/csv");
+  static File taskFile = new File("./task.csv"); // 작업을 저장할 파일 정보
 
   public static void main(String[] args) {
 
+    // 파일에서 데이터 로딩
     loadBoards();
     loadMembers();
     loadProjects();
     loadTasks();
 
-    // 커맨드 객체를 저장할 맵 객체를 준비한다.
     Map<String,Command> commandMap = new HashMap<>();
 
-    // 맵 객체에 커맨드 객체를 보관한다.
     commandMap.put("/board/add", new BoardAddCommand(boardList));
     commandMap.put("/board/list", new BoardListCommand(boardList));
     commandMap.put("/board/detail", new BoardDetailCommand(boardList));
@@ -95,10 +99,7 @@ public class App {
 
     commandMap.put("/hello", new HelloCommand());
 
-    // 자바에서는 stack 알고리즘(LIFO)에 대한 인터페이스로 Deque 를 제공한다.
     Deque<String> commandStack = new ArrayDeque<>();
-
-    // 자바에서 제공하는 LinkedList 클래스는 Queue 구현체이기도 하다.
     Queue<String> commandQueue = new LinkedList<>();
 
     loop:
@@ -109,7 +110,6 @@ public class App {
           continue;
         }
 
-        // 사용자가 입력한 명령을 보관한다.
         commandStack.push(inputStr);
         commandQueue.offer(inputStr);
 
@@ -122,94 +122,137 @@ public class App {
             break loop;
           default:
             Command command = commandMap.get(inputStr);
-              if (command != null) {
-                try {
+            if (command != null) {
+              try {
+                // 실행 중 오류가 발생할 수 있는 코드는 try 블록 안에 둔다.
                 command.execute();
-                } catch(Exception e) {
-                  System.out.println("명령어 실행 중 오류 발생");
-                }
-              } else {
-                System.out.println("실행할 수 없는 명령입니다.");
+              } catch (Exception e) {
+                // 오류가 발생하면 그 정보를 갖고 있는 객체의 클래스 이름을 출력한다.
+                System.out.println("--------------------------------------------------------------");
+                System.out.printf("명령어 실행 중 오류 발생: %s\n", e);
+                System.out.println("--------------------------------------------------------------");
               }
+            } else {
+              System.out.println("실행할 수 없는 명령입니다.");
+            }
         }
-        System.out.println(); // 이전 명령의 실행을 구분하기 위해 빈 줄 출력
+        System.out.println();
       }
 
     Prompt.close();
 
+    // 데이터를 파일에 저장
     saveBoards();
     saveMembers();
     saveProjects();
     saveTasks();
   }
 
+  static void printCommandHistory(Iterator<String> iterator) {
+    try {
+      int count = 0;
+      while (iterator.hasNext()) {
+        System.out.println(iterator.next());
+        count++;
+
+        if ((count % 5) == 0 && Prompt.inputString(":").equalsIgnoreCase("q")) {
+          break;
+        }
+      }
+    } catch (Exception e) {
+      System.out.println("history 명령 처리 중 오류 발생!");
+    }
+  }
+
   private static void saveBoards() {
-    FileWriter out = null;
+    DataOutputStream out = null;
 
     try {
-      out = new FileWriter(boardFile);
-      int count = 0;
+      // 파일로 데이터를 출력할 때 사용할 도구를 준비한다.
+      out = new DataOutputStream(new FileOutputStream(boardFile));
 
-      for(Board board : boardList) {
-        out.write(board.toCsvString());
-        count++;
+      out.writeInt(boardList.size());
+
+      for (Board board : boardList) {
+        out.writeInt(board.getNo());
+        out.writeUTF(board.getTitle());
+        out.writeUTF(board.getContent());
+        out.writeUTF(board.getWriter());
+        out.writeUTF(board.getRegisteredDate().toString());
+        out.writeInt(board.getViewCount());
       }
-      System.out.printf("총 %d 개의 게시글 데이터를 저장했습니다.\n", count);
+      System.out.printf("총 %d 개의 게시글 데이터를 저장했습니다.\n", boardList.size());
 
     } catch (IOException e) {
-      System.out.println("게시글 데이터 파일 쓰기 중 오류 발생.");
+      System.out.println("게시글 데이터의 파일 쓰기 중 오류 발생! - " + e.getMessage());
+
     } finally {
-      try {out.close();} catch (IOException e) {}
+      try {
+        out.close();
+      } catch (IOException e) {
+        // FileWriter를 닫을 때 발생하는 예외는 무시한다.
+      }
     }
   }
 
   private static void loadBoards() {
-    FileReader in = null;
-    Scanner dataScan = null;
+    DataInputStream in = null;
 
     try {
       // 파일을 읽을 때 사용할 도구를 준비한다.
-      in = new FileReader(boardFile);
+      in = new DataInputStream(new FileInputStream(boardFile));
 
-      // .csv파일에서 한 줄 단위로 문자열을 읽는 기능이 필요한데,
-      // FileReader에는 그런 기능이 없다.
-      // 그래서 FileReader를 그대로 사용할 수 없고
-      // 이 객체에 다른 도구를 연결하여 사용할 것이다.
-      dataScan = new Scanner(in);
-      int count = 0;
+      // 데이터 개수를 먼저 읽는다.
+      int size = in.readInt();
 
-     while(true) {
-       try {
-         // 파일에서 한 줄 읽는다.
-         String line = dataScan.nextLine();
+      for(int i = 0; i < size; i++) {
+        Board board = new Board();
+        board.setNo(in.readInt());
+        board.setTitle(in.readUTF());
+        board.setContent(in.readUTF());
+        board.setWriter(in.readUTF());
+        board.setRegisteredDate(Date.valueOf(in.readUTF()));
+        board.setViewCount(in.readInt());
 
-       boardList.add(Board.valueOfCsv(line));
-       count++;
-       } catch (Exception e) {
-         break;
-       }
-     }
-     System.out.println("총 %d 개의 게시글 데이터를 로딩했습니다.");
-    } catch (FileNotFoundException e) {
-      System.out.println("게시글 파일 읽기 중 오류 발생");
+        boardList.add(board);
+
+      }
+      System.out.printf("총 %d 개의 게시글 데이터를 로딩했습니다.\n", boardList.size());
+
+    } catch (Exception e) {
+      System.out.println("게시글 파일 읽기 중 오류 발생! - " + e.getMessage());
+      // 파일에서 데이터를 읽다가 오류가 발생하더라도
+      // 시스템을 멈추지 않고 계속 실행하게 한다.
+      // 이것이 예외처리를 하는 이유이다!!!
     } finally {
-      try{dataScan.close();} catch(Exception e) {}
-      try{in.close();} catch(Exception e) {}
+      try {
+        in.close();
+      } catch (Exception e) {
+        // close() 실행하다가 오류가 발생한 경우 무시한다.
+        // 왜? 닫다가 발생한 오류는 특별히 처리할 게 없다.
+      }
     }
   }
 
   private static void saveMembers() {
-    FileWriter out = null;
+    DataOutputStream out = null;
 
     try {
-      out = new FileWriter(memberFile);
-      int count = 0;
+      out = new DataOutputStream(new FileOutputStream(memberFile));
+
+      out.writeInt(memberList.size());
 
       for (Member member : memberList) {
-        out.write(member.toCsvString());
-        count++;
+        out.writeInt(member.getNo());
+        out.writeUTF(member.getEmail());
+        out.writeUTF(member.getEmail());
+        out.writeUTF(member.getPassword());
+        out.writeUTF(member.getPhoto());
+        out.writeUTF(member.getTel());
+        out.writeUTF(member.getRegisteredDate().toString());
+
       }
-      System.out.printf("총 %d 개의 회원 데이터를 저장했습니다.\n", count);
+      System.out.printf("총 %d 개의 회원 데이터를 저장했습니다.\n", memberList.size());
 
     } catch (IOException e) {
       System.out.println("회원 데이터의 파일 쓰기 중 오류 발생! - " + e.getMessage());
@@ -222,50 +265,59 @@ public class App {
     }
   }
 
-
   private static void loadMembers() {
-    FileReader in = null;
-    Scanner dataScan = null;
+    DataInputStream in = null;
 
     try {
-      in = new FileReader(memberFile);
-      dataScan = new Scanner(in);
-      int count = 0;
+      in = new DataInputStream(new FileInputStream(memberFile));
 
-      while (true) {
-        try {
-          String line = dataScan.nextLine();
+      int size = in.readInt();
 
-          memberList.add(Member.valueOfCsv(line));
-          count++;
+      for(int i = 0; i < size; i++) {
+        Member member = new Member();
 
-        } catch (Exception e) {
-          break;
-        }
+        member.setNo(in.readInt());
+        member.setName(in.readUTF());
+        member.setEmail(in.readUTF());
+        member.setPassword(in.readUTF());
+        member.setPhoto(in.readUTF());
+        member.setTel(in.readUTF());
+        member.setRegisteredDate(Date.valueOf(in.readUTF()));
+
+        memberList.add(member);
       }
-      System.out.printf("총 %d 개의 회원 데이터를 로딩했습니다.\n", count);
+      System.out.printf("총 %d 개의 회원 데이터를 로딩했습니다.\n", memberList.size());
 
-    } catch (FileNotFoundException e) {
+    } catch (Exception e) {
       System.out.println("회원 파일 읽기 중 오류 발생! - " + e.getMessage());
     } finally {
-      try {dataScan.close();} catch (Exception e) {}
-      try {in.close();} catch (Exception e) {}
+      try {
+        in.close();
+      } catch (Exception e) {
+      }
     }
   }
 
   private static void saveProjects() {
-    FileWriter out = null;
+    DataOutputStream out = null;
 
     try {
-      out = new FileWriter(projectFile);
-      int count = 0;
+      out = new DataOutputStream(new FileOutputStream(projectFile));
+
+      out.writeInt(projectList.size());
 
       for (Project project : projectList) {
+        // 번호
+        out.writeInt(project.getNo());
+        out.writeUTF(project.getTitle());
+        out.writeUTF(project.getContent());
+        out.writeUTF(project.getStartDate().toString());
+        out.writeUTF(project.getEndDate().toString());
+        out.writeUTF(project.getOwner());
+        out.writeUTF(project.getMembers());
 
-        out.write(project.toCsvString());
-        count++;
       }
-      System.out.printf("총 %d 개의 프로젝트 데이터를 저장했습니다.\n", count);
+      System.out.printf("총 %d 개의 프로젝트 데이터를 저장했습니다.\n", projectList.size());
 
     } catch (IOException e) {
       System.out.println("프로젝트 데이터의 파일 쓰기 중 오류 발생! - " + e.getMessage());
@@ -278,104 +330,96 @@ public class App {
     }
   }
 
-
   private static void loadProjects() {
-    FileReader in = null;
-    Scanner dataScan = null;
+    DataInputStream in = null;
+
 
     try {
-      in = new FileReader(projectFile);
-      dataScan = new Scanner(in);
-      int count = 0;
+      in = new DataInputStream(new FileInputStream(projectFile));
 
-      while (true) {
-        try {
-          String line = dataScan.nextLine();
+      int size = in.readInt();
 
-          projectList.add(Project.valueOfCsv(line));
-          count++;
+      for(int i = 0; i < size; i++) {
+        Project project = new Project();
+        project.setNo(in.readInt());
+        project.setTitle(in.readUTF());
+        project.setContent(in.readUTF());
+        project.setStartDate(Date.valueOf(in.readUTF()));
+        project.setEndDate(Date.valueOf(in.readUTF()));
+        project.setOwner(in.readUTF());
+        project.setMembers(in.readUTF());
 
-        } catch (Exception e) {
-          break;
-        }
+        projectList.add(project);
+
       }
-      System.out.printf("총 %d 개의 프로젝트 데이터를 로딩했습니다.\n", count);
+      System.out.printf("총 %d 개의 프로젝트 데이터를 로딩했습니다.\n", projectList.size());
 
-    } catch (FileNotFoundException e) {
+    } catch (Exception e) {
       System.out.println("프로젝트 파일 읽기 중 오류 발생! - " + e.getMessage());
     } finally {
-      try {dataScan.close();} catch (Exception e) {}
-      try {in.close();} catch (Exception e) {}
+      try {
+        in.close();
+      } catch (Exception e) {
+      }
     }
   }
 
-
   private static void saveTasks() {
-    FileWriter out = null;
+    DataOutputStream out = null;
 
     try {
-      out = new FileWriter(taskFile);
-      int count = 0;
+      out = new DataOutputStream(new FileOutputStream(taskFile));
+      out.writeInt(taskList.size());
 
       for (Task task : taskList) {
-
-        out.write(task.toCsvString());
-        count++;
+        out.writeInt(task.getNo());
+        out.writeUTF(task.getContent());
+        out.writeUTF(task.getDeadline().toString());
+        out.writeInt(task.getStatus());
+        out.writeUTF(task.getOwner());
       }
-      System.out.printf("총 %d 개의 작업 데이터를 저장했습니다.\n", count);
+      System.out.printf("총 %d 개의 작업 데이터를 저장했습니다.\n", taskList.size());
 
     } catch (IOException e) {
       System.out.println("작업 데이터의 파일 쓰기 중 오류 발생! - " + e.getMessage());
 
     } finally {
-      try {out.close();} catch (IOException e) {}
+      try {
+        out.close();
+      } catch (IOException e) {
+      }
     }
   }
 
   private static void loadTasks() {
-    FileReader in = null;
-    Scanner dataScan = null;
+    DataInputStream in = null;
 
     try {
-      in = new FileReader(taskFile);
-      dataScan = new Scanner(in);
-      int count = 0;
+      in = new DataInputStream(new FileInputStream(taskFile));
 
-      while (true) {
-        try {
-          String line = dataScan.nextLine();
+      int size = in.read();
 
-          taskList.add(Task.valueOfCsv(line));
-          count++;
+      for(int i = 0; i < size; i++) {
+        Task task = new Task();
 
-        } catch (Exception e) {
-          break;
-        }
+        task.setNo(in.readInt());
+        task.setContent(in.readUTF());
+        task.setDeadline(Date.valueOf(in.readUTF()));
+        task.setStatus(in.readInt());
+        task.setOwner(in.readUTF());
+
+        taskList.add(task);
+
       }
-      System.out.printf("총 %d 개의 작업 데이터를 로딩했습니다.\n", count);
+      System.out.printf("총 %d 개의 작업 데이터를 로딩했습니다.\n", taskList.size());
 
-    } catch (FileNotFoundException e) {
+    } catch (Exception e) {
       System.out.println("작업 파일 읽기 중 오류 발생! - " + e.getMessage());
     } finally {
-      try {dataScan.close();} catch (Exception e) {}
-      try {in.close();} catch (Exception e) {}
-    }
-  }
-
-  static void printCommandHistory(Iterator<String> iterator) {
-    try {
-      int count = 0;
-      while (iterator.hasNext()) {
-        System.out.println(iterator.next());
-        count++;
-
-        // 5개 출력할 때 마다 계속 출력할지 묻는다.
-        if ((count % 5) == 0 && Prompt.inputString(":").equalsIgnoreCase("q")) {
-          break;
-        }
+      try {
+        in.close();
+      } catch (Exception e) {
       }
-    } catch (Exception e) {
-      System.out.println("history 명령 처리 중 오류 발생!");
     }
   }
 }

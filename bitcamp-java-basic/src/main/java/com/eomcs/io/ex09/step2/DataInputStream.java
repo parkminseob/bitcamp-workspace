@@ -1,4 +1,4 @@
-package com.eomcs.io.ex09.step3;
+package com.eomcs.io.ex09.step2;
 
 import java.io.InputStream;
 
@@ -18,9 +18,9 @@ public class DataInputStream extends DecoratorInputStream {
     // => 자바에서는 이런 일을 하는 입출력 클래스를
     // "Data Processing Stream Class"라고 부른다.
     //
-    int size = 연결된부품.read();
+    int size = 연결부품.read();
     byte[] bytes = new byte[size];
-    연결된부품.read(bytes);
+    연결부품.read(bytes);
     return new String(bytes, "UTF-8");
   }
 
@@ -30,23 +30,23 @@ public class DataInputStream extends DecoratorInputStream {
     //
     int value = 0;
 
-    value = 연결된부품.read() << 24;
-    value += 연결된부품.read() << 16;
-    value += 연결된부품.read() << 8;
-    value += 연결된부품.read();
+    value = 연결부품.read() << 24;
+    value += 연결부품.read() << 16;
+    value += 연결부품.read() << 8;
+    value += 연결부품.read();
     return value;
   }
 
   public long readLong() throws Exception {
     long value = 0;
-    value += (long) 연결된부품.read() << 56;
-    value += (long) 연결된부품.read() << 48;
-    value += (long) 연결된부품.read() << 40;
-    value += (long) 연결된부품.read() << 32;
-    value += (long) 연결된부품.read() << 24;
-    value += (long) 연결된부품.read() << 16;
-    value += (long) 연결된부품.read() << 8;
-    value += 연결된부품.read();
+    value += (long) 연결부품.read() << 56;
+    value += (long) 연결부품.read() << 48;
+    value += (long) 연결부품.read() << 40;
+    value += (long) 연결부품.read() << 32;
+    value += (long) 연결부품.read() << 24;
+    value += (long) 연결부품.read() << 16;
+    value += (long) 연결부품.read() << 8;
+    value += 연결부품.read();
     return value;
   }
 
@@ -54,7 +54,7 @@ public class DataInputStream extends DecoratorInputStream {
     // 연결된 부품을 통해 읽은 데이터를
     // boolean 값으로 가공하는 일을 한다.
     //
-    if (연결된부품.read() == 1)
+    if (연결부품.read() == 1)
       return true;
     else
       return false;

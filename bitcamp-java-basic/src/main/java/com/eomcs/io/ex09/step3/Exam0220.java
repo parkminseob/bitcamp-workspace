@@ -7,16 +7,20 @@ import java.io.FileOutputStream;
 
 public class Exam0220 {
   public static void main(String[] args) throws Exception {
-    BufferedInputStream in = new BufferedInputStream(new FileInputStream("temp/jls11.pdf"));
+    BufferedInputStream in = new BufferedInputStream(
+        new FileInputStream("temp/jls11.pdf"));
 
-    BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream("temp/jls11_5.pdf"));
+    BufferedOutputStream out = new BufferedOutputStream(
+        new FileOutputStream("temp/jls11_5.pdf"));
 
     int b;
 
-    long startTime = System.currentTimeMillis();
+    long startTime = System.currentTimeMillis(); // 밀리초
 
-    while((b = in.read()) != -1)
+    while ((b = in.read()) != -1)
       out.write(b);
+
+    out.flush(); // 버퍼에 남아 있는 데이터를 마저 출력한다.
 
     long endTime = System.currentTimeMillis();
 
@@ -24,6 +28,5 @@ public class Exam0220 {
 
     in.close();
     out.close();
-
   }
 }

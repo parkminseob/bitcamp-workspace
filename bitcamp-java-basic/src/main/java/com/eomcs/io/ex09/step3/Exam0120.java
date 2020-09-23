@@ -6,9 +6,7 @@ import java.io.FileInputStream;
 
 public class Exam0120 {
   public static void main(String[] args) throws Exception {
-    //첫번째 부품
     FileInputStream fileIn = new FileInputStream("temp/test6.data");
-
     // 첫 번째 부품에 다른 부품 연결
     // - FileInputStream 객체에 String,int,boolean 값을 읽는
     //   플러그인/장신구/보조장치(decorator)를 장착한다.
@@ -19,7 +17,8 @@ public class Exam0120 {
 
     Member member = new Member();
 
-    // 플러그인을 통해 String, int, boolean값을 읽는다.
+
+    // 플러그인을 통해 String, int, boolean 값을 읽는다.
     member.name = in.readUTF();
     member.age = in.readInt();
     member.gender = in.readBoolean();

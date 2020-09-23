@@ -2,8 +2,6 @@ package com.eomcs.io.ex09.step3;
 
 import java.io.FileOutputStream;
 
-//DataOutputStream을 이용하여 객체 출력 - 인스턴스의 값을 출력
-
 public class Exam0110 {
   public static void main(String[] args) throws Exception {
     // 상속을 통한 기능 확장의 문제점
@@ -27,28 +25,28 @@ public class Exam0110 {
     // - 다른 부품을 붙일 수 있도록 생성자를 만든다.
     //
 
-    // 첫번째 부품
+    // 첫 번째 부품
     FileOutputStream fileOut = new FileOutputStream("temp/test6.data");
 
     // 부품 추가
     // - 기존의 FileOutputStream 객체에 String,int,boolean 값을 출력하는
     //   장신구/보조장치/플러그인(decorator)을 장착한다.
     // - 장신구 객체를 생성할 때 이 장식구가 사용할 부품을 생성자 파라미터로 전달한다.
-    DataOutputStream out = new DataOutputStream(fileOut);
+   DataOutputStream out = new DataOutputStream(fileOut);
 
-    Member member = new Member();
-    member.name = "AB가각간";
-    member.age = 27;
-    member.gender = true;
+   Member member = new Member();
+   member.name = "AB가각간";
+   member.age = 27;
+   member.gender = true;
 
-    // 장신구/보조장치/플러그인(decorator)를 사용하여 String,int,boolean 값을 출력한다.
-    out.writeUTF(member.name);
-    out.writeInt(member.age);
-    out.writeBoolean(member.gender);
+   // 장신구/보조장치/플러그인(decorator)를 사용하여 String,int,boolean 값을 출력한다.
+   out.writeUTF(member.name);
+   out.writeInt(member.age);
+   out.writeBoolean(member.gender);
 
-    out.close();
+   out.close();
 
-    System.out.println("데이터 출력 완료");
+   System.out.println("데이터 출력 완료!");
 
   }
 }

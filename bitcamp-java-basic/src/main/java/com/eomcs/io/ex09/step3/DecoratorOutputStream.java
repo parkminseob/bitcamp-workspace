@@ -3,7 +3,8 @@ package com.eomcs.io.ex09.step3;
 import java.io.IOException;
 import java.io.OutputStream;
 
-public abstract class DecoratorOutputStream extends OutputStream {
+public class DecoratorOutputStream extends OutputStream {
+
   OutputStream 연결된부품;
 
   public DecoratorOutputStream(OutputStream 부품) {
