@@ -1,11 +1,11 @@
 package com.eomcs.pms;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Date;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -14,9 +14,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Queue;
-import java.util.Scanner;
 import com.eomcs.pms.domain.Board;
 import com.eomcs.pms.domain.Member;
 import com.eomcs.pms.domain.Project;
@@ -167,34 +165,18 @@ public class App {
   }
 
   private static void saveBoards() {
-    FileWriter out = null;
+    BufferedWriter out = null;
 
     try {
       // 파일로 데이터를 출력할 때 사용할 도구를 준비한다.
-      out = new FileWriter(boardFile);
+      out = new BufferedWriter(new FileWriter(boardFile));
 
       for (Board board : boardList) {
-        // 게시글 목록에서 게시글 데이터를 꺼내 csv 형식으로 출력한다.
-        // => 게시글 번호 출력 (4바이트)
-        String line = String.format("%d,%s,%s,%s,%s,%d\n",
-            board.getNo(),
-            board.getTitle(),
-            board.getContent(),
-            board.getWriter(),
-            board.getRegisteredDate(),
-            board.getViewCount());
-        out.write(line);
-        // 주의
-        // write()는 String을 출력할 때 JVM환경변수 file.encoding에 설정된 문자집합으로
-        // 인코딩하여 바이트 배열을 출력한다.
-        // - JVM을 실행할 때 다음과 같이 실행하면 이 환경 변수의 값을 설정할 수 있따.
-        //   $ java -d bin/main -Dfile.encoding=UTF-8 ...
-        //   이클립스에서 자바 프로그램을 실행하면 위와 같이 JVM환경변수가 자동 설젇된다.
-        //   만약 CLI(command line interface)에서 저 옵션 없이 실행한다면
-        //   운영체제에 따라 다음과 같이 자동으로 문자집합이 설정된다.
-        //      window : MS949
-        //      Linux/macOs/Unix : UTF-8;
+        out.write(board.toCsvString());
+        out.write("\n");
       }
+      out.flush();
+
       System.out.printf("총 %d 개의 게시글 데이터를 저장했습니다.\n", boardList.size());
 
     } catch (IOException e) {
@@ -210,32 +192,18 @@ public class App {
   }
 
   private static void loadBoards() {
-    Scanner in = null;
+    BufferedReader in = null;
 
     try {
       // 파일을 읽을 때 사용할 도구를 준비한다.
-      in = new Scanner(new FileReader(boardFile));
+      in = new BufferedReader(new FileReader(boardFile));
 
       while(true) {
-        try {
-
-          String line = in.nextLine();
-
-          String[] fields = line.split(",");
-
-          Board board = new Board();
-          board.setNo(Integer.parseInt(fields[0]));
-          board.setTitle(fields[1]);
-          board.setContent(fields[2]);
-          board.setWriter(fields[3]);
-          board.setRegisteredDate(Date.valueOf(fields[4]));
-          board.setViewCount(Integer.parseInt(fields[5]));
-
-          // 게시글 객체를 Command가 사용하는 목록에 저장한다.
-          boardList.add(board);
-        } catch (NoSuchElementException e) {
-          break;
-        }
+          String line = in.readLine();
+          if(line == null) {
+            break;
+          }
+          boardList.add(Board.valueOfCsv(line));
       }
       System.out.printf("총 %d 개의 게시글 데이터를 로딩했습니다.\n", boardList.size());
 
@@ -256,22 +224,14 @@ public class App {
 
 
   private static void saveMembers() {
-    FileWriter out = null;
+    BufferedWriter out = null;
 
     try {
-      out = new FileWriter(memberFile);
+      out = new BufferedWriter(new FileWriter(memberFile));
 
       for (Member member : memberList) {
-        String line = String.format("%d,%s,%s,%s,%s,%s,%s\n",
-            member.getNo(),
-            member.getName(),
-            member.getEmail(),
-            member.getPassword(),
-            member.getPhoto(),
-            member.getTel(),
-            member.getRegisteredDate());
-
-        out.write(line);
+        out.write(member.toCsvString());
+        out.write("\n");
 
       }
       System.out.printf("총 %d 개의 회원 데이터를 저장했습니다.\n", memberList.size());
@@ -288,30 +248,17 @@ public class App {
   }
 
   private static void loadMembers() {
-    Scanner in = null;
+    BufferedReader in = null;
 
     try {
-      in = new Scanner(new FileInputStream(memberFile));
+      in = new BufferedReader(new FileReader(memberFile));
 
       while(true) {
-        try {
-          String line = in.nextLine();
-          String[] fields = line.split(",");
-
-          Member member = new Member();
-
-          member.setNo(Integer.parseInt(fields[0]));
-          member.setName(fields[1]);
-          member.setEmail(fields[2]);
-          member.setPassword(fields[3]);
-          member.setPhoto(fields[4]);
-          member.setTel(fields[5]);
-          member.setRegisteredDate(Date.valueOf(fields[6]));
-
-          memberList.add(member);
-        } catch (NoSuchElementException e) {
-          break;
-        }
+          String line = in.readLine();
+          if(line == null) {
+            break;
+          }
+          memberList.add(Member.valueOfCsv(line));
       }
       System.out.printf("총 %d 개의 회원 데이터를 로딩했습니다.\n", memberList.size());
 
@@ -326,23 +273,14 @@ public class App {
   }
 
   private static void saveProjects() {
-    FileWriter out = null;
+    BufferedWriter out = null;
 
     try {
-      out = new FileWriter(projectFile);
+      out = new BufferedWriter(new FileWriter(projectFile));
 
       for (Project project : projectList) {
-        String line = String.format("%d,%s,%s,%s,%s,%s,%s\n",
-            project.getNo(),
-            project.getTitle(),
-            project.getContent(),
-            project.getStartDate(),
-            project.getEndDate(),
-            project.getOwner(),
-            project.getMembers());
-
-        out.write(line);
-
+        out.write(project.toCsvString());
+        out.write("\n");
       }
       System.out.printf("총 %d 개의 프로젝트 데이터를 저장했습니다.\n", projectList.size());
 
@@ -358,29 +296,17 @@ public class App {
   }
 
   private static void loadProjects() {
-    Scanner in = null;
+    BufferedReader in = null;
 
     try {
-      in = new Scanner(new FileInputStream(projectFile));
+      in = new BufferedReader(new FileReader(projectFile));
 
       while(true) {
-        try {
-          String line = in.nextLine();
-          String[] fields = line.split(",");
-
-          Project project = new Project();
-          project.setNo(Integer.parseInt(fields[0]));
-          project.setTitle(fields[1]);
-          project.setContent(fields[2]);
-          project.setStartDate(Date.valueOf(fields[3]));
-          project.setEndDate(Date.valueOf(fields[4]));
-          project.setOwner(fields[5]);
-          project.setMembers(fields[6]);
-
-          projectList.add(project);
-        } catch (NoSuchElementException e) {
-          break;
-        }
+          String line = in.readLine();
+          if(line == null) {
+            break;
+          }
+          projectList.add(Project.valueOfCsv(line));
       }
       System.out.printf("총 %d 개의 프로젝트 데이터를 로딩했습니다.\n", projectList.size());
 
@@ -395,20 +321,14 @@ public class App {
   }
 
   private static void saveTasks() {
-    FileWriter out = null;
+    BufferedWriter out = null;
 
     try {
-      out = new FileWriter(taskFile);
+      out = new BufferedWriter(new FileWriter(taskFile));
 
       for (Task task : taskList) {
-        String line = String.format("%d,%s,%s,%d,%s\n",
-            task.getNo(),
-            task.getContent(),
-            task.getDeadline(),
-            task.getStatus(),
-            task.getOwner());
-
-        out.write(line);
+        out.write(task.toCsvString());
+        out.write("\n");
       }
       System.out.printf("총 %d 개의 작업 데이터를 저장했습니다.\n", taskList.size());
 
@@ -424,27 +344,17 @@ public class App {
   }
 
   private static void loadTasks() {
-    Scanner in = null;
+    BufferedReader in = null;
 
     try {
-      in = new Scanner(new FileInputStream(taskFile));
+      in = new BufferedReader(new FileReader(taskFile));
 
       while(true) {
-        try {
-        String line = in.nextLine();
-        String[] fields = line.split(",");
-
-        Task task = new Task();
-        task.setNo(Integer.parseInt(fields[0]));
-        task.setContent(fields[1]);
-        task.setDeadline(Date.valueOf(fields[2]));
-        task.setStatus(Integer.parseInt(fields[3]));
-        task.setOwner(fields[4]);
-
-        taskList.add(task);
-        } catch (NoSuchElementException e) {
+        String line = in.readLine();
+        if(line == null) {
           break;
         }
+        taskList.add(Task.valueOfCsv(line));
       }
       System.out.printf("총 %d 개의 작업 데이터를 로딩했습니다.\n", taskList.size());
 

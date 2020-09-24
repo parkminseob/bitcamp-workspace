@@ -40,5 +40,25 @@ public class Task {
     this.owner = owner;
   }
 
+  public String toCsvString() {
+    return String.format("%d,%s,%s,%d,%s",
+        this.getNo(),
+        this.getContent(),
+        this.getDeadline(),
+        this.getStatus(),
+        this.getOwner());
+  }
 
+  public static Task valueOfCsv(String csv) {
+    String[] fields = csv.split(",");
+
+    Task task = new Task();
+    task.setNo(Integer.parseInt(fields[0]));
+    task.setContent(fields[1]);
+    task.setDeadline(Date.valueOf(fields[2]));
+    task.setStatus(Integer.parseInt(fields[3]));
+    task.setOwner(fields[4]);
+
+    return task;
+  }
 }
