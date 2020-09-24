@@ -46,7 +46,7 @@ import com.eomcs.util.CsvObject;
 import com.eomcs.util.ObjectFactory;
 import com.eomcs.util.Prompt;
 
-public class App {
+public class App01 {
 
   public static void main(String[] args) {
     // 스태틱 멤버들이 공유하는 변수가 아니라면 로컬 변수로 만들라.
@@ -64,10 +64,10 @@ public class App {
 
 
     // 파일에서 데이터 로딩
-    loadObjects(boardList, boardFile, Board::new);
-    loadObjects(memberList, memberFile, Member::new);
-    loadObjects(projectList, projectFile, Project::new);
-    loadObjects(taskList, taskFile, Task::new);
+    loadObjects(boardList, boardFile, Board::valueOfCsv);
+    loadObjects(memberList, memberFile, Member::valueOfCsv);
+    loadObjects(projectList, projectFile, Project::valueOfCsv);
+    loadObjects(taskList, taskFile, Task::valueOfCsv);
 
     Map<String,Command> commandMap = new HashMap<>();
 
