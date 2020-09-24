@@ -33,14 +33,14 @@ public class Exam0310 {
     out.close();
     System.out.println("출력완료~");
   }
-//용어 정리!
-//1) Serialize(직렬화)
-//   - 객체(인스턴스) ===> 바이트 배열
-//   - marshalling 이라고도 부른다.
-//
-//2) Deserialize(객체 복원)
-//   - 바이트 배열 ===> 객체
-//   - unmarshalling 이라고도 부른다.
-//
+  //용어 정리!
+  //1) Serialize(직렬화)
+  //   - 객체(인스턴스) ===> 바이트 배열
+  //   - marshalling 이라고도 부른다.
+  //
+  //2) Deserialize(객체 복원)
+  //   - 바이트 배열 ===> 객체
+  //   - unmarshalling 이라고도 부른다.
+  //
 
 }
