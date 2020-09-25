@@ -3,10 +3,11 @@ package com.eomcs.pms.domain;
 import java.sql.Date;
 import com.eomcs.util.CsvObject;
 
-// Board클래스는 csvObject규칙에 따라 구현했기때문에
-// 이 클래스는 toCsvString()메서드가 있음을 보장한다.
-// 따라서 이 클래스의 객체를 사용하는 측에서는
-// 확실하고 일관되게 메서드를 호출하여 Csv문자열을 추출할 수 있다.
+// Board 클래스는 CsvObject 규칙에 따라 구현했기 때문에 
+// 이 클래스는 toCsvString() 메서드가 있음을 보장한다.
+// 따라서 이 클래스의 객체를 사용하는 측에서는 
+// 확실하고 일관되게 메서드를 호출하여 CSV 문자열을 추출할 수 있다.
+//
 public class Board implements CsvObject {
   private int no;
   private String title;
@@ -52,15 +53,13 @@ public class Board implements CsvObject {
     this.viewCount = viewCount;
   }
 
-  // 이제 이 메서드는 CsvObject 인터페이스를 통해
-  // 규칙으로서 사용될 것이다.
-  // 즉 Board클래스에서 임의로 만든 메서드가 아니고
+  // 이제 이 메서드는 CsvObject 인터페이스를 통해 
+  // 공식적인 규칙으로서 사용될 것이다.
+  // 즉 Board 클래스에서 임의로 만든 메서드가 아니라
   // 인터페이스를 통해 공개된 메서드로 격상되었다.
   @Override
   public String toCsvString() {
-    // csv문자열을 만들때는 줄바꿈 코드를 붙이지 않는다.
-    // 줄바꿈 코드는 csv문자열을 받아서 사용하는 쪽에서 다룰 문제다.
-    return String.format("%d,%s,%s,%s,%s,%d",
+    return String.format("%d,%s,%s,%s,%s,%d", 
         this.getNo(),
         this.getTitle(),
         this.getContent(),
@@ -69,7 +68,7 @@ public class Board implements CsvObject {
         this.getViewCount());
   }
 
-  // CSV문자열을 가지고 객체를 생성하는 Factory메서드를 생성한다.
+  // CSV 문자열을 가지고 객체를 생성한다.
   public static Board valueOfCsv(String csv) {
     String[] fields = csv.split(",");
 
@@ -85,10 +84,10 @@ public class Board implements CsvObject {
   }
 
   // 다른 생성자가 있으면 컴파일러가 기본 생성자를 만들어주지 않으니까
-  // 다음과 같이 별도로 만들어야한다.
+  // 다음과 같이 별도로 만들어야 한다.
   public Board() {}
 
-  // csv문자열을 받아 인스턴스 필드를 초기화시키는 생성자
+  // CSV 문자열을 받아 인스턴스 필드를 초기화시키는 생성자
   public Board(String csv) {
     String[] fields = csv.split(",");
 
@@ -98,6 +97,11 @@ public class Board implements CsvObject {
     this.setWriter(fields[3]);
     this.setRegisteredDate(Date.valueOf(fields[4]));
     this.setViewCount(Integer.parseInt(fields[5]));
-
   }
 }
+
+
+
+
+
+
