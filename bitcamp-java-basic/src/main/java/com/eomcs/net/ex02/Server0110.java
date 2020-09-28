@@ -7,24 +7,24 @@ import java.util.Scanner;
 //=> 네트워크 연결을 기다리는 쪽을 가리킨다.
 public class Server0110 {
   public static void main(String[] args) throws Exception {
-    // 중간에 실행을 잠깐 멈출 때 사용하기 위함.
     Scanner keyboard = new Scanner(System.in);
 
     System.out.println("서버 실행!");
     // 1) 네트워크 연결을 기다리는 역할을 수행할 객체를 준비
     // => new ServerSocket(포트번호)
+    // => 현재 실행 중인 프로그램과 포트 번호가 중복되어서는 안된다.
     ServerSocket ss = new ServerSocket(8888);
     // 포트번호
     // => 한 컴퓨터에서 네트워크 연결을 기다리는 프로그램의 식별번호이다.
     // => OS는 이 번호를 가지고 데이터를 받을 프로그램을 결정한다.
 
-    System.out.println("클라이언트 연결을 기다리는 중.....");
+    System.out.println("클라이언트 연결을 기다리는 중..");
 
-    // 잠깐 멈추기
-    keyboard.nextLine(); // 사용자가 엔터를 칠 때까지 리턴하지 않는다.
+    // 멈추기
+    keyboard.nextLine();
 
     ss.close();
-    System.out.println("서버 종료");
+    System.out.println("서버종료");
 
     keyboard.close();
   }
@@ -47,4 +47,5 @@ public class Server0110 {
 //- 따라서 클라이언트 프로그램도 포트번호를 갖는데,
 //프로그램에서 결정하는 것이 아니라, OS로부터 자동 발급 받는다.
 //- 이 범위의 포트번호는 클라이언트가 OS로부터 자동 발급 받는 포트 번호이다.
+
 

@@ -8,33 +8,24 @@ import java.util.Scanner;
 
 //클라이언트와 입출력 테스트 - byte stream
 
-public class Server0110 {
+public class Server0111 {
   public static void main(String[] args) {
-    Scanner keyboard = null;
-    ServerSocket serverSocket = null;
 
-    try {
-      keyboard = new Scanner(System.in);
-      serverSocket = new ServerSocket(8888);
+    try (
+      Scanner keyboard = new Scanner(System.in);
+      ServerSocket serverSocket = new ServerSocket(8888)) {
       System.out.println("클라이언트의 연결을 기다리고 있음");
 
-      Socket socket = null;
-      OutputStream out = null;
-      InputStream in = null;
+      try (
+          // accept()
+          // - 대기열에서 클라이언트 정보를 한 개 꺼내 소켓을 만들어 클라이언트와 연결한다.
+          // - 만약 대기열에 클라이언트 정보가 없다면 클라이언트가 접속할 때까지 기다린다.
+        Socket socket = serverSocket.accept();
+        OutputStream out = socket.getOutputStream();
+        InputStream in = socket.getInputStream()) {
 
-      try {
-        // accept()
-        // - 대기열에서 클라이언트 정보를 한 개 꺼내 소켓을 만들어 클라이언트와 연결한다.
-        // - 만약 대기열에 클라이언트 정보가 없다면 클라이언트가 접속할 때까지 기다린다.
-        socket = serverSocket.accept();
         System.out.println("대기열에서 클라이언트 정보를 꺼내 소켓을 생성했음.");
 
-        // 클라이언트와 데이터를 주고 받을 입출력 스트림 객체를 준비한다.
-        // => 출력 스트림 객체를 준비하기
-        out = socket.getOutputStream();
-
-        // => 입력 스트림 객체를 준비하기
-        in = socket.getInputStream();
         System.out.println("클라이언트와 통신할 입축력 스트림이 준비되었음!");
 
         // Client와 Server의 통신 규칙에 따라 순서대로 입출력 해야 한다.
@@ -65,17 +56,9 @@ public class Server0110 {
         System.out.println("클라이언트에게 데이터를 보냈음.");
       } catch(Exception e) {
         e.printStackTrace();
-      } finally {
-        try {out.close();} catch (Exception e) {}
-        try {in.close();} catch (Exception e) {}
-        try {socket.close();} catch (Exception e) {}
-        System.out.println("클라이언트와의 연결을 끊었음.");
       }
     } catch (Exception e) {
       e.printStackTrace();
-    } finally {
-      try {keyboard.close();} catch (Exception e) {}
-      try {serverSocket.close();} catch (Exception e) {}
     }
     System.out.println("서버 종료");
   }
