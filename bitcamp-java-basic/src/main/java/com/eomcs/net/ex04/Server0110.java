@@ -14,6 +14,7 @@ public class Server0110 {
 
       System.out.println("서버 실행!");
 
+      while(true) {
       try(Socket socket = serverSocket.accept();
           BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
           PrintWriter out = new PrintWriter(socket.getOutputStream())) {
@@ -30,8 +31,11 @@ public class Server0110 {
           out.printf("%s님 반갑습니다!\n", name);
           out.flush();
         }
+      } catch (Exception e) {
+        System.out.println("통신 도중 오류 발생!");
       }
       System.out.println("클라이언트와의 연결을 끊었음.");
+      }
     } catch(Exception e) {
       e.printStackTrace();
     }

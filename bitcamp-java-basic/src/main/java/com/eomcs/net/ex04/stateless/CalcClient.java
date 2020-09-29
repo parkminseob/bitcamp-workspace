@@ -9,6 +9,7 @@ public class CalcClient {
   public static void main(String[] args) throws Exception {
     Scanner keyScan = new Scanner(System.in);
 
+
     while (true) {
       System.out.print("값1? ");
       int a = Integer.parseInt(keyScan.nextLine());
@@ -30,16 +31,14 @@ public class CalcClient {
         String str = in.nextLine();
         System.out.println(str);
 
-      } catch (Exception e) {
+      } catch(Exception e) {
         System.out.println("서버와 통신 중 오류 발생!");
       }
-
-      System.out.print("계속하시겠습니까?(Y/n)");
-      if (keyScan.nextLine().equalsIgnoreCase("n")) {
+      System.out.print("계속 하시겠습니까? (Y/n)");
+      if(keyScan.nextLine().equalsIgnoreCase("n")) {
         break;
       }
     }
-
     keyScan.close();
   }
 }
