@@ -35,6 +35,9 @@ public class Server0120 {
         System.out.println("데이터를 보내기 전에 잠깐!");
         keyboard.nextLine();
 
+        // 클라이언트에서 받은 바이트 개수 만큼 배열을 출력한다.
+        out.write(buf, 0, size);
+
         System.out.println("클라이언트에게 데이터를 보냈음.");
       } System.out.println("클라이언트와의 연결을 끊었음.");
     } catch(Exception e) {
