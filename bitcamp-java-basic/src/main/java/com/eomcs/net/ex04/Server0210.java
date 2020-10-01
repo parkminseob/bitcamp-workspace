@@ -5,36 +5,36 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-
-//통신 방식 - Stateless
+import java.util.Scanner;
 
 public class Server0210 {
   public static void main(String[] args) {
-    try(ServerSocket serverSocket = new ServerSocket(8888)) {
+
+    try (ServerSocket serverSocket = new ServerSocket(8888);
+        Scanner keyScan = new Scanner(System.in)) {
 
       System.out.println("서버 실행");
 
       while(true) {
-        // 한 번 클라이언트와 연결되면
-        // 요청을 받아서 처리한 후 응답하고
-        // 바로 연결을 끊는다.
-        try(Socket socket = serverSocket.accept();
+        try (Socket socket = serverSocket.accept();
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter out = new PrintWriter(socket.getOutputStream())) {
 
           System.out.println("클라이언트가 연결되었음!");
 
           String name = in.readLine();
-          out.printf("%s님 반갑습니다!\n", name);
+          out.printf("%s님 반갑습니다~\n", name);
           out.flush();
+
         } catch (Exception e) {
-          System.out.println("클라이언트와 통신 중 오류 발생!");
+          System.out.println("클라이언트와 통신 중 오류 발생! ");
         }
-        System.out.println("클라이언트와 연결을 끊었음.");
+        System.out.println("클라이언트와 연결 해제.");
       }
-    }catch (Exception e) {
+
+    } catch(Exception e) {
       e.printStackTrace();
     }
-    System.out.println("서버종료!");
+    System.out.println("서버 종료");
   }
 }

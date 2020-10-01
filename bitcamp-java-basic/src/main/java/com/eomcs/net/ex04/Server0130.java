@@ -7,7 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Server0120 {
+public class Server0130 {
   public static void main(String[] args) {
 
     try (ServerSocket serverSocket = new ServerSocket(8888);
@@ -15,7 +15,7 @@ public class Server0120 {
 
       System.out.println("서버 실행");
 
-      while(true) {
+      loop: while(true) {
         try (Socket socket = serverSocket.accept();
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter out = new PrintWriter(socket.getOutputStream())) {
@@ -28,6 +28,10 @@ public class Server0120 {
               out.println("Goodbye");
               out.flush();
               break;
+            } else if(name.equalsIgnoreCase("stop")) {
+              out.println("Goodbye!");
+              out.flush();
+              break loop;
             }
             out.printf("%s님 반갑습니다~\n", name);
             out.flush();
@@ -40,5 +44,6 @@ public class Server0120 {
     } catch(Exception e) {
       e.printStackTrace();
     }
+    System.out.println("서버 종료");
   }
 }

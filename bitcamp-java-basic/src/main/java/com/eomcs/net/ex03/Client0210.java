@@ -1,35 +1,33 @@
 package com.eomcs.net.ex03;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Scanner;
 
 public class Client0210 {
   public static void main(String[] args) {
-    Scanner keyboard = new Scanner(System.in);
-    try(Socket socket = new Socket("localhost", 8888);
-        PrintWriter out = new PrintWriter(socket.getOutputStream());
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 
-      System.out.println("서버와 연결되었음.");
+    try (Scanner keyScan = new Scanner(System.in);
+        Socket socket = new Socket("localhost", 8888);
+        PrintStream out = new PrintStream(new BufferedOutputStream(socket.getOutputStream()));
+        Scanner in = new Scanner(new BufferedInputStream(socket.getInputStream()))) {
+      System.out.println("서버와 연결됨!");
 
-      System.out.print(">");
-      keyboard.nextLine();
+      System.out.print("데이터를 보내기 전에 잠깐>");
+      keyScan.nextLine();
 
-      out.println("AB가각간");
+      out.println("ABC가각간");
       out.flush();
 
-      System.out.println("서버에 데이터를 보냈음!");
+      System.out.println("서버에 데이터를 보냄.");
 
-      String str = in.readLine();
+      String str = in.nextLine();
       System.out.println(str);
 
     } catch (Exception e) {
       e.printStackTrace();
     }
-    keyboard.close();
   }
-
 }

@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Client0110 {
+public class Client0130 {
   public static void main(String[] args) {
     Scanner keyScan = new Scanner(System.in);
 
@@ -28,7 +28,7 @@ public class Client0110 {
         String str = in.readLine();
         System.out.println(str);
 
-      } while (!name.equalsIgnoreCase("quit"));
+      } while (!name.equalsIgnoreCase("quit") && !name.equalsIgnoreCase("stop"));
 
     } catch (Exception e) {
       e.printStackTrace();

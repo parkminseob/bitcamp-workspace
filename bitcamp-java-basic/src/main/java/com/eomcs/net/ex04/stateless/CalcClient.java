@@ -20,9 +20,10 @@ public class CalcClient {
       System.out.print("값2? ");
       int b = Integer.parseInt(keyScan.nextLine());
 
-      try (Socket socket = new Socket("localhost", 8888);
+      try (
+          Socket socket = new Socket("localhost", 8888);
           Scanner in = new Scanner(socket.getInputStream());
-          DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
+          DataOutputStream out = new DataOutputStream(socket.getOutputStream());) {
 
         out.writeInt(a);
         out.writeUTF(op);
@@ -30,11 +31,11 @@ public class CalcClient {
 
         String str = in.nextLine();
         System.out.println(str);
-
-      } catch(Exception e) {
+      } catch (Exception e) {
         System.out.println("서버와 통신 중 오류 발생!");
       }
-      System.out.print("계속 하시겠습니까? (Y/n)");
+
+      System.out.print("계속하시겠습니까?(Y/n)");
       if(keyScan.nextLine().equalsIgnoreCase("n")) {
         break;
       }

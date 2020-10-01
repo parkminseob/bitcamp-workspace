@@ -1,4 +1,3 @@
-// stateful 방식의 이점 활용 - 계산기 클라이언트 만들기
 package com.eomcs.net.ex04.stateful2;
 
 import java.io.DataOutputStream;
@@ -13,7 +12,7 @@ public class CalcClient {
     Scanner in = new Scanner(socket.getInputStream());
     DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
-    while (true) {
+    while(true) {
       System.out.print("연산자? ");
       out.writeUTF(keyScan.nextLine());
 
@@ -23,15 +22,12 @@ public class CalcClient {
       String str = in.nextLine();
       System.out.println(str);
 
-      if (str.equals("quit"))
+      if(str.equals("Goodbye!"))
         break;
     }
-
     in.close();
     out.close();
     socket.close();
     keyScan.close();
   }
 }
-
-

@@ -1,5 +1,4 @@
 package com.eomcs.net.ex04;
-//통신 방식 - Stateless
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -12,7 +11,7 @@ public class Client0210 {
     Scanner keyScan = new Scanner(System.in);
 
     while(true) {
-      System.out.print("이름? ");
+      System.out.println("이름?");
       String name = keyScan.nextLine();
 
       if(name.equalsIgnoreCase("quit")) {
@@ -23,7 +22,7 @@ public class Client0210 {
           PrintWriter out = new PrintWriter(socket.getOutputStream());
           BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 
-        System.out.println("서버와 연결되었음!");
+        System.out.println("서버와 연결됨!");
 
         out.println(name);
         out.flush();
@@ -31,9 +30,9 @@ public class Client0210 {
         String str = in.readLine();
         System.out.println(str);
 
-        System.out.println("서버와 연결 끊음!");
+        System.out.println("서버와 연결 끊음.");
 
-      } catch(Exception e) {
+      } catch (Exception e) {
         e.printStackTrace();
       }
     }
