@@ -176,11 +176,11 @@ public class App {
 
       out.flush();
 
-      System.out.printf("총 %d 개의 객체를 '%s' 파일에 저장했습니다.\n",
+      System.out.printf("총 %d 개의 객체를 '%s' 파일에 저장했습니다.\n", 
           list.size(), file.getName());
 
     } catch (IOException e) {
-      System.out.printf("객체를 '%s' 파일에  쓰는 중 오류 발생! - %s\n",
+      System.out.printf("객체를 '%s' 파일에  쓰는 중 오류 발생! - %s\n", 
           file.getName(), e.getMessage());
 
     } finally {
@@ -193,7 +193,7 @@ public class App {
 
   // 파일에서 CSV 문자열을 읽어  객체를 생성한 후 컬렉션에 저장한다.
   private static <T> void loadObjects(
-      Collection<T> list, // 객체를 담을 컬렉션
+      Collection<T> list, // 객체를 담을 컬렉션 
       File file, // JSON 문자열이 저장된 파일
       Class<T[]> clazz // JSON 문자열을 어떤 타입의 배열로 만들 것인지 알려주는 클래스 정보
       ) {
@@ -203,35 +203,39 @@ public class App {
       in = new BufferedReader(new FileReader(file));
 
       // 1) 직접 문자열을 읽어 Gson에게 전달하기
+      //      // 파일에서 모든 문자열을 읽어 StringBuilder에 담은 다음에 
+      //      // 최종적으로 String 객체를 꺼낸다.
       //      StringBuilder strBuilder = new StringBuilder();
       //      int b = 0;
       //      while ((b = in.read()) != -1) {
       //        strBuilder.append((char) b);
       //      }
       //
-      //json 문자열을 가지고 자바 객체를 생성한다.
+      //      // JSON 문자열을 가지고 자바 객체를 생성한다.
       //      Gson gson = new Gson();
       //      T[] arr = gson.fromJson(strBuilder.toString(), clazz);
-      //      for(T obj : arr) {
+      //      for (T obj : arr) {
       //        list.add(obj);
       //      }
 
       // 2) 입력 스트림을 직접 Gson에게 전달하기
       //      Gson gson = new Gson();
       //      T[] arr = gson.fromJson(in, clazz);
-      //      for(T obj : arr) {
+      //      for (T obj : arr) {
       //        list.add(obj);
       //      }
 
       // 3) 배열을 컬렉션에 바로 전달하기
+      // => 개발자가 반복문을 실행하는 대신 메서드 호출을 통해 목록에 넣는다.
       //      Gson gson = new Gson();
       //      T[] arr = gson.fromJson(in, clazz);
+      //      // 배열 => 컬렉션 객체 => list에 추가하기
       //      list.addAll(Arrays.asList(arr));
 
-      // 4) 코드정리
+      // 4) 코드 정리
       list.addAll(Arrays.asList(new Gson().fromJson(in, clazz)));
 
-      System.out.printf("'%s' 파일에서 총 %d 개의 객체를 로딩했습니다.\n",
+      System.out.printf("'%s' 파일에서 총 %d 개의 객체를 로딩했습니다.\n", 
           file.getName(), list.size());
 
     } catch (Exception e) {
@@ -245,6 +249,4 @@ public class App {
       }
     }
   }
-
-
 }
