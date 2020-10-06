@@ -8,29 +8,28 @@ import java.util.Scanner;
 
 public class CalculatorClient {
   public static void main(String[] args) {
-    try(Scanner keyboardScanner = new Scanner(System.in);
-        Socket socket = new Socket("localhost", 8888);
-        PrintStream out = new PrintStream(socket.getOutputStream());
-        BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+    Scanner keyboardScanner = new Scanner(System.in);
+    while (true) {
 
-      readResponse(in); // 서버에 인삿말 출력
-
-      while (true) {
-        String input = Prompt(keyboardScanner);
-        if(input == null) {
-          continue;
-        }
-        sendRequest(out, input); // 서버에 요청을 보내기
-        readResponse(in); // 서버에 실행 결과를 출력
-
-        if(input.equalsIgnoreCase("quit")) {
-          break;
-        }
+      String input = Prompt(keyboardScanner);
+      if(input == null) {
+        continue;
+      } else if (input.equalsIgnoreCase("quit")) {
+        break;
       }
 
-    } catch (Exception e) {
-      e.printStackTrace();
+      try(Socket socket = new Socket("localhost", 8888);
+          PrintStream out = new PrintStream(socket.getOutputStream());
+          BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+
+        sendRequest(out, input); // 서버에 요청을 보내기
+        receiveResponse(in); // 서버에 실행 결과를 출력
+
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
+    keyboardScanner.close();
   }
 
   static String Prompt(Scanner keyboardScanner) {
@@ -46,12 +45,12 @@ public class CalculatorClient {
     return input;
   }
 
-  static void sendRequest(PrintStream out, String message) throws Exception {
+  private static void sendRequest(PrintStream out, String message) throws Exception {
     out.println(message);
     out.flush();
   }
 
-  static void readResponse(BufferedReader in) throws Exception {
+  private static void receiveResponse(BufferedReader in) throws Exception {
     while(true) {
       String input = in.readLine();
       if(input.length() == 0) {
