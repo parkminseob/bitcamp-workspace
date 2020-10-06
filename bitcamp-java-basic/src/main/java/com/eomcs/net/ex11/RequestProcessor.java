@@ -5,27 +5,28 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
 
-// 역할 :
-// 소켓에 연결된 클라이언트의 요청을 처리하는 역할을 한다.
-public class RequestProcessor {
+public class RequestProcessor extends Thread {
+
   Socket socket;
 
-  public void setSocket(Socket socket) {
+  public RequestProcessor(Socket socket) {
     this.socket = socket;
   }
 
-  public void service() throws Exception {
-    try (Socket socket = this.socket;
+  @Override
+  public void run() {
+    try(Socket socket = this.socket;
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         PrintStream out = new PrintStream(socket.getOutputStream())) {
 
       sendResponse(out, compute(in.readLine()));
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 
 
-  private String compute(String request) {
-
+  private String compute (String request) {
     try {
       String[] values = request.split(" ");
       int a = Integer.parseInt(values[0]);
@@ -34,16 +35,16 @@ public class RequestProcessor {
       int result = 0;
 
       switch (op) {
-        case "+" : result = a + b; break;
-        case "-" : result = a - b; break;
-        case "*" : result = a * b; break;
-        case "/" : result = a / b; break;
+        case "+": result = a + b; Thread.sleep(3000); break;
+        case "-": result = a - b; break;
+        case "*": result = a * b; break;
+        case "/": result = a / b; break;
         default :
           return String.format("%s 연산자를 지원하지 않습니다.", op);
       }
-      return String.format("결과는 %d %s %d = %d 입니다.", a, op, b, result);
+      return String.format("결과는 %d %s %d = %d", a, op, b, result);
     } catch (Exception e) {
-      return String.format("계산식을 실행하던 중 오류 발생. - %s", e.getMessage());
+      return String.format("계산 중 오류 발생! -%s", e.getMessage());
     }
   }
 
@@ -52,6 +53,4 @@ public class RequestProcessor {
     out.println();
     out.flush();
   }
-
 }
-
