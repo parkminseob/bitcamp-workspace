@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 // 계산기 서버 1단계 : 클라이언트 요청에 응답하기
 public class CalculatorServer {
   public static void main(String[] args) {
-    try (ServerSocket serverSocket = new ServerSocket(8888)) {
+    try (ServerSocket serverSocket = new ServerSocket(80)) {
       System.out.println("서버 실행 중...");
 
       while(true) {
