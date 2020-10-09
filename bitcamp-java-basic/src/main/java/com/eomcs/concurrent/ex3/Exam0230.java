@@ -1,6 +1,4 @@
 package com.eomcs.concurrent.ex3;
-//스레드 만들기 II - Runnable 인터페이스 구현 + Thread
-
 public class Exam0230 {
   public static void main(String[] args) {
 

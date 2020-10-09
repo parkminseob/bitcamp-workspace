@@ -19,7 +19,7 @@ public class Exam0110 {
         try {
           for (int i = count; i > 0; i--) {
             System.out.println("==> " + i);
-            Thread.sleep(1000);
+
           }
         } catch (Exception e) {
           e.printStackTrace();
