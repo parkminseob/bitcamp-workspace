@@ -8,17 +8,17 @@ public class Test01 {
     car.addCarObserver(new SafeBeltCarObserver());
     car.addCarObserver(new EngineOilCarObserver());
     car.addCarObserver(new BreakOilCarObserver());
+
     car.addCarObserver(new LightOffCarObserver());
+    car.addCarObserver(new SunRoofCloseCarObserver());
 
     // 썬루프를 닫는 옵저버를 추가한다.
     // - 기존 구조에서는 Car 클래스에 코드를 추가하였다!!!
     // - 옵저버 패턴으로 구조를 바꾼 후에는 이렇게 새 클래스를 정의하여 등록한다.
-    car.addCarObserver(new SunRoofCloseCarObserver());
 
     car.start();
 
     car.run();
-
     car.stop();
 
     // 업그레이드를 수행한 다음 시간이 지난 후
