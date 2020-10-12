@@ -14,21 +14,30 @@ public class Car {
     observers.remove(observer);
   }
 
-  public void start() {
-    System.out.println("시동 건다!!!!!");
+  private void notifyCarObserverOnStart() {
     for(CarObserver observer : observers) {
-      observer.carStarted();
+      observer.CarStarted();
     }
   }
 
+  private void notifyCarObserverOnStop() {
+    for(CarObserver observer : observers) {
+      observer.CarStopped();
+    }
+  }
+
+  public void start() {
+    System.out.println("차 출발!!!");
+    notifyCarObserverOnStart();
+  }
+
   public void run() {
-    System.out.println("달려라 자동차~~~~~!!!!!!!");
+    System.out.println("차 달린다~부릉부릉");
   }
 
   public void stop() {
-    System.out.println("시동 끈다~~~~");
-    for(CarObserver observer : observers) {
-      observer.carStopped();
+    System.out.println("차 시동 끈다!!!"); {
+      notifyCarObserverOnStop();
     }
   }
 }
