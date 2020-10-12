@@ -17,6 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import com.eomcs.context.ApplicationContextListener;
 import com.eomcs.pms.domain.Board;
 import com.eomcs.pms.domain.Member;
 import com.eomcs.pms.domain.Project;
@@ -43,12 +44,43 @@ import com.eomcs.pms.handler.TaskDeleteCommand;
 import com.eomcs.pms.handler.TaskDetailCommand;
 import com.eomcs.pms.handler.TaskListCommand;
 import com.eomcs.pms.handler.TaskUpdateCommand;
+import com.eomcs.pms.listener.AppInitListener;
 import com.eomcs.util.Prompt;
 import com.google.gson.Gson;
 
 public class App {
 
-  public static void main(String[] args) {
+  List<ApplicationContextListener> listeners = new ArrayList<>();
+
+  public void addApplicationContextListener(ApplicationContextListener listener) {
+    listeners.add(listener);
+  }
+
+  public void removeApplicationContextListener(ApplicationContextListener listener) {
+    listeners.remove(listener);
+  }
+
+  private void notifyApplicationContextListenerOnServiceStarted() {
+    for(ApplicationContextListener listener : listeners) {
+      listener.contextInitialized();
+    }
+  }
+
+  private void notifyApplicationContextListenerOnServiceStopped() {
+    for(ApplicationContextListener listener : listeners) {
+      listener.contextDestroyed();;
+    }
+  }
+
+  public static void main(String[] args) throws Exception {
+    App app = new App();
+
+    app.addApplicationContextListener(new AppInitListener());
+    app.service();
+  }
+
+  public void service() throws Exception {
+    notifyApplicationContextListenerOnServiceStarted();
     // 스태틱 멤버들이 공유하는 변수가 아니라면 로컬 변수로 만들라.
     List<Board> boardList = new ArrayList<>();
     File boardFile = new File("./board.json"); // 게시글을 저장할 파일 정보
@@ -144,9 +176,11 @@ public class App {
     saveObjects(memberList, memberFile);
     saveObjects(projectList, projectFile);
     saveObjects(taskList, taskFile);
+
+    notifyApplicationContextListenerOnServiceStopped();
   }
 
-  static void printCommandHistory(Iterator<String> iterator) {
+  void printCommandHistory(Iterator<String> iterator) {
     try {
       int count = 0;
       while (iterator.hasNext()) {
@@ -164,7 +198,7 @@ public class App {
 
   // 이제 더이상 저장할 객체를 CsvObject로 제한할 필요가 없다.
   // 어떤 타입의 객체든지 JSON 형식으로 변환할 수 있기 때문이다.
-  private static void saveObjects(Collection<?> list, File file) {
+  private void saveObjects(Collection<?> list, File file) {
     BufferedWriter out = null;
 
     try {
@@ -193,7 +227,7 @@ public class App {
   }
 
   // 파일에서 JSON 문자열을 읽어 지정한 타입의 객체를 생성한 후 컬렉션에 저장한다.
-  private static <T> void loadObjects(
+  private <T> void loadObjects(
       Collection<T> list, // 객체를 담을 컬렉션
       File file, // JSON 문자열이 저장된 파일
       Class<T[]> clazz // JSON 문자열을 어떤 타입의 배열로 만들 것인지 알려주는 클래스 정보
