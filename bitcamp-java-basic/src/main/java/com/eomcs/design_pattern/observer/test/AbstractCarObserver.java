@@ -1,16 +1,13 @@
 package com.eomcs.design_pattern.observer.test;
 
 public abstract class AbstractCarObserver implements CarObserver {
-
   @Override
-  public void CarStarted() {
-    // TODO Auto-generated method stub
+  public void carStarted() {
 
   }
 
   @Override
-  public void CarStopped() {
-    // TODO Auto-generated method stub
+  public void carStopped() {
 
   }
 }

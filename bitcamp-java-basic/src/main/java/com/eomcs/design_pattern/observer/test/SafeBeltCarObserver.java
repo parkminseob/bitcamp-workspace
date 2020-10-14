@@ -2,7 +2,7 @@ package com.eomcs.design_pattern.observer.test;
 
 public class SafeBeltCarObserver extends AbstractCarObserver {
   @Override
-  public void CarStarted() {
-    System.out.println("안전벨트 착용 유무 검사");
+  public void carStarted() {
+    System.out.println("벨트 착용 여부 검사!");
   }
 }

@@ -2,7 +2,7 @@ package com.eomcs.design_pattern.observer.test;
 
 public class LightOffCarObserver extends AbstractCarObserver {
   @Override
-  public void CarStopped() {
-    System.out.println("전조등 끈다!");
+  public void carStopped() {
+    System.out.println("전조등 끄기");
   }
 }
