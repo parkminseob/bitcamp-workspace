@@ -1,1 +1,1 @@
-# /src/main/java 폴더
+# /src/main/resources 폴더
