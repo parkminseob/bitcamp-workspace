@@ -24,7 +24,7 @@ public class BoardAddCommand implements Command {
       Board board = new Board();
       board.setNo(Prompt.inputInt("번호? ", out, in));
       board.setTitle(Prompt.inputString("제목? ", out, in));
-      board.setContent(Prompt.inputString("내용? ", out, in));
+      board.setContent(Prompt.inputString("내용? ",out, in));
       board.setWriter(Prompt.inputString("작성자? ", out, in));
       board.setRegisteredDate(new Date(System.currentTimeMillis()));
       board.setViewCount(0);
@@ -32,8 +32,7 @@ public class BoardAddCommand implements Command {
       boardList.add(board);
 
       out.println("게시글을 등록하였습니다.");
-
-    } catch(Exception e) {
+    } catch (Exception e) {
       out.printf("작업 처리 중 오류 발생! - %s\n", e.getMessage());
     }
   }

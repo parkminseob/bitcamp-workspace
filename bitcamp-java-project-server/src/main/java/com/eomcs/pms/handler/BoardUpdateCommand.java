@@ -43,9 +43,9 @@ public class BoardUpdateCommand implements Command {
       board.setContent(content);
       board.setWriter(writer);
       out.println("게시글을 변경하였습니다.");
-
     } catch (Exception e) {
       out.printf("작업 처리 중 오류 발생! - %s\n", e.getMessage());
+
     }
   }
 

@@ -53,7 +53,7 @@ public class TaskUpdateCommand implements Command {
             String.format("담당자(%s)?(취소: 빈 문자열) ", task.getOwner()), out, in);
 
         if (name.length() == 0) {
-          out.println("작업 등록을 취소합니다.");
+          System.out.println("작업 등록을 취소합니다.");
           return;
         } else if (memberListCommand.findByName(name) != null) {
           owner = name;
@@ -74,7 +74,6 @@ public class TaskUpdateCommand implements Command {
       task.setOwner(owner);
 
       out.println("작업을 변경하였습니다.");
-
     } catch (Exception e) {
       out.printf("작업 처리 중 오류 발생! - %s\n", e.getMessage());
     }

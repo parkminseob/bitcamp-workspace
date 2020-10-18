@@ -12,7 +12,6 @@ import com.eomcs.pms.handler.BoardDeleteCommand;
 import com.eomcs.pms.handler.BoardDetailCommand;
 import com.eomcs.pms.handler.BoardListCommand;
 import com.eomcs.pms.handler.BoardUpdateCommand;
-import com.eomcs.pms.handler.CalculatorCommand;
 import com.eomcs.pms.handler.HelloCommand;
 import com.eomcs.pms.handler.MemberAddCommand;
 import com.eomcs.pms.handler.MemberDeleteCommand;
@@ -30,17 +29,16 @@ import com.eomcs.pms.handler.TaskDetailCommand;
 import com.eomcs.pms.handler.TaskListCommand;
 import com.eomcs.pms.handler.TaskUpdateCommand;
 
-// 클라이언트 요청을 처리할 커맨드 객체를 준비한다.
 public class RequestMappingListener implements ApplicationContextListener {
-
   @SuppressWarnings("unchecked")
   @Override
-  public void contextInitialized(Map<String,Object> context) {
+  public void contextInitialized(Map<String, Object> context) {
     // 옵저버가 작업한 결과를 맵에서 꺼낸다.
     List<Board> boardList = (List<Board>) context.get("boardList");
     List<Member> memberList = (List<Member>) context.get("memberList");
     List<Project> projectList = (List<Project>) context.get("projectList");
     List<Task> taskList = (List<Task>) context.get("taskList");
+
 
     context.put("/board/add", new BoardAddCommand(boardList));
     context.put("/board/list", new BoardListCommand(boardList));
@@ -69,10 +67,11 @@ public class RequestMappingListener implements ApplicationContextListener {
 
     context.put("/hello", new HelloCommand());
 
-    context.put("/calc", new CalculatorCommand());
+    //context.put("/calc", new CalculatorCommand());
   }
 
   @Override
-  public void contextDestroyed(Map<String,Object> context) {
+  public void contextDestroyed(Map<String, Object> context) {
+
   }
 }
