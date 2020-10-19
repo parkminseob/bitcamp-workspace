@@ -15,7 +15,11 @@ public class Exam0210_b {
 
     public void setCount(int count) {
       this.count = count;
-      // 여기서 사용하는 this는 MyThread 기본 생성자??
+
+      // 여기서 사용하는 this는 MyThread 객체
+      // 파라미터안에 들어가는 이 객체에 연락이 오면 깨어나겠다는 뜻
+      // 태희님에게 연락이 오면 내가 깨어나겠다.
+      // this(나)한테 연락이 오면 내가 깨어나겠다.
       synchronized (this) {
         notify();
       }
