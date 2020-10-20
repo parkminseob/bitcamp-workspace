@@ -33,9 +33,9 @@ public class BoardDetailCommand implements Command {
       out.printf("작성자: %s\n", board.getWriter());
       out.printf("등록일: %s\n", board.getRegisteredDate());
       out.printf("조회수: %d\n", board.getViewCount());
+
     } catch (Exception e) {
       out.printf("작업 처리 중 오류 발생! - %s\n", e.getMessage());
-
     }
   }
 

@@ -8,6 +8,6 @@ public class HelloCommand implements Command {
 
   @Override
   public void execute(PrintWriter out, BufferedReader in) {
-    System.out.println("안녕하세요!");
+    out.println("안녕하세요!");
   }
 }

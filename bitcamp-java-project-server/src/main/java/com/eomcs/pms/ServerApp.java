@@ -10,12 +10,14 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import com.eomcs.context.ApplicationContextListener;
 import com.eomcs.pms.handler.Command;
 import com.eomcs.pms.listener.AppInitListener;
 import com.eomcs.pms.listener.DataHandlerListener;
 import com.eomcs.pms.listener.RequestMappingListener;
-import com.eomcs.util.concurrent.ThreadPool;
 
 public class ServerApp {
 
@@ -23,8 +25,7 @@ public class ServerApp {
   // - 이 값이 true 이면 다음 클라이언트 접속할 때 서버를 종료한다.
   static boolean stop = false;
 
-  // 스레드풀 준비
-  ThreadPool threadPool = new ThreadPool();
+  ExecutorService threadPool = Executors.newCachedThreadPool();
 
   // 옵저버와 공유할 맵 객체
   static Map<String,Object> context = new Hashtable<>();
@@ -69,7 +70,6 @@ public class ServerApp {
         if (stop) {
           break;
         }
-        // 람다 문법 사용
         threadPool.execute(() -> handleClient(clientSocket));
       }
 
@@ -78,6 +78,31 @@ public class ServerApp {
     }
 
     notifyApplicationContextListenerOnServiceStopped();
+
+    // 스레드풀을 종료한다.
+    threadPool.shutdown();
+
+    try {
+      if(!threadPool.awaitTermination(10, TimeUnit.SECONDS)) {
+        System.out.println("아직 종료 안된 작업이 있다.");
+        System.out.println("남아 있는 작업의 강제 종료를 시도하겠다.");
+
+        // 맡약 10초가 경과될 때 까지 종료되지 않으면
+        // 수행 중인 작업은 강제 종료하라고 지시하고,
+        // 대기 중인 작업은 취소한다.
+        threadPool.shutdownNow();
+
+        // 그리고 다시 작업이 종료될 때가지 기다린다.
+        if(!threadPool.awaitTermination(5, TimeUnit.SECONDS)) {
+          System.out.println("스레드풀의 강제 종료를 완료하지 못했다.");
+        } else {
+          System.out.println("모든 작업을 강제 종료했다.");
+        }
+      }
+    } catch (Exception e) {
+      System.out.println("강제 종료중 오류 발생!");
+    }
+    System.out.println("서버 종료!");
   }
 
   public static void main(String[] args) {

@@ -34,6 +34,7 @@ public class ProjectDeleteCommand implements Command {
 
       projectList.remove(index);
       out.println("프로젝트를 삭제하였습니다.");
+
     } catch (Exception e) {
       out.printf("작업 처리 중 오류 발생! - %s\n", e.getMessage());
     }

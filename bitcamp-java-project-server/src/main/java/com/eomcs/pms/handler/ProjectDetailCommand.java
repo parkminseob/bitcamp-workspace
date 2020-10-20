@@ -31,10 +31,12 @@ public class ProjectDetailCommand implements Command {
       out.printf("기간: %s ~ %s\n", project.getStartDate(), project.getEndDate());
       out.printf("만든이: %s\n", project.getOwner());
       out.printf("팀원: %s\n", project.getMembers());
+
     } catch (Exception e) {
       out.printf("작업 처리 중 오류 발생! - %s\n", e.getMessage());
     }
   }
+
   private Project findByNo(int no) {
     for (int i = 0; i < projectList.size(); i++) {
       Project project = projectList.get(i);

@@ -41,6 +41,7 @@ public class TaskDetailCommand implements Command {
       }
       out.printf("상태: %s\n", stateLabel);
       out.printf("담당자: %s\n", task.getOwner());
+
     } catch (Exception e) {
       out.printf("작업 처리 중 오류 발생! - %s\n", e.getMessage());
     }
