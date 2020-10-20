@@ -1,5 +1,5 @@
 package com.eomcs.concurrent.ex7;
-
+// Executors 테스크 프레임워크 - 스레드풀 만들기 : 한 개의 스레드를 갖는 스레드풀
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -28,16 +28,12 @@ public class Exam0230 {
   }
 
   public static void main(String[] args) throws Exception {
-    ExecutorService executorService  = Executors.newCachedThreadPool();
+    ExecutorService executorService  = Executors.newSingleThreadExecutor();
 
     executorService.execute(new MyRunnable(6000));
     executorService.execute(new MyRunnable(3000));
     executorService.execute(new MyRunnable(9000));
     executorService.execute(new MyRunnable(2000));
-
-    // 작업을 끝낸 스레드가 생길 때까지 일부러 기다린디ㅏ.
-    Thread.sleep(3000);
-
     executorService.execute(new MyRunnable(4000));
 
     System.out.println("main() 종료!");

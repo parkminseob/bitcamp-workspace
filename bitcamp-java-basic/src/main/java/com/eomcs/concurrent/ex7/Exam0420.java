@@ -1,5 +1,4 @@
 package com.eomcs.concurrent.ex7;
-
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -28,7 +27,7 @@ public class Exam0420 {
     }
   }
 
-  public static void main(String[] args) throws Exception {
+  public static void main(String[] args) {
     ExecutorService executorService  = Executors.newFixedThreadPool(3);
 
     executorService.execute(new MyRunnable(6000));
@@ -38,17 +37,16 @@ public class Exam0420 {
     executorService.execute(new MyRunnable(6000));
     executorService.execute(new MyRunnable(7000));
 
-    // 현재 수행 중인 작업들은 모두 멈추도록 지시한다.
-    // => 대기 중인 작업들을 취소한다.
+    // 현재 수행 중인 작업들을 모두 멈추도록 지시한다.
+    // => 대기 중인 작업들은 취소한다.
     // => 그리고 취소한 작업 목록을 리턴해준다.
     List<Runnable> tasks = executorService.shutdownNow();
     for(Runnable task : tasks) {
       System.out.println(((MyRunnable) task).millisec);
     }
-
     // 물론 새 작업 요청도 거절한다.
-    // 예외발생!
-    //executorService.execute(new MyRunnable(4000));
+    // => 예외 발생!
+    executorService.execute(new MyRunnable(4000));
 
     // shutdown() vs shutdownNow();
     // - shutdown()
