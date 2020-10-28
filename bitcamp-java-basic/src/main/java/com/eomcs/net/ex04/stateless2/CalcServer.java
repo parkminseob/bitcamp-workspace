@@ -69,13 +69,14 @@ public class CalcServer {
           result /= value;
           break;
       }
+      // 계산 결고하를 Map에 보관한다.
+      resultMap.put(clientId, result);
+
       out.writeLong(clientId);
 
       out.writeInt(result);
 
       out.flush();
-
-      resultMap.put(clientId, result);
     }
   }
 
