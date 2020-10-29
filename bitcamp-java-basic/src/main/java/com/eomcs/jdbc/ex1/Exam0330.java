@@ -2,7 +2,7 @@ package com.eomcs.jdbc.ex1;
 
 import java.sql.DriverManager;
 
-public class Exam0320 {
+public class Exam0330 {
   public static void main(String[] args) {
 
     try(java.sql.Connection con =  DriverManager.getConnection(
@@ -18,16 +18,15 @@ public class Exam0320 {
 
       if(isReceived) {
         // 서버에서 하나 들고온 결과를 출력한다.
-        System.out.printf("%s, %s, %s, %s, %s\n",
-            rs.getString(1),
-            rs.getString(2),
-            rs.getString(3),
-            rs.getString(4),
-            rs.getString(5));
+        System.out.printf("%d, %s, %s, %s, %d\n",
+            rs.getInt("board_id"),
+            rs.getString("title"),
+            rs.getString("contents"),
+            rs.getDate("created_date"),
+            rs.getInt("view_count"));
       } else {
         System.out.println("서버에서 한 개의 레코드를 가져오지 못했음.");
       }
-      //
       //      System.out.println(stmt.getClass().getName());
       //
       //      int count = stmt.executeUpdate(
