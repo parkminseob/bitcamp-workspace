@@ -2,16 +2,15 @@ package com.eomcs.jdbc.ex1;
 
 import java.sql.DriverManager;
 
-public class Exam0110 {
+public class Exam0130 {
   public static void main(String[] args) {
     try {
-      java.sql.Driver mariadbDriver = new org.mariadb.jdbc.Driver();
-      java.sql.Driver oracleDriver = new oracle.jdbc.OracleDriver();
-      java.sql.Driver mssqlDriver = new com.microsoft.sqlserver.jdbc.SQLServerDriver();
 
-      DriverManager.registerDriver(mariadbDriver);
-      DriverManager.registerDriver(oracleDriver);
-      DriverManager.registerDriver(mssqlDriver);
+      // 무조건 패키지 이름을 다 포함해서 적어줘야 한다.
+      // 클래스가 로딩되면 무조건 스태틱블록 먼저실행 -> 알아서 자기자신을 등록하여 객체 생성한다.
+      Class.forName("org.mariadb.jdbc.Driver");
+      Class.forName("oracle.jdbc.driver.OracleDriver");
+      Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 
       java.sql.Driver driver = DriverManager.getDriver("jdbc:mariadb://");
       System.out.println(driver);

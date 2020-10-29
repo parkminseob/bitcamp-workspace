@@ -2,16 +2,12 @@ package com.eomcs.jdbc.ex1;
 
 import java.sql.DriverManager;
 
-public class Exam0110 {
+public class Exam0120 {
   public static void main(String[] args) {
     try {
-      java.sql.Driver mariadbDriver = new org.mariadb.jdbc.Driver();
-      java.sql.Driver oracleDriver = new oracle.jdbc.OracleDriver();
-      java.sql.Driver mssqlDriver = new com.microsoft.sqlserver.jdbc.SQLServerDriver();
-
-      DriverManager.registerDriver(mariadbDriver);
-      DriverManager.registerDriver(oracleDriver);
-      DriverManager.registerDriver(mssqlDriver);
+      new org.mariadb.jdbc.Driver();
+      new oracle.jdbc.driver.OracleDriver();
+      new com.microsoft.sqlserver.jdbc.SQLServerDriver();
 
       java.sql.Driver driver = DriverManager.getDriver("jdbc:mariadb://");
       System.out.println(driver);
