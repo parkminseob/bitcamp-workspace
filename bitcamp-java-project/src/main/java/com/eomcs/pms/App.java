@@ -37,14 +37,14 @@ import com.eomcs.pms.handler.TaskDeleteCommand;
 import com.eomcs.pms.handler.TaskDetailCommand;
 import com.eomcs.pms.handler.TaskListCommand;
 import com.eomcs.pms.handler.TaskUpdateCommand;
-import com.eomcs.pms.listeners.AppInitListener;
-import com.eomcs.pms.listeners.DataHandlerListener;
+import com.eomcs.pms.listener.AppInitListener;
+import com.eomcs.pms.listener.DataHandlerListener;
 import com.eomcs.util.Prompt;
 
 public class App {
 
   // 옵저버와 공유할 맵 객체
-  Map<String, Object> context = new Hashtable<>();
+  Map<String,Object> context = new Hashtable<>();
 
   // 옵저버를 보관할 컬렉션 객체
   List<ApplicationContextListener> listeners = new ArrayList<>();
@@ -60,37 +60,42 @@ public class App {
   }
 
   // service() 실행 전에 옵저버에게 통지한다.
-  private void notifyApplicationContextListenerOnStarted() {
-    for(ApplicationContextListener listener : listeners) {
+  private void notifyApplicationContextListenerOnServiceStarted() {
+    for (ApplicationContextListener listener : listeners) {
       // 곧 서비스를 시작할테니 준비하라고,
       // 서비스 시작에 관심있는 각 옵저버에게 통지한다.
       // => 옵저버에게 맵 객체를 넘겨준다.
-      // => 옵저버는 작업 결과를 파라미터로 넘겨준 맵 객체에 담아 보관한다.
+      // => 옵저버는 작업 결과를 파라미터로 넘겨준 맵 객체에 담아 줄 것이다.
       listener.contextInitialized(context);
     }
   }
 
-  private void notifyApplicationContextListenerOnStopped() {
-    for(ApplicationContextListener listener : listeners) {
-      // 곧 서비스를 시작할테니 준비하라고,
-      // 서비스 시작에 관심있는 각 옵저버에게 통지한다.
+  // service() 실행 후에 옵저버에게 통지한다.
+  private void notifyApplicationContextListenerOnServiceStopped() {
+    for (ApplicationContextListener listener : listeners) {
+      // 서비스가 종료되었으니 마무리 작업하라고,
+      // 마무리 작업에 관심있는 각 옵저버에게 통지한다.
       // => 옵저버에게 맵 객체를 넘겨준다.
-      // => 옵저버는 작업 결과를 파라미터로 넘겨준 맵 객체에 담아 보관한다.
+      // => 옵저버는 작업 결과를 파라미터로 넘겨준 맵 객체에 담아 줄 것이다.
       listener.contextDestroyed(context);
     }
   }
 
+
   public static void main(String[] args) throws Exception {
     App app = new App();
 
+    // 옵저버 등록
     app.addApplicationContextListener(new AppInitListener());
     app.addApplicationContextListener(new DataHandlerListener());
+
     app.service();
   }
 
   @SuppressWarnings("unchecked")
-  private void service() throws Exception {
-    notifyApplicationContextListenerOnStarted();
+  public void service() throws Exception {
+
+    notifyApplicationContextListenerOnServiceStarted();
 
     // 옵저버가 작업한 결과를 맵에서 꺼낸다.
     List<Board> boardList = (List<Board>) context.get("boardList");
@@ -169,7 +174,7 @@ public class App {
 
     Prompt.close();
 
-    notifyApplicationContextListenerOnStopped();
+    notifyApplicationContextListenerOnServiceStopped();
   }
 
   void printCommandHistory(Iterator<String> iterator) {
@@ -187,5 +192,8 @@ public class App {
       System.out.println("history 명령 처리 중 오류 발생!");
     }
   }
+
+
+
 
 }

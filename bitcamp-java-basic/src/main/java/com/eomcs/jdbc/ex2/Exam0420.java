@@ -3,10 +3,12 @@ package com.eomcs.jdbc.ex2;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Exam0410 {
+public class Exam0420 {
   public static void main(String[] args) throws Exception {
     String title = null;
     String contents = null;
@@ -34,7 +36,8 @@ public class Exam0410 {
     try (Connection con = DriverManager.getConnection(
         "jdbc:mysql://localhost:3306/studydb?user=study&password=1111");
         PreparedStatement boardStmt = con.prepareStatement(
-            "insert into x_board(title,contents) values(?,?)");
+            "insert into x_board(title,contents) values(?,?)",
+            Statement.RETURN_GENERATED_KEYS);
         PreparedStatement fileStmt = con.prepareStatement(
             "insert into x_board_file(file_path,board_id) values(?,?)")) {
 
@@ -42,16 +45,23 @@ public class Exam0410 {
       boardStmt.setString(2, contents);
 
       int count = boardStmt.executeUpdate();
-      System.out.printf("%d개 게시글 입력 성공!", count);
+      System.out.printf("%d개 게시글 입력 성공!\n", count);
 
+      ResultSet keyRS = boardStmt.getGeneratedKeys();
+      keyRS.next();
+      int boardId = keyRS.getInt(1);
+
+      // 첨부파일 입력
       int fileCount = 0;
       for(String fileName : files ) {
         fileStmt.setString(1, fileName);
-        fileStmt.setInt(2, 0);
+
+        // 위에서 게시글 입력 후에 자동 생성된 PK값을 사용한다.
+        fileStmt.setInt(2, boardId);
         fileStmt.executeUpdate();
         fileCount++;
       }
-      System.out.printf("%d 개 첨부파일 입력 성공!", fileCount);
+      System.out.printf("%d 개 첨부파일 입력 성공!\n", fileCount);
     }
   }
 }
