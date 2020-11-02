@@ -16,25 +16,27 @@ public class BoardUpdateCommand implements Command {
     String title = null;
     String content = null;
 
-    try(Connection con =  DriverManager.getConnection(
-        "jdbc:mariadb://localhost:3306/studydb?user=study&password=1111");
+    try (Connection con = DriverManager.getConnection(
+        "jdbc:mysql://localhost:3306/studydb?user=study&password=1111");
         PreparedStatement stmt = con.prepareStatement(
             "select title, content"
                 + " from pms_board"
-                + " where no = " + no);
-        ResultSet rs = stmt.executeQuery()) {
+                + " where no = ?")) {
 
-      if (rs.next()) {
+      stmt.setInt(1, no);
 
-        title = rs.getString("title");
-        content = rs.getString("content");
+      try (ResultSet rs = stmt.executeQuery()) {
+        if (rs.next()) {
+          title = rs.getString("title");
+          content = rs.getString("content");
 
-      } else {
-        System.out.println("해당 번호의 게시물이 존재하지 않는걸요..");
-        return;
+        } else {
+          System.out.println("해당 번호의 게시물이 존재하지 않습니다.");
+          return;
+        }
       }
     } catch (Exception e) {
-      System.out.println("게시글 조회 중 오류 발생했다!!");
+      System.out.println("게시글 조회 중 오류 발생!");
       e.printStackTrace();
       return;
     }
@@ -58,13 +60,13 @@ public class BoardUpdateCommand implements Command {
       stmt.setInt(3, no);
       int count = stmt.executeUpdate();
 
-      if(count == 0) {
-        System.out.println("해당 번호의 게시글이 없습니다.");
+      if (count == 0) {
+        System.out.println("해당 번호의 게시물이 존재하지 않습니다.");
       } else {
-        System.out.println("변경하였습니다.");
+        System.out.println("게시글을 변경하였습니다.");
       }
-    } catch(Exception e) {
-      System.out.println("게시글 내용 변경 중 오류 발생!");
+    } catch (Exception e) {
+      System.out.println("게시글 변경 중 오류 발생!");
       e.printStackTrace();
     }
   }

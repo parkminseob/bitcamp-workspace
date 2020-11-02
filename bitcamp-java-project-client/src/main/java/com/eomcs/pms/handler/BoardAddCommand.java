@@ -6,9 +6,7 @@ import java.sql.PreparedStatement;
 import com.eomcs.pms.domain.Board;
 import com.eomcs.util.Prompt;
 
-// Command 규칙에 따라 클래스를 정의한다.
 public class BoardAddCommand implements Command {
-
 
   @Override
   public void execute() {
@@ -27,10 +25,10 @@ public class BoardAddCommand implements Command {
       stmt.setString(1, board.getTitle());
       stmt.setString(2, board.getContent());
       stmt.setString(3, board.getWriter());
-
+      stmt.executeUpdate();
 
       System.out.println("게시글을 등록하였습니다.");
-      stmt.executeUpdate();
+
     } catch (Exception e) {
       System.out.println("게시글 등록 중 오류 발생!");
       e.printStackTrace();
