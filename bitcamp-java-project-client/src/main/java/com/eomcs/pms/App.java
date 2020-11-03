@@ -91,14 +91,14 @@ public class App {
     notifyApplicationContextListenerOnServiceStarted();
 
     Map<String,Command> commandMap = new HashMap<>();
+    MemberListCommand memberListCommand = new MemberListCommand();
 
-    commandMap.put("/board/add", new BoardAddCommand());
+    commandMap.put("/board/add", new BoardAddCommand(memberListCommand));
     commandMap.put("/board/list", new BoardListCommand());
     commandMap.put("/board/detail", new BoardDetailCommand());
     commandMap.put("/board/update", new BoardUpdateCommand());
     commandMap.put("/board/delete", new BoardDeleteCommand());
 
-    MemberListCommand memberListCommand = new MemberListCommand();
     commandMap.put("/member/add", new MemberAddCommand());
     commandMap.put("/member/list", memberListCommand);
     commandMap.put("/member/detail", new MemberDetailCommand());
