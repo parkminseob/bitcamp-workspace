@@ -1,5 +1,6 @@
 package com.eomcs.pms.handler;
 
+import java.util.Map;
 import com.eomcs.pms.dao.BoardDao;
 import com.eomcs.pms.dao.MemberDao;
 import com.eomcs.pms.domain.Board;
@@ -17,7 +18,7 @@ public class BoardAddCommand implements Command {
   }
 
   @Override
-  public void execute() {
+  public void execute(Map<String, Object> context) {
     System.out.println("[게시물 등록]");
 
     try {
