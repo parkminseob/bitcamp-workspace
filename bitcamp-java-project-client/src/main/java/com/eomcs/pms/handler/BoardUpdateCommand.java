@@ -6,7 +6,6 @@ import com.eomcs.util.Prompt;
 
 public class BoardUpdateCommand implements Command {
 
-  // 의존객체(dependency)
   BoardDao boardDao;
 
   public BoardUpdateCommand(BoardDao boardDao) {
@@ -20,7 +19,7 @@ public class BoardUpdateCommand implements Command {
 
     try {
       Board board = boardDao.findByNo(no);
-      if(board == null) {
+      if (board == null) {
         System.out.println("해당 번호의 게시물이 존재하지 않습니다.");
         return;
       }

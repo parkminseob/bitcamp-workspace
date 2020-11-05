@@ -7,10 +7,11 @@ import com.eomcs.pms.domain.Member;
 import com.eomcs.util.Prompt;
 
 public class BoardAddCommand implements Command {
+
   BoardDao boardDao;
   MemberDao memberDao;
 
-  public BoardAddCommand (BoardDao boardDao, MemberDao memberDao) {
+  public BoardAddCommand(BoardDao boardDao, MemberDao memberDao) {
     this.boardDao = boardDao;
     this.memberDao = memberDao;
   }

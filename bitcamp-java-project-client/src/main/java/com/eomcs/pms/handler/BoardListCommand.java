@@ -15,10 +15,8 @@ public class BoardListCommand implements Command {
   @Override
   public void execute() {
     System.out.println("[게시물 목록]");
-
-    try  {
+    try {
       System.out.println("번호, 제목, 작성자, 등록일, 조회수");
-
       List<Board> list = boardDao.findAll();
       for (Board board : list) {
         System.out.printf("%d, %s, %s, %s, %d\n",
@@ -27,12 +25,11 @@ public class BoardListCommand implements Command {
             board.getWriter().getName(),
             board.getRegisteredDate(),
             board.getViewCount());
-
       }
     } catch (Exception e) {
       System.out.println("게시글 목록 조회 중 오류 발생!");
       e.printStackTrace();
     }
   }
-}
 
+}

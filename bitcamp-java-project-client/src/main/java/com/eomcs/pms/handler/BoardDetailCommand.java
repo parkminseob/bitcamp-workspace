@@ -5,7 +5,6 @@ import com.eomcs.pms.domain.Board;
 import com.eomcs.util.Prompt;
 
 public class BoardDetailCommand implements Command {
-
   BoardDao boardDao;
 
   public BoardDetailCommand(BoardDao boardDao) {
@@ -17,9 +16,9 @@ public class BoardDetailCommand implements Command {
     System.out.println("[게시물 상세보기]");
     int no = Prompt.inputInt("번호? ");
 
-    try  {
+    try {
       Board board = boardDao.findByNo(no);
-      if(board == null) {
+      if (board == null) {
         System.out.println("해당 번호의 게시물이 존재하지 않습니다.");
         return;
       }
