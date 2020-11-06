@@ -44,7 +44,7 @@ public class ProjectDaoImpl implements com.eomcs.pms.dao.ProjectDao{
       }
 
       // 위의 입력을 수행한 후 일부러 다음 입력을 60초정도 지연시킨다.
-      Thread.sleep(20000);
+      //Thread.sleep(20000);
 
       // 프로젝트에 참여하는 멤버의 정보를 저장한다.
       try (PreparedStatement stmt2 = con.prepareStatement(
