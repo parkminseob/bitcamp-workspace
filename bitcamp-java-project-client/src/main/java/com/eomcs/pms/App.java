@@ -13,10 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import com.eomcs.context.ApplicationContextListener;
-import com.eomcs.pms.Filter.AuthCommandFilter;
-import com.eomcs.pms.Filter.CommandFilterManager;
-import com.eomcs.pms.Filter.DefaultCommandFilter;
-import com.eomcs.pms.Filter.LogCommandFilter;
 import com.eomcs.pms.dao.BoardDao;
 import com.eomcs.pms.dao.MemberDao;
 import com.eomcs.pms.dao.ProjectDao;
@@ -25,6 +21,10 @@ import com.eomcs.pms.dao.mariadb.BoardDaoImpl;
 import com.eomcs.pms.dao.mariadb.MemberDaoImpl;
 import com.eomcs.pms.dao.mariadb.ProjectDaoImpl;
 import com.eomcs.pms.dao.mariadb.TaskDaoImpl;
+import com.eomcs.pms.filter.CommandFilterManager;
+import com.eomcs.pms.filter.DefaultCommandFilter;
+import com.eomcs.pms.filter.FilterChain;
+import com.eomcs.pms.filter.LogCommandFilter;
 import com.eomcs.pms.handler.BoardAddCommand;
 import com.eomcs.pms.handler.BoardDeleteCommand;
 import com.eomcs.pms.handler.BoardDetailCommand;
@@ -55,6 +55,7 @@ import com.eomcs.pms.listener.AppInitListener;
 import com.eomcs.util.Prompt;
 
 public class App {
+
   // 옵저버와 공유할 맵 객체
   Map<String,Object> context = new Hashtable<>();
 
@@ -109,8 +110,8 @@ public class App {
 
     Map<String,Command> commandMap = new HashMap<>();
 
-    // AppInitListener가 준비한 Connection객체를 꺼낸다.
-    Connection con = (Connection) context.get("con");
+    // AppInitListener 가 준비한 Connection 객체를 꺼낸다.
+    Connection con  = (Connection) context.get("con");
 
     BoardDao boardDao = new BoardDaoImpl(con);
     MemberDao memberDao = new MemberDaoImpl(con);
@@ -144,10 +145,10 @@ public class App {
     commandMap.put("/hello", new HelloCommand());
 
     commandMap.put("/login", new LoginCommand(memberDao));
+    commandMap.put("/whoami", new WhoamiCommand());
     commandMap.put("/logout", new LogoutCommand());
-    commandMap.put("/whoami", new WhoamiCommand(memberDao));
 
-    // commandMAp 객체를 context맵에 보관한다.
+    // commandMap 객체를 context 맵에 보관한다.
     // => 필터나 커맨드 객체가 사용할 수 있기 때문이다.
     context.put("commandMap", commandMap);
 
@@ -155,13 +156,19 @@ public class App {
     CommandFilterManager filterManager = new CommandFilterManager();
 
     // 필터를 등록한다.
-    //filterManager.add(new LogCommandFilter());
-    filterManager.add(new LogCommandFilter(new File("command.log")));
-    filterManager.add(new AuthCommandFilter());
+    filterManager.add(new LogCommandFilter());
+    //filterManager.add(new AuthCommandFilter());
     filterManager.add(new DefaultCommandFilter());
 
-    // 필터들을 준비시킨다..
+    // 필터가 사용할 값을 context 맵에 담는다.
+    File logFile = new File("command.log");
+    context.put("logFile", logFile);
+
+    // 필터들을 준비시킨다.
     filterManager.init(context);
+
+    // 사용자가 명령을 처리할 필터 체인을 얻는다.
+    FilterChain filterChain = filterManager.getFilterChains();
 
     Deque<String> commandStack = new ArrayDeque<>();
     Queue<String> commandQueue = new LinkedList<>();
@@ -188,16 +195,18 @@ public class App {
             // 커맨드나 필터가 사용할 객체를 준비한다.
             Request request = new Request(inputStr, context);
 
-            // 사용자가 명령을 입력하면 필터관리자를 실행시킨다.
-            filterManager.reset(); //실행할 필터의 인덱스를 0으로 초기화시킨다.
-            filterManager.doFilter(request);
-
+            // 필터들의 체인을 실행한다.
+            if (filterChain != null) {
+              filterChain.doFilter(request);
+            }
         }
         System.out.println();
       }
     Prompt.close();
 
+    // 필터들을 마무리시킨다.
     filterManager.destroy();
+
     notifyApplicationContextListenerOnServiceStopped();
   }
 

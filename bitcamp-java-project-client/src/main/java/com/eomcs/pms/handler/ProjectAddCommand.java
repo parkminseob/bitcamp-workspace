@@ -20,7 +20,7 @@ public class ProjectAddCommand implements Command {
   }
 
   @Override
-  public void execute(Map<String, Object> context) {
+  public void execute(Map<String,Object> context) {
     System.out.println("[프로젝트 등록]");
 
     try {
@@ -32,8 +32,6 @@ public class ProjectAddCommand implements Command {
 
       Member loginUser = (Member) context.get("loginUser");
       project.setOwner(loginUser);
-
-
 
       // 프로젝트에 참여할 회원 정보를 담는다.
       List<Member> members = new ArrayList<>();
@@ -55,7 +53,9 @@ public class ProjectAddCommand implements Command {
       project.setMembers(members);
 
       projectDao.insert(project);
-      System.out.println("프로젝트가 등록되었습니다.");
+
+      System.out.println("프로젝트가 등록되었습니다!");
+
     } catch (Exception e) {
       System.out.println("프로젝트 등록 중 오류 발생!");
       e.printStackTrace();
