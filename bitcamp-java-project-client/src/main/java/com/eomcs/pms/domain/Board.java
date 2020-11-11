@@ -3,7 +3,7 @@ package com.eomcs.pms.domain;
 import java.sql.Date;
 
 public class Board {
-  private int bno;
+  private int no;
   private String title;
   private String content;
   private Member writer;
@@ -11,10 +11,10 @@ public class Board {
   private int viewCount;
 
   public int getNo() {
-    return bno;
+    return no;
   }
   public void setNo(int no) {
-    this.bno = no;
+    this.no = no;
   }
   public String getTitle() {
     return title;
