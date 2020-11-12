@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="BoardMapper">
+  <!-- update SQL을 실행할 때 update태그 대신에 insert/delete태그를 사용해도 된다.
+       mybatis는 SQL을 찾을 때 id값으로 찾기 때문이당~~~~~~!!!!!!!
+       그러나 유지보수를 위해 가능한 일관된 이름을 사용하라.
+       즉 insert sql문은 insert태그에 넣고 update sql문은 update태그네 넣자.
+   -->
+  <insert id="updateBoard" parameterType="Board">
+    update x_board set
+      title=#{title},
+      contents=#{content}
+    where board_id=#{no}
+  </insert>  
+</mapper>
+
+
+
+
+
+
+

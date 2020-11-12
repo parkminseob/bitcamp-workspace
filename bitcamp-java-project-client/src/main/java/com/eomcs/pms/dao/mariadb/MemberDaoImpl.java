@@ -75,8 +75,8 @@ public class MemberDaoImpl implements com.eomcs.pms.dao.MemberDao {
     Map<String, Object> map = new HashMap<>();
     map.put("email", email);
     map.put("password", password);
-    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
 
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       return sqlSession.selectOne("MemberDao.findByEmailPassword", map);
     }
   }
