@@ -25,12 +25,9 @@ public class ProjectDaoImpl implements com.eomcs.pms.dao.ProjectDao {
       int count = sqlSession.insert("ProjectDao.insert", project);
 
       // 프로젝트의 멤버 정보 입력
-      for(Member member : project.getMembers()) {
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("memberNo", member.getNo());
-        map.put("projectNo", project.getNo());
-        sqlSession.insert("ProjectDao.insertMember", map);
-      }
+      // 반복문을 SQL문 foreach에서 처리하기때문에
+      // 자바에서 처리할 필요가 없다.
+      sqlSession.insert("ProjectDao.insertMembers", project);
       sqlSession.commit();
       return count;
     }

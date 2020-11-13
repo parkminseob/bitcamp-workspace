@@ -30,7 +30,7 @@
        ...
    -->
   <!-- selectList(sqlid, int) --> 
-  <select id="selectBoard1" 
+  <select id="selectBoard1"
           resultMap="BoardMap" 
           parameterType="int">
   <![CDATA[
@@ -42,7 +42,6 @@
       view_count 
     from x_board
     where board_id < #{ohora}
-  </select>
   ]]>
   </select>
   
@@ -74,7 +73,7 @@
       created_date,
       view_count 
     from x_board
-    order by board 
+    order by board_id desc
     limit #{startIndex}, #{size}
   </select>
   
