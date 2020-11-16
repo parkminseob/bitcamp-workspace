@@ -11,7 +11,7 @@
     <result column="deadline"   property="deadline"/> 
     <result column="status"     property="status"/>
     <result column="project_no"  property="projectNo"/>
-    <result column="title"  property="projectTitle"/>
+    <result column="project_title"  property="projectTitle"/>
     
    <association property="owner" javaType="member">
       <id column="owner_no"   property="no"/>
@@ -24,7 +24,7 @@
       values(#{content},#{deadline},#{owner.no},#{projectNo},#{status})
    </insert>
    
-  <select id="findAll" resultMap="TaskMap">
+  <select id="findAll" resultMap="TaskMap" parameterType="map">
   select
    t.no, 
    t.content, 
@@ -35,6 +35,11 @@
    m.name owner_name
   from pms_task t 
    inner join pms_member m on t.owner=m.no
+  <where>
+    <if test="projectNo != null">
+      t.project_no=#{projectNo}
+    </if>    
+  </where> 
   order by t.deadline asc
   </select>
   
@@ -52,7 +57,6 @@
      inner join pms_member m on t.owner=m.no
      inner join pms_project p on t.project_no=p.no
     where t.no = #{no}
-  
   </select>
 
   <update id="update" parameterType="task">

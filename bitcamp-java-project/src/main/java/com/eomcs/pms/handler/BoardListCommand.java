@@ -1,34 +1,35 @@
 package com.eomcs.pms.handler;
 
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import com.eomcs.pms.dao.BoardDao;
 import com.eomcs.pms.domain.Board;
 
 public class BoardListCommand implements Command {
 
-  List<Board> boardList;
+  BoardDao boardDao;
 
-  public BoardListCommand(List<Board> list) {
-    this.boardList = list;
+  public BoardListCommand(BoardDao boardDao) {
+    this.boardDao = boardDao;
   }
 
-
   @Override
-  public void execute() {
+  public void execute(Map<String, Object> context) {
     System.out.println("[게시물 목록]");
-
-    // 전체 목록을 조회할 때 `Iterator` 객체를 사용한다.
-    // 만약 목록의 일부만 조회하면다면 인덱스를 직접 다루는 이전 방식을 사용해야 한다.
-    Iterator<Board> iterator = boardList.iterator();
-
-    while (iterator.hasNext()) {
-      Board board = iterator.next();
-      System.out.printf("%d, %s, %s, %s, %d\n",
-          board.getNo(),
-          board.getTitle(),
-          board.getWriter(),
-          board.getRegisteredDate(),
-          board.getViewCount());
+    try {
+      System.out.println("번호, 제목, 작성자, 등록일, 조회수");
+      List<Board> list = boardDao.findAll();
+      for (Board board : list) {
+        System.out.printf("%d, %s, %s, %s, %d\n",
+            board.getNo(),
+            board.getTitle(),
+            board.getWriter().getName(),
+            board.getRegisteredDate(),
+            board.getViewCount());
+      }
+    } catch (Exception e) {
+      System.out.println("게시글 목록 조회 중 오류 발생!");
+      e.printStackTrace();
     }
   }
 

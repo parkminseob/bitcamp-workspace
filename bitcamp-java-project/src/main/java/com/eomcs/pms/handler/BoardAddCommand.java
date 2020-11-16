@@ -1,33 +1,40 @@
 package com.eomcs.pms.handler;
 
-import java.sql.Date;
-import java.util.List;
+import java.util.Map;
+import com.eomcs.pms.dao.BoardDao;
+import com.eomcs.pms.dao.MemberDao;
 import com.eomcs.pms.domain.Board;
+import com.eomcs.pms.domain.Member;
 import com.eomcs.util.Prompt;
 
-// Command 규칙에 따라 클래스를 정의한다. 
 public class BoardAddCommand implements Command {
 
-  List<Board> boardList;
+  BoardDao boardDao;
+  MemberDao memberDao;
 
-  public BoardAddCommand(List<Board> list) {
-    this.boardList = list;
+  public BoardAddCommand(BoardDao boardDao, MemberDao memberDao) {
+    this.boardDao = boardDao;
+    this.memberDao = memberDao;
   }
 
   @Override
-  public void execute() {
+  public void execute(Map<String, Object> context) {
     System.out.println("[게시물 등록]");
 
-    Board board = new Board();
-    board.setNo(Prompt.inputInt("번호? "));
-    board.setTitle(Prompt.inputString("제목? "));
-    board.setContent(Prompt.inputString("내용? "));
-    board.setWriter(Prompt.inputString("작성자? "));
-    board.setRegisteredDate(new Date(System.currentTimeMillis()));
-    board.setViewCount(0);
+    try {
+      Board board = new Board();
+      board.setTitle(Prompt.inputString("제목? "));
+      board.setContent(Prompt.inputString("내용? "));
 
-    boardList.add(board);
+      Member loginUser = (Member) context.get("loginUser");
+      board.setWriter(loginUser);
 
-    System.out.println("게시글을 등록하였습니다.");
+      boardDao.insert(board);
+      System.out.println("게시글을 등록하였습니다.");
+
+    } catch (Exception e) {
+      System.out.println("게시글 등록 중 오류 발생!");
+      e.printStackTrace();
+    }
   }
 }

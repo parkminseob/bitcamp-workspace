@@ -1,44 +1,47 @@
 package com.eomcs.pms.handler;
 
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import com.eomcs.pms.dao.TaskDao;
 import com.eomcs.pms.domain.Task;
 
 public class TaskListCommand implements Command {
+  TaskDao taskDao;
 
-  List<Task> taskList;
-
-  public TaskListCommand(List<Task> list) {
-    this.taskList = list;
+  public TaskListCommand(TaskDao taskDao) {
+    this.taskDao = taskDao;
   }
 
   @Override
-  public void execute() {
+  public void execute(Map<String, Object> context) {
     System.out.println("[작업 목록]");
 
-    // 전체 목록을 조회할 때 `Iterator` 객체를 사용한다.
-    // 만약 목록의 일부만 조회하면다면 인덱스를 직접 다루는 이전 방식을 사용해야 한다.
-    Iterator<Task> iterator = taskList.iterator();
+    try {
+      List<Task> list = taskDao.findAll();
+      System.out.println("번호, 작업내용, 마감일, 작업자, 상태");
 
-    while (iterator.hasNext()) {
-      Task task = iterator.next();
-      String stateLabel = null;
-      switch (task.getStatus()) {
-        case 1:
-          stateLabel = "진행중";
-          break;
-        case 2:
-          stateLabel = "완료";
-          break;
-        default:
-          stateLabel = "신규";
+      for (Task task : list) {
+        String stateLabel = null;
+        switch (task.getStatus()) {
+          case 1:
+            stateLabel = "진행중";
+            break;
+          case 2:
+            stateLabel = "완료";
+            break;
+          default:
+            stateLabel = "신규";
+        }
+        System.out.printf("%d, %s, %s, %s, %s\n",
+            task.getNo(),
+            task.getContent(),
+            task.getDeadline(),
+            task.getOwner().getName(),
+            stateLabel);
       }
-      System.out.printf("%d, %s, %s, %s, %s\n",
-          task.getNo(),
-          task.getContent(),
-          task.getDeadline(),
-          stateLabel,
-          task.getOwner());
+    } catch (Exception e) {
+      System.out.println("작업 목록 조회 중 오류 발생!");
+      e.printStackTrace();
     }
   }
 }

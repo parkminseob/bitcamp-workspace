@@ -2,6 +2,7 @@ package com.eomcs.pms.dao.mariadb;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import com.eomcs.pms.domain.Task;
@@ -45,11 +46,9 @@ public class TaskDaoImpl implements com.eomcs.pms.dao.TaskDao {
   }
 
   @Override
-  public List<Task> findAll() throws Exception {
+  public List<Task> findAll(Map<String, Object> map) throws Exception {
     try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
-
-      List<Task> tasks =  sqlSession.selectList("TaskDao.findAll");
-      return tasks;
+      return sqlSession.selectList("TaskDao.findAll", map);
     }
   }
 
