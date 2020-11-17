@@ -1,6 +1,5 @@
 package com.eomcs.pms.dao.mariadb;
 
-import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
@@ -9,31 +8,29 @@ import com.eomcs.pms.domain.Task;
 
 public class TaskDaoImpl implements com.eomcs.pms.dao.TaskDao {
 
-  Connection con;
   SqlSessionFactory sqlSessionFactory;
 
-  public TaskDaoImpl(Connection con, SqlSessionFactory sqlSessionFactory) {
-    this.con = con;
+  public TaskDaoImpl(SqlSessionFactory sqlSessionFactory) {
     this.sqlSessionFactory = sqlSessionFactory;
   }
 
   @Override
   public int insert(Task task) throws Exception {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession(true)) {
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       return sqlSession.insert("TaskDao.insert", task);
     }
   }
 
   @Override
   public int delete(int no) throws Exception {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession(true)) {
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       return sqlSession.delete("TaskDao.delete", no);
     }
   }
 
   @Override
   public int deleteByProjectNo(int projectNo) throws Exception {
-    try (SqlSession sqlSession = sqlSessionFactory.openSession(true)) {
+    try (SqlSession sqlSession = sqlSessionFactory.openSession()) {
       return sqlSession.delete("TaskDao.deleteByProjectNo", projectNo);
     }
   }

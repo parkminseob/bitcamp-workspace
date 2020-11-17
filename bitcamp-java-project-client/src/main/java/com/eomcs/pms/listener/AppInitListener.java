@@ -1,11 +1,9 @@
 package com.eomcs.pms.listener;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import com.eomcs.context.ApplicationContextListener;
 import com.eomcs.pms.dao.BoardDao;
@@ -44,6 +42,7 @@ import com.eomcs.pms.handler.TaskDetailCommand;
 import com.eomcs.pms.handler.TaskListCommand;
 import com.eomcs.pms.handler.TaskUpdateCommand;
 import com.eomcs.pms.handler.WhoamiCommand;
+import com.eomcs.util.SqlSessionFactoryProxy;
 
 public class AppInitListener implements ApplicationContextListener {
   @Override
@@ -52,19 +51,17 @@ public class AppInitListener implements ApplicationContextListener {
 
     // 시스템에서 사용할 객체를 준비한다.
     try {
-      Connection con = DriverManager.getConnection(
-          "jdbc:mysql://localhost:3306/studydb?user=study&password=1111");
-
       // mybatis 객체 준비
-      SqlSessionFactory sqlSessionFactory =
+      // 오리지날 객체를 품은 프록시를 꼽는다.
+      SqlSessionFactoryProxy sqlSessionFactory = new SqlSessionFactoryProxy(
           new SqlSessionFactoryBuilder().build(Resources.getResourceAsStream(
-              "com/eomcs/pms/conf/mybatis-config.xml"));
+              "com/eomcs/pms/conf/mybatis-config.xml")));
 
       // DAO 구현체 생성
       BoardDao boardDao = new BoardDaoImpl(sqlSessionFactory);
       MemberDao memberDao = new MemberDaoImpl(sqlSessionFactory);
       ProjectDao projectDao = new ProjectDaoImpl(sqlSessionFactory);
-      TaskDao taskDao = new TaskDaoImpl(con, sqlSessionFactory);
+      TaskDao taskDao = new TaskDaoImpl(sqlSessionFactory);
 
       // Command 구현체 생성 및 commandMap 객체 준비
       Map<String,Command> commandMap = new HashMap<>();
@@ -85,7 +82,7 @@ public class AppInitListener implements ApplicationContextListener {
       commandMap.put("/project/list", new ProjectListCommand(projectDao));
       commandMap.put("/project/detail", new ProjectDetailCommand(projectDao, taskDao));
       commandMap.put("/project/update", new ProjectUpdateCommand(projectDao, memberDao));
-      commandMap.put("/project/delete", new ProjectDeleteCommand(projectDao, taskDao));
+      commandMap.put("/project/delete", new ProjectDeleteCommand(projectDao, taskDao, sqlSessionFactory));
       commandMap.put("/project/search", new ProjectSearchCommand(projectDao));
       commandMap.put("/project/detailsearch", new ProjectDetailSearchCommand(projectDao));
 

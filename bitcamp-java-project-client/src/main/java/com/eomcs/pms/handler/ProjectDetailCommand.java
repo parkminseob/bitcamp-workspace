@@ -40,6 +40,7 @@ public class ProjectDetailCommand implements Command {
       project.getMembers().forEach(
           member -> System.out.print(member.getName() + " "));
 
+      System.out.println();
       System.out.println("작업: ");
       System.out.println("----------------------------");
       Map<String,Object> map = new HashMap<>();
