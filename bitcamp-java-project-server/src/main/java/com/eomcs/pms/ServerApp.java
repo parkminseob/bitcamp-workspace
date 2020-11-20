@@ -14,7 +14,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import com.eomcs.context.ApplicationContextListener;
-import com.eomcs.pms.handler.Command;
+import com.eomcs.pms.filter.FilterChain;
+import com.eomcs.pms.handler.Request;
 import com.eomcs.pms.listener.AppInitListener;
 import com.eomcs.pms.listener.DataHandlerListener;
 import com.eomcs.pms.listener.RequestMappingListener;
@@ -25,6 +26,7 @@ public class ServerApp {
   // - 이 값이 true 이면 다음 클라이언트 접속할 때 서버를 종료한다.
   static boolean stop = false;
 
+  // 스레드풀 준비
   ExecutorService threadPool = Executors.newCachedThreadPool();
 
   // 옵저버와 공유할 맵 객체
@@ -70,6 +72,7 @@ public class ServerApp {
         if (stop) {
           break;
         }
+        // 직접 스레드를 생성하는 것이 아니라 스레드풀에 작업을 맡긴다.
         threadPool.execute(() -> handleClient(clientSocket));
       }
 
@@ -78,29 +81,28 @@ public class ServerApp {
     }
 
     notifyApplicationContextListenerOnServiceStopped();
-
     // 스레드풀을 종료한다.
     threadPool.shutdown();
 
     try {
-      if(!threadPool.awaitTermination(10, TimeUnit.SECONDS)) {
+      // 스레드풀의 모든 스레드가 종료될 때까지 기다린다.
+      if (!threadPool.awaitTermination(10, TimeUnit.SECONDS)) {
         System.out.println("아직 종료 안된 작업이 있다.");
         System.out.println("남아 있는 작업의 강제 종료를 시도하겠다.");
-
-        // 맡약 10초가 경과될 때 까지 종료되지 않으면
-        // 수행 중인 작업은 강제 종료하라고 지시하고,
-        // 대기 중인 작업은 취소한다.
+        // => 만약 10초가 경과될 때까지 종료되지 않으면,
+        //    수행 중인 작업을 강제 종료하라고 지시하고,
+        //    대기 중인 작업은 취소한다.
         threadPool.shutdownNow();
 
-        // 그리고 다시 작업이 종료될 때가지 기다린다.
-        if(!threadPool.awaitTermination(5, TimeUnit.SECONDS)) {
+        // 그리고 다시 작업이 종료될 때까지 기다린다.
+        if (!threadPool.awaitTermination(5, TimeUnit.SECONDS)) {
           System.out.println("스레드풀의 강제 종료를 완료하지 못했다.");
         } else {
           System.out.println("모든 작업을 강제 종료했다.");
         }
       }
     } catch (Exception e) {
-      System.out.println("강제 종료중 오류 발생!");
+      System.out.println("스레드풀 종료 중 오류 발생!");
     }
     System.out.println("서버 종료!");
   }
@@ -126,9 +128,9 @@ public class ServerApp {
         PrintWriter out = new PrintWriter(socket.getOutputStream())) {
 
       // 클라이언트가 보낸 요청을 읽는다.
-      String request = in.readLine();
+      String requestLine = in.readLine();
 
-      if (request.equalsIgnoreCase("stop")) {
+      if (requestLine.equalsIgnoreCase("stop")) {
         stop = true; // 서버의 상태를 멈추라는 의미로 true로 설정한다.
         out.println("서버를 종료하는 중입니다!");
         out.println();
@@ -136,17 +138,22 @@ public class ServerApp {
         return;
       }
 
-      Command command = (Command) context.get(request);
-      if (command != null) {
-        command.execute(out, in);
-      } else {
-        out.println("해당 명령을 처리할 수 없습니다!");
+      // 커맨드나 필터가 사용할 객체를 준비한다.
+      Request request = new Request(requestLine, context, out, in);
+
+      // context 맵에 보관된 필터 체인을 꺼낸다.
+      FilterChain filterChain = (FilterChain) context.get("filterChain");
+
+      // 필터들의 체인을 실행한다.
+      // => 필터 체인을 따라가면서 중간에 삽입된 필터가 있다면 실행할 것이다.
+      // 마지막 필터에서는 클라이언트가 요청한 명령을 처리할 것이다.
+      if (filterChain != null) {
+        filterChain.doFilter(request);
       }
 
       // 응답의 끝을 알리는 빈 문자열을 보낸다.
       out.println();
       out.flush();
-
 
     } catch (Exception e) {
       System.out.println("클라이언트와의 통신 오류!");

@@ -15,7 +15,8 @@ repositories {
 }
 
 dependencies {
-
+    // 웹 크롤링 jsoup
+    implementation 'org.jsoup:jsoup:1.13.1'
     // MyBatis 퍼시스턴스 프레임워크
     implementation 'org.mybatis:mybatis:3.5.6'
 
