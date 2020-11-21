@@ -1,12 +1,11 @@
 package com.eomcs.pms.handler;
 
-import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.Map;
 import com.eomcs.pms.domain.Task;
 import com.eomcs.pms.service.TaskService;
 
+@CommandAnno("/task/list")
 public class TaskListCommand implements Command {
 
   TaskService taskService;
@@ -16,7 +15,8 @@ public class TaskListCommand implements Command {
   }
 
   @Override
-  public void execute(PrintWriter out, BufferedReader in, Map<String,Object> context) {
+  public void execute(Request request) {
+    PrintWriter out = request.getWriter();
     out.println("[작업 목록]");
 
     try {

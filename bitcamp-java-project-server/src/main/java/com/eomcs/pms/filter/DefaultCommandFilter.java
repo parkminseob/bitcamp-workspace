@@ -25,9 +25,9 @@ public class DefaultCommandFilter implements CommandFilter {
 
     if (command != null) {
       try {
-        command.execute(request.getWriter(), request.getReader(), context);
+        command.execute(request);
+
       } catch (Exception e) {
-        // 오류가 발생하면 그 정보를 갖고 있는 객체의 클래스 이름을 출력한다.
         out.println("--------------------------------------------------------------");
         out.printf("명령어 실행 중 오류 발생: %s\n", e);
         out.println("--------------------------------------------------------------");

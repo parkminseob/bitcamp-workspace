@@ -7,6 +7,7 @@ import com.eomcs.pms.domain.Member;
 import com.eomcs.pms.service.MemberService;
 import com.eomcs.util.Prompt;
 
+@CommandAnno("/login")
 public class LoginCommand implements Command {
 
   MemberService memberService;
@@ -16,10 +17,14 @@ public class LoginCommand implements Command {
   }
 
   @Override
-  public void execute(PrintWriter out, BufferedReader in, Map<String,Object> context) {
+  public void execute(Request request) {
+    PrintWriter out = request.getWriter();
+    BufferedReader in = request.getReader();
+    Map<String, Object> session = request.getSession();
+
     out.println("[로그인]");
 
-    if (context.get("loginUser") != null) {
+    if (session.get("loginUser") != null) {
       out.println("로그인 되어 있습니다!");
       return;
     }
@@ -32,8 +37,8 @@ public class LoginCommand implements Command {
       if (member == null) {
         out.println("사용자 정보가 맞지 않습니다.");
       } else {
-        // 로그인이 성공했으면 회원 정보를 context 보관소에 저장한다.
-        context.put("loginUser", member);
+        // 로그인이 성공했으면 회원 정보를 session 보관소에 저장한다.
+        session.put("loginUser", member);
         out.printf("%s 님 반갑습니다.\n", member.getName());
       }
 

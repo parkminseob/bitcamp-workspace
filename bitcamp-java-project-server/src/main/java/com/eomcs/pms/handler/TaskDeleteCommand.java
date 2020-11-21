@@ -2,10 +2,10 @@ package com.eomcs.pms.handler;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;
-import java.util.Map;
 import com.eomcs.pms.service.TaskService;
 import com.eomcs.util.Prompt;
 
+@CommandAnno("/task/delete")
 public class TaskDeleteCommand implements Command {
 
   TaskService taskService;
@@ -15,7 +15,9 @@ public class TaskDeleteCommand implements Command {
   }
 
   @Override
-  public void execute(PrintWriter out, BufferedReader in, Map<String,Object> context) {
+  public void execute(Request request) {
+    PrintWriter out = request.getWriter();
+    BufferedReader in = request.getReader();
     try {
       out.println("[작업 삭제]");
       int no = Prompt.inputInt("번호? ", out, in);

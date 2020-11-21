@@ -1,12 +1,11 @@
 package com.eomcs.pms.handler;
 
-import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.Map;
 import com.eomcs.pms.domain.Board;
 import com.eomcs.pms.service.BoardService;
 
+@CommandAnno("/board/list")
 public class BoardListCommand implements Command {
 
   BoardService boardService;
@@ -17,7 +16,8 @@ public class BoardListCommand implements Command {
 
 
   @Override
-  public void execute(PrintWriter out, BufferedReader in, Map<String,Object> context) {
+  public void execute(Request request) {
+    PrintWriter out = request.getWriter();
     try {
       out.println("[게시물 목록]");
 

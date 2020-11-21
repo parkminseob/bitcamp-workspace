@@ -32,13 +32,13 @@ public class AppInitListener implements ApplicationContextListener {
       // 사용자가 입력한 명령을 처리할 필터 체인을 얻는다.
       FilterChain filterChain = filterManager.getFilterChains();
 
-      // 필터 체인을 사용할 수 있도록 context맵 보관소에 저장해 둔다.
+      // 필터 체인을 사용할 수 있도록 context 맵 보관소에 저장해 둔다.
       context.put("filterChain", filterChain);
+
     } catch (Exception e) {
       System.out.println("필터 관리자 준비 중 오류 발생!");
       e.printStackTrace();
     }
-
   }
 
   @Override

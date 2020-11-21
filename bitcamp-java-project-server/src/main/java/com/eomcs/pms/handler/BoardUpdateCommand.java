@@ -2,11 +2,11 @@ package com.eomcs.pms.handler;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;
-import java.util.Map;
 import com.eomcs.pms.domain.Board;
 import com.eomcs.pms.service.BoardService;
 import com.eomcs.util.Prompt;
 
+@CommandAnno("/board/update")
 public class BoardUpdateCommand implements Command {
 
   BoardService boardService;
@@ -16,7 +16,9 @@ public class BoardUpdateCommand implements Command {
   }
 
   @Override
-  public void execute(PrintWriter out, BufferedReader in, Map<String,Object> context) {
+  public void execute(Request request) {
+    PrintWriter out = request.getWriter();
+    BufferedReader in = request.getReader();
     try {
       out.println("[게시물 변경]");
       int no = Prompt.inputInt("번호? ", out, in);

@@ -11,6 +11,7 @@ import com.eomcs.pms.service.MemberService;
 import com.eomcs.pms.service.ProjectService;
 import com.eomcs.util.Prompt;
 
+@CommandAnno("/project/add")
 public class ProjectAddCommand implements Command {
 
   ProjectService projectService;
@@ -24,7 +25,10 @@ public class ProjectAddCommand implements Command {
   }
 
   @Override
-  public void execute(PrintWriter out, BufferedReader in, Map<String,Object> context) {
+  public void execute(Request request) {
+    PrintWriter out = request.getWriter();
+    BufferedReader in = request.getReader();
+    Map<String, Object> session = request.getSession();
     try {
       out.println("[프로젝트 등록]");
 
@@ -34,7 +38,7 @@ public class ProjectAddCommand implements Command {
       project.setStartDate(Prompt.inputDate("시작일? ", out, in));
       project.setEndDate(Prompt.inputDate("종료일? ", out, in));
 
-      Member loginUser = (Member) context.get("loginUser");
+      Member loginUser = (Member) session.get("loginUser");
       project.setOwner(loginUser);
 
       // 프로젝트에 참여할 회원 정보를 담는다.
