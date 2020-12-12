@@ -1,25 +1,26 @@
 package com.eomcs.pms.web;
 
-import java.io.PrintWriter;
-import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import com.eomcs.pms.domain.Member;
 
-@CommandAnno("/logout")
-public class LogoutCommand implements Command {
+@Controller
+public class LogoutController {
 
-  @Override
-  public void execute(Request request) {
-    PrintWriter out = request.getWriter();
-    Map<String,Object> session = request.getSession();
+  @RequestMapping("/auth/logout")
+  public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    HttpSession session = request.getSession();
 
-    Member loginUser = (Member) session.get("loginUser");
-    if (loginUser == null) {
-      out.println("로그인 된 상태가 아닙니다!");
-      return;
+    Member loginUser = (Member) session.getAttribute("loginUser");
+    if (loginUser != null) {
+      session.invalidate();
     }
 
-    out.printf("%s 님 안녕히 가세요!\n", loginUser.getName());
-
-    request.invalidateSession();
+    response.setContentType("text/html;charset=UTF-8");
+    request.setAttribute("loginUser", loginUser);
+    return "/auth/logout.jsp";
   }
 }

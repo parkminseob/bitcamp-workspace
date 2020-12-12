@@ -1,51 +1,65 @@
 package com.eomcs.pms.web;
 
-import java.io.BufferedReader;
-import java.io.PrintWriter;
-import java.util.Map;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import com.eomcs.pms.domain.Member;
 import com.eomcs.pms.service.MemberService;
-import com.eomcs.util.Prompt;
 
-@CommandAnno("/login")
-public class LoginServlet implements Command {
+@Controller
+public class LoginController {
 
   MemberService memberService;
 
-  public LoginServlet(MemberService memberService) {
+  public LoginController(MemberService memberService) {
     this.memberService = memberService;
   }
 
-  @Override
-  public void execute(Request request) {
-    PrintWriter out = request.getWriter();
-    BufferedReader in = request.getReader();
-    Map<String,Object> session = request.getSession();
+  @RequestMapping("/auth/login")
+  public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    response.setContentType("text/html;charset=UTF-8");
 
-    out.println("[로그인]");
+    if (request.getMethod().equals("GET")) {
+      // 웹브라우저가 쿠키로 이메일을 보냈으면 꺼낸다.
+      String email = "";
 
-    if (session.get("loginUser") != null) {
-      out.println("로그인 되어 있습니다!");
-      return;
-    }
-
-    try {
-      String email = Prompt.inputString("이메일? ", out, in);
-      String password = Prompt.inputString("암호? ", out, in);
-
-      Member member = memberService.get(email, password);
-      if (member == null) {
-        out.println("사용자 정보가 맞지 않습니다.");
-      } else {
-        // 로그인이 성공했으면 회원 정보를
-        // 각 클라이언트의 전용 보관소인 session에 저장한다.
-        session.put("loginUser", member);
-        out.printf("%s 님 반갑습니다.\n", member.getName());
+      Cookie[] cookies = request.getCookies();
+      if (cookies != null) {
+        for (Cookie cookie : cookies) {
+          if (cookie.getName().equals("email")) {
+            email = cookie.getValue();
+            break;
+          }
+        }
       }
 
-    } catch (Exception e) {
-      out.printf("작업 처리 중 오류 발생! - %s\n", e.getMessage());
-      e.printStackTrace();
+      request.setAttribute("email", email);
+      return "/auth/form.jsp";
     }
+
+    HttpSession session = request.getSession();
+
+    String email = request.getParameter("email");
+    String password = request.getParameter("password");
+
+    Cookie emailCookie = new Cookie("email", email);
+
+    if (request.getParameter("saveEmail") != null) {
+      emailCookie.setMaxAge(60 * 60 * 24 * 7);
+    } else {
+      emailCookie.setMaxAge(0); // 유효기간이 0이면 삭제하라는 의미다.
+    }
+    response.addCookie(emailCookie);
+
+    Member member = memberService.get(email, password);
+    if (member == null) {
+      return "/auth/loginError.jsp";
+    }
+
+    session.setAttribute("loginUser", member);
+    return "redirect:../../index.html";
   }
 }

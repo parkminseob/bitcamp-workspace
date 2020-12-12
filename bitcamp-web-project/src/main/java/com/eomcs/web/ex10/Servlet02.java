@@ -44,13 +44,11 @@ public class Servlet02 extends HttpServlet {
 
     if (cookies != null) {
       for (Cookie c : cookies) {
+        // 쿠키 값이 'URL 인코딩'한 값이라면
+        // 개발자가 직접 디코딩 해서 사용해야 한다.
+        // 쿠키 값에 대해서는 서버가 자동으로 디코딩 해주지 않는다.
         out.printf("%s=%s\n", c.getName(), c.getValue());
-        if (c.getName().equals("name3")) {
-          // 쿠키 값이 'URL 인코딩'한 값이라면
-          // 개발자가 직접 디코딩 해서 사용해야 한다.
-          // 쿠키 값에 대해서는 서버가 자동으로 디코딩 해주지 않는다.
-          out.printf(" => %s\n", URLDecoder.decode(c.getValue(), "UTF-8"));
-        }
+        out.printf(" => %s\n", URLDecoder.decode(c.getValue(), "UTF-8"));
       }
     }
 

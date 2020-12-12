@@ -9,35 +9,41 @@ import javax.servlet.http.HttpServlet;
 //
 //@WebServlet(
 //    value = "/ex06/s3",
-//    loadOnStartup = 1,
+//    loadOnStartup = 1, // 이것을 붙이면 클라이언트가 요청하지 않더라도 서블릿 컨테이너가 시작될 때 객체를 자동으로 만들면서 서블릿을 실행한다.
 //    initParams = {
 //        @WebInitParam(name = "jdbc.driver", value = "org.mariadb.jdbc.Driver"),
 //        @WebInitParam(name = "jdbc.url", value = "jdbc:mariadb://localhost/studydb"),
 //        @WebInitParam(name = "jdbc.username", value = "study"),
 //        @WebInitParam(name = "jdbc.password", value = "1111")})
-@SuppressWarnings("serial")
+//@SuppressWarnings("serial")
 public class Servlet03 extends HttpServlet {
+  //  ServletConfig config;
+  //
+  //  GenericServlet g;
+  //  @Override
+  //  public void init(ServletConfig config) throws ServletException {
+  // 서블릿 객체가 생성될 때 뭔가 준비하는 작업을 해야 한다면,
+  // 보통 이 메서드를 오버라이딩 할 것이다.
+  //
+  // 문제는 이 메서드가 호출될 때 넘어오는 값(config)을 나중에 사용할 수 있도록
+  // 보통 인스턴스 필드에 보관해 둔다.
+  // 즉 getServletConfig()가 호출될 때 리턴하도록 코드를 작성한다.
+  //    this.config = config;
 
-  // @Override
-  // public void init(ServletConfig config) throws ServletException {
-  // // 서블릿 객체가 생성될 때 뭔가 준비하는 작업을 해야 한다면,
-  // // 보통 이 메서드를 오버라이딩 할 것이다.
-  // //
-  // // 문제는 이 메서드가 호출될 때 넘어오는 값(config)을 인스턴스 필드에 보관했다가,
-  // // 나중에 getServletConfig()가 호출될 때 리턴하도록 코드를 작성해야 한다.
-  // // 이런 작업이 번거롭다.
-  // //
-  // // 이런 불편함을 없애기 위해서 GenericServlet은
-  // // 미리 이 메서드에 해당 코드를 작성해 두었다.
-  // // 그리고 추가적으로 파라미터 값을 받지 않는 init()를 호출하도록
-  // // 구현하였다.
-  // //
-  // // 결론?
-  // // => 그러니 개발자는 서블릿 객체가 생성될 때 뭔가 작업을 수행하고 싶다면,
-  // // 이 메서드를 직접 오버라이딩 하지 말고,
-  // // 이 메서드가 호출하는 다른 init()를 오버라이딩 하라!
-  // //
-  // //
+  // 그런데 init()를 오버라이딩 할 때 마다 이렇게
+  // config객체를 인스턴스 필드에 저장하도록 코딩하는 것은 매우 번거롭다.
+
+  // 이런 불편함을 없애기 위해서 GenericServlet은
+  // 미리 이 메서드에 해당 코드를 작성해 두었다.
+  // 그리고 추가적으로 파라미터 값을 받지 않는 init()를 호출하도록
+  // 구현하였다.
+  //
+  // 결론?
+  // => 그러니 개발자는 서블릿 객체가 생성될 때 뭔가 작업을 수행하고 싶다면,
+  // 이 메서드를 직접 오버라이딩 하지 말고,
+  // 이 메서드가 호출하는 다른 init()를 오버라이딩 하라!
+  //
+  //
   // super.init(config);
   // }
 

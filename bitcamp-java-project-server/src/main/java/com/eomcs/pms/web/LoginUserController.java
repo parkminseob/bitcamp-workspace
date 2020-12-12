@@ -1,27 +1,16 @@
 package com.eomcs.pms.web;
 
-import java.io.PrintWriter;
-import java.util.Map;
-import com.eomcs.pms.domain.Member;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-@CommandAnno("/whoami")
-public class WhoamiCommand implements Command {
+@Controller
+public class LoginUserController {
 
-  @Override
-  public void execute(Request request) {
-    PrintWriter out = request.getWriter();
-    Map<String,Object> session = request.getSession();
-
-    Member member = (Member) session.get("loginUser");
-    if (member == null) {
-      out.println("로그인 하지 않았습니다!");
-      return;
-    }
-    out.printf("사용자 번호: %d\n", member.getNo());
-    out.printf("이름: %s\n", member.getName());
-    out.printf("이메일: %s\n", member.getEmail());
-    out.printf("사진: %s\n", member.getPhoto());
-    out.printf("전화: %s\n", member.getTel());
-    out.printf("등록일: %s\n", member.getRegisteredDate());
+  @RequestMapping("/auth/loginUser")
+  public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    response.setContentType("text/html;charset=UTF-8");
+    return "/auth/loginUser.jsp";
   }
 }

@@ -1,50 +1,48 @@
 package com.eomcs.pms.web;
 
-import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
-import com.eomcs.pms.domain.Member;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import com.eomcs.pms.domain.Project;
 import com.eomcs.pms.service.ProjectService;
 
-@CommandAnno("/project/list")
-public class ProjectListCommand implements Command {
+@Controller
+public class ProjectListController {
 
-  ProjectService projectService;
+  @Autowired ProjectService projectService;
 
-  public ProjectListCommand(ProjectService projectService) {
-    this.projectService = projectService;
-  }
+  @RequestMapping("/project/list")
+  public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-  @Override
-  public void execute(Request request) {
-    PrintWriter out = request.getWriter();
+    response.setContentType("text/html;charset=UTF-8");
 
-    out.println("[프로젝트 목록]");
+    List<Project> list = null;
 
-    try {
-      List<Project> list = projectService.list();
-      out.println("번호, 프로젝트명, 시작일 ~ 종료일, 관리자, 팀원");
+    String keyword = request.getParameter("keyword");
+    String keywordTitle = request.getParameter("keywordTitle");
+    String keywordOwner = request.getParameter("keywordOwner");
+    String keywordMember = request.getParameter("keywordMember");
 
-      for (Project project : list) {
-        StringBuilder members = new StringBuilder();
-        for (Member member : project.getMembers()) {
-          if (members.length() > 0) {
-            members.append(",");
-          }
-          members.append(member.getName());
-        }
+    if (keyword != null) {
+      list = projectService.list(keyword);
 
-        out.printf("%d, %s, %s ~ %s, %s, [%s]\n",
-            project.getNo(),
-            project.getTitle(),
-            project.getStartDate(),
-            project.getEndDate(),
-            project.getOwner().getName(),
-            members.toString());
-      }
-    } catch (Exception e) {
-      out.printf("작업 처리 중 오류 발생! - %s\n", e.getMessage());
-      e.printStackTrace();
+    } else if (keywordTitle != null) {
+      HashMap<String,Object> keywordMap = new HashMap<>();
+      keywordMap.put("title", keywordTitle);
+      keywordMap.put("owner", keywordOwner);
+      keywordMap.put("member", keywordMember);
+
+      list = projectService.list(keywordMap);
+
+    } else {
+      list = projectService.list();
     }
+
+    request.setAttribute("list", list);
+    return "/project/list.jsp";
   }
 }
