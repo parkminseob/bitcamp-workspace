@@ -25,7 +25,7 @@ public class Controller04_7 {
   public void handler1(//
       PrintWriter out, //
       HttpServletResponse response//
-  ) {
+      ) {
     // 이 메서드에서 쿠키를 클라이언트로 보낸다.
     try {
       // 쿠키의 값이 ASCII가 아니라면 URL 인코딩 해야만 데이터가 깨지지 않는다.
@@ -49,9 +49,9 @@ public class Controller04_7 {
   public String handler2(//
       @CookieValue(value = "name1", required = false) String name1, //
       @CookieValue(value = "name2", defaultValue = "") String name2, //
-      @CookieValue(value = "name3", defaultValue = "") String name3, //
+      @CookieValue(value = "name3", defaultValue = "박민섭") String name3, //
       @CookieValue(value = "age", defaultValue = "0") int age // String ===> int 자동 변환
-  ) throws Exception {
+      ) throws Exception {
 
     //
     // 1) URLEncoder.encode("AB가각", "UTF-8")

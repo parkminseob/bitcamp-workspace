@@ -31,7 +31,7 @@ public class Controller04_4 {
       @RequestParam(defaultValue = "0") int capacity, // String ===> int : Integer.parseInt(String)
       boolean auto, // String ===> boolean : Boolean.parseBoolean(String)
       Date createdDate // 프로퍼티 에디터를 설정하지 않으면 변환 오류 발생
-  ) {
+      ) {
 
     out.printf("model=%s\n", model);
     out.printf("capacity=%s\n", capacity);
@@ -46,7 +46,7 @@ public class Controller04_4 {
   public void handler2(PrintWriter out,
       // 콤마(,)로 구분된 문자열을 Car 객체로 변환하기?
       // => String ===> Car 프로퍼티 에디터를 등록하면 된다.
-      @RequestParam("car") Car car) {
+      @RequestParam("car")Car car) {
 
     out.println(car);
   }
@@ -84,24 +84,22 @@ public class Controller04_4 {
     // 프로퍼티 에디터를 등록하려면 그 일을 수행할 객체(WebDataBinder)가 필요하다.
     // request handler 처럼 아규먼트를 선언하여
     // 프론트 컨트롤러에게 달라고 요청하라.
-
     // String ===> Date 프로퍼티 에디터 준비
     DatePropertyEditor propEditor = new DatePropertyEditor();
 
     // WebDataBinder에 프로퍼티 에디터 등록하기
     binder.registerCustomEditor(java.util.Date.class, // String을 Date 타입으로 바꾸는 에디터임을 지정한다.
         propEditor // 바꿔주는 일을 하는 프로퍼티 에디터를 등록한다.
-    );
-
+        );
     // WebDataBinder에 프로퍼티 에디터 등록하기
     binder.registerCustomEditor(Car.class, // String을 Car 타입으로 바꾸는 에디터임을 지정한다.
         new CarPropertyEditor() // 바꿔주는 일을 하는 프로퍼티 에디터를 등록한다.
-    );
+        );
 
     // WebDataBinder에 프로퍼티 에디터 등록하기
     binder.registerCustomEditor(Engine.class, // String을 Engine 타입으로 바꾸는 에디터임을 지정한다.
         new EnginePropertyEditor() // 바꿔주는 일을 하는 프로퍼티 에디터를 등록한다.
-    );
+        );
   }
 
   // PropertyEditor 만들기

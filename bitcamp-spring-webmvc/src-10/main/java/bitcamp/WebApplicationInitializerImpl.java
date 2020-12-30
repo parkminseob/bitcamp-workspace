@@ -5,7 +5,7 @@ import javax.servlet.ServletException;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 // WebApplicationInitializer 구현체를 통해 DispatcherServlet을 등록하는 두 번째 방법
-// => 인터페이스를 직접 구현하는 대신에 그 인터페이스를 구현한
+// => 인터페이스를 직접 구현하는 대신에 그 인터페이스를 미리 구현한
 // AbstractAnnotationConfigDispatcherServletInitializer 클래스를 상속 받기
 // - 이 클래스는 미리 AnnotationConfigWebApplicationContext IoC 컨테이너를 준비했다.
 // - 따라서 IoC 컨테이너를 따로 설정할 필요가 없다.
@@ -14,11 +14,12 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 // - 즉 인터페이스를 직접 구현하는 것 보다 편하다.
 //
 public class WebApplicationInitializerImpl
-    extends AbstractAnnotationConfigDispatcherServletInitializer {
+extends AbstractAnnotationConfigDispatcherServletInitializer {
 
   @Override
   protected Class<?>[] getRootConfigClasses() {
     System.out.println("==> getRootConfigClasses()");
+    // ContextLoaderListener에서 사용할 Java Config클래스를 리턴한다.
     return null;
   }
 

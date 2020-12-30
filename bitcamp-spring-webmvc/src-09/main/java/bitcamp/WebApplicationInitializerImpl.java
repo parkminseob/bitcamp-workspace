@@ -47,6 +47,7 @@ public class WebApplicationInitializerImpl implements WebApplicationInitializer 
     // iocContainer.register(AppConfig.class);
 
     // => Java Config 클래스가 있는 패키지를 지정하기
+    //    단 이럴 경우 java Config 클래스에는 @Configuration 애노테이션이 선언되어 있어야함.
     iocContainer.scan("bitcamp");
 
     iocContainer.refresh();
